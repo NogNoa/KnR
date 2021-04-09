@@ -27,14 +27,14 @@ void main()
 		}
 	}
 	for (i=1; i<=9; ++i){
-		putchar('0'+i);putchar('\t');
+		putchar('0'+i);putchar(' ');putchar(' ');
 		for (j=0; j<=hest[i]; ++j)
-			putchar('O');
+			putchar('|');
 		putchar('\n');
 	}
-	printf("%d+\t",10);
+	printf("%d+  ",10);
 	for (j=0; j<=hest[10]; ++j)
-			putchar('O');
+			putchar('|');
 	putchar('\n');
 }
 

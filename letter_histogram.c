@@ -18,7 +18,7 @@ void main()
 	}
 	
 	for (i=0; i<26; ++i){
-		putchar('A'+i);putchar(' ');
+		putchar('A'+i);putchar(' ');putchar(' ');
 		for (j=0; j<=hest[i]; ++j)
 			putchar('|');
 		putchar('\n');
