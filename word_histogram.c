@@ -9,7 +9,7 @@ void main()
 	int state = OUT;
 	
 	for (i = 0; i<11; ++i)
-		hest[i] = 0;
+		hest[i] = 0;	
 	
 	while ((c = getchar()) != EOF) {
 		if (c == ' ' || c == '\n' || c == '\t'){
@@ -26,12 +26,16 @@ void main()
 			++len;
 		}
 	}
-
 	for (i=1; i<=9; ++i){
-		printf("%d\t%d\n", i, hest[i]);
+		putchar('0'+i);putchar('\t');
+		for (j=0; j<=hest[i]; ++j)
+			putchar('O');
+		putchar('\n');
 	}
-	printf("%d+\t%d\n",10, hest[10]);
-	
+	printf("%d+\t",10);
+	for (j=0; j<=hest[10]; ++j)
+			putchar('O');
+	putchar('\n');
 }
 
 //todo: add count len
