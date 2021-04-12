@@ -1,26 +1,29 @@
 #include <stdio.h>
 #define IN 1 /* inside a word */
 #define OUT 0 /* outside a word */
-#define MXWRD 20
+#define MXWRD 30
 
-void measure(int hest[]);
-void expose(int hest[]);
+void measure(int hest[], int mxlen);
+void expose(int hest[], int mxlen);
 
 void main()
 {
-	int hest[(MXWRD+1)];
+	int hest[(MXWRD)];
 
-	measure(hest);
-	expose(hest);
+	int mxlen = 0;
+
+	measure(hest, mxlen);
+	expose(hest, mxlen);
 }
 
-void measure(int hest[])
+void measure(int hest[], int mxlen)
 {
 	int i,c;
 	int len = 0;
 	int state = OUT;
 
-	for (i = 0; i<(MXWRD+1); ++i)
+
+	for (i = 0; i<(MXWRD); ++i)
 		hest[i] = 0;
 
 	while ((c = getchar()) != EOF) {
@@ -29,16 +32,16 @@ void measure(int hest[])
 			++len;
 		}
 		else if (state == IN){
-			if (len > MXWRD)
-				len = MXWRD;
 			++hest[len];
+			if (len > mxlen)
+                mxlen = len;
 			state = OUT;
 			len = 0;
 		}
 	}
 }
 
-void expose(int hest[])
+void expose(int hest[], int mxlen)
 {
 	void mkrow(char row[], int len);
 
@@ -46,10 +49,10 @@ void expose(int hest[])
 	//char plus;
 	char row[768]; //arbitrary 0x300
 
-	for (i=1; i<=(MXWRD); ++i){
+	for (i=1; i<=(mxlen); ++i){
 		mkrow(row, hest[i]);
 		/*
-		if (i == MXWRD)
+		if (i == mxlen)
 			plus = "+";
 		else
 			plus = " ";
