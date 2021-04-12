@@ -42,16 +42,29 @@ void measure(int hest[])
 
 void expose(int hest[])
 {
-	int i,j;
+	void mkrow(char row[], int len);
 
-	for (i=1; i<=(MXWRD - 1); ++i){
-		putchar(' ');putchar('0'+i);putchar(' ');putchar(' ');
-		for (j=0; j<=hest[i]; ++j)
-			putchar('|');
-		putchar('\n');
+	int i,j;
+	//char plus;
+	char row[768]; //arbitrary 0x300
+
+	for (i=1; i<=(MXWRD); ++i){
+		mkrow(row, hest[i]);
+		/*
+		if (i == MXWRD)
+			plus = "+";
+		else
+			plus = " ";
+			*/
+		printf("%2d  %s\n",i, row);
 	}
-	printf("%2d+ ",MXWRD);
-	for (j=0; j<=hest[MXWRD]; ++j)
-			putchar('|');
-	putchar('\n');
+}
+
+void mkrow(char row[], int len)
+{
+	int j;
+	
+	for (j=0; j<=len; ++j)
+		row[j] ='|';
+	row[j+1] = '\0';
 }
