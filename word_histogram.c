@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define IN 1 /* inside a word */
 #define OUT 0 /* outside a word */
-#define MXWRD 10
+#define MXWRD 20
 
 void measure(int hest[]);
 void expose(int hest[]);
@@ -24,18 +24,16 @@ void measure(int hest[])
 		hest[i] = 0;
 
 	while ((c = getchar()) != EOF) {
-		if (c == ' ' || c == '\n' || c == '\t'){
-			if (state == IN){
-				if (len > MXWRD)
-					len = MXWRD;
-				++hest[len];
-				state = OUT;
-				len = 0;
-			}
-		}
-		else {
+		if (c != ' ' && c != '\n' && c != '\t'){
 			state = IN;
 			++len;
+		}
+		else if (state == IN){
+			if (len > MXWRD)
+				len = MXWRD;
+			++hest[len];
+			state = OUT;
+			len = 0;
 		}
 	}
 }
@@ -63,8 +61,7 @@ void expose(int hest[])
 void mkrow(char row[], int len)
 {
 	int j;
-	
-	for (j=0; j<=len; ++j)
+	for (j=0; j<len; ++j)
 		row[j] ='|';
-	row[j+1] = '\0';
+	row[j] = '\0';
 }
