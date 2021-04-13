@@ -3,23 +3,23 @@
 #define OUT 0 /* outside a word */
 #define MXWRD 30
 
-void measure(int hest[], int mxlen);
+int measure(int hest[]);
 void expose(int hest[], int mxlen);
 
 void main()
 {
-	int hest[(MXWRD)];
+	int mxlen, hest[(MXWRD)];
 
-	int mxlen = 0;
-
-	measure(hest, mxlen);
+	mxlen = measure(hest);
+    
 	expose(hest, mxlen);
 }
 
-void measure(int hest[], int mxlen)
+int measure(int hest[])
 {
 	int i,c;
 	int len = 0;
+    int mxlen = 0;
 	int state = OUT;
 
 
@@ -39,6 +39,7 @@ void measure(int hest[], int mxlen)
 			len = 0;
 		}
 	}
+    return mxlen;
 }
 
 void expose(int hest[], int mxlen)
