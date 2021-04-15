@@ -3,29 +3,30 @@
 #define OUT 0 /* outside a word */
 
 void main()
-{
+{	
 	int c, state;
-	state = OUT;
+	state = IN;
 	char blank[0x20];
 	int i = 0;
-
+	
 	while ((c = getchar()) != EOF) {
 		if (c == ' ' || c == '\t'){
 			state = OUT;
 			blank[i++] = c;
-		}
+			blank[i] = '\0';
+		}	
 		else{
-			if (c == '\n'){
+			if (c == '\n' || c == '\r') {
 				i = 0;
-				blank[0] = '\0';
+				blank[i] = '\0';
             }
 			else if (state == OUT){
 				printf("%s",blank);
 				state = IN;
 				i = 0;
-				blank[0] = '\0';
+				blank[i] = '\0'; 
 			}
-			putchar(c);
-		}
-	}
-}
+			putchar(c); 
+		}	
+	}		
+}			
