@@ -2,8 +2,7 @@
 /* count lines in input */
 void main()
 {
-    int c, nl;
-    nl = 0;
+    int c, nl = 0;
 
     while ((c = getchar()) != EOF){
         if (c == '\n')

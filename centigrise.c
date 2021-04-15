@@ -8,10 +8,7 @@ double celsius(int fahr)
 void main()
 {
 	int fahr;
-	float lower, upper, step;
-    lower = 0;
-    upper = 300;
-    step = 20;
+	float lower = 0, upper = 300, step = 20;
 
     for (fahr = lower; fahr <= upper; fahr = fahr + step)
         printf("%3df %6.1fc\n", fahr, celsius(fahr));;

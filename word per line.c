@@ -4,8 +4,8 @@
 
 void main()
 {
-	int c, state;
-	state = OUT;
+	int c, state = OUT;
+	
 	while ((c = getchar()) != EOF) {
 		if (c == ' ' || c == '\n' || c == '\t'){
 			if (state == IN){

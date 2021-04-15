@@ -5,10 +5,9 @@
 
 void main()
 {	
-	int c, state;
-	state = IN;
+	int c, state = IN, i = 0;
 	char blank[0x20];
-	int i = 0;
+
 	
 	while ((c = getchar()) != EOF) {
 		if (c == ' ' || c == '\t' || c == '\r'){

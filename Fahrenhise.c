@@ -3,9 +3,7 @@ float lower, upper, step, fahr;
 
 main()
 {
-    lower = -20;
-    upper = 150;
-    step = 10;
+    lower = -20, upper = 150, step = 10;
 
     int cels = lower;
     while (cels <= upper)
