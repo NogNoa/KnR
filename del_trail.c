@@ -12,8 +12,7 @@ void main()
 	while ((c = getchar()) != EOF) {
 		if (c == ' ' || c == '\t'){
 			state = OUT;
-			blank[i] = c;
-			++i;
+			blank[i++] = c;
 		}
 		else{
 			if (c == '\n'){
