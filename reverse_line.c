@@ -20,9 +20,18 @@ void reverse(char to[], char from[],int len)
 {  // copy 'from' into 'to'; assume 'to' is big enough */
 
 	to[len] = '\0';
-	for (int i = 0; from[i] != '\0'; ++i)
+	for (int i = 0; i < len -1; ++i)
 		to[len - i - 1] = from[i];
-}
+	if (from[len - 1] == '\n'){
+		to[len] = '\n';
+		to[len + 1] = '\0';
+		to[0] = '\r';
+	}
+	else{
+		to[0] = from[len - 1];
+		to[len] = '\0';
+	}
+} 
 
 int main()
 {  /* print the longest input line */
