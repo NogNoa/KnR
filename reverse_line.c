@@ -17,7 +17,7 @@ int KnR_getline(char s[], int lim)
 }
 
 void reverse(char to[], char from[],int len)
-{  // copy 'from' into 'to'; assume 'to' is big enough */
+{  // copy 'from' into 'to' in reverse; */
 
 	to[len] = '\0';
 	for (int i = 0; i < len -1; ++i)
@@ -34,7 +34,7 @@ void reverse(char to[], char from[],int len)
 } 
 
 int main()
-{  /* print the longest input line */
+{  /* print each line in reverse */
 
 	int len;
 	char line[MAXLINE];
