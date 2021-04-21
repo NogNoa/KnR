@@ -10,13 +10,11 @@ int main(void)
 	
 	while ((c = getchar()) != EOF){
 		if (c == ' ')
+			++s;
 			if (s >= (r = (4 - i % 4))){
 				putchar('\t');
 				s -= r;
 				i = 0;
-			}
-			else{
-				++s;
 			}
 		else if (c == '\t'){
 			putchar('\t');
