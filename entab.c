@@ -10,17 +10,17 @@ int main(void)
 	
 	while ((c = getchar()) != EOF){
 		if (c == ' ')
-			if (s >= ( r = i % 4)){
+			if (s >= (r = (4 - i % 4))){
 				putchar('\t');
 				s -= r;
-				i += r;
+				i = 0;
 			}
 			else{
 				++s;
 			}
 		else if (c == '\t'){
 			putchar('\t');
-			i += (i % 4);
+			i = 0;
 		}
 		else{
 			for (;s>0;--s)
