@@ -1,7 +1,6 @@
 a.out
-word_histogram_comp.c
-word per line β.c
 *.elf
 *.exe
 *.o
 *.i64
+printv.txt
