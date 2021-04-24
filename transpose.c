@@ -1,31 +1,13 @@
 #include <stdio.h>
-#define MAX 1024
-
-void linearise(char * lini[])
-int KnR_getline(char s[], int lim)
-void expose(char * lini[])
+#include "KnR_getline.h"
 
 /*
 Text is nline lines, each killed by /0.
 so we somehow also has to follow which lines are dead. this is beyond me.
 */
 
-int KnR_getline(char s[], int lim)
-{  /* read a line into s, return lenght
-    imported as is from longest_line.c*/
 
-	int c, i;
-
-	for (i=0; i < lim-1 && (c=getchar()) !=EOF && c!='\n'; ++i)
-		s[i] = c;
-	if (c== '\n') {
-		s[i++] = c;
-	}
-	s[i] = '\0';
-	return i;
-}
-
-void expose(char * lini[], nline)
+void expose(char * lini[],int  nline)
 {
     char line[MAX];
 
