@@ -4,7 +4,7 @@
 int main(void)
 {
 	int i=0;
-	char c;
+	char c, last;
 	int s=0;
 	int r;
 	
@@ -20,7 +20,14 @@ int main(void)
 			putchar('\t');
 			i = 0;
 		}
+		else if (c == '\b'){
+			if (s > 0)
+				--s
+			putchar(c)
+			--i
+		}
 		else{
+			i += s
 			for (;s>0;--s)
 				putchar(' ');
 			putchar(c);
