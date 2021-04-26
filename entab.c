@@ -9,19 +9,20 @@ int main(void)
 	int r;
 	
 	while ((c = getchar()) != EOF){
-		if (c == ' ')
+		if (c == ' '){
 			++s;
 			if (s >= (r = (4 - i % 4))){
 				putchar('\t');
 				s -= r;
 				i = 0;
 			}
+		}
 		else if (c == '\t'){
 			putchar('\t');
 			i = 0;
 		}
 		else{
-			i += s
+			i += s;
 			for (;s>0;--s)
 				putchar(' ');
 			putchar(c);
