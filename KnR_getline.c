@@ -19,18 +19,23 @@ void copy(char to[], char from[])
 
 	for (int i = 0;(to[i] = from[i]) != '\0'; ++i)
 		;
-
 }
 
 void pascal_getline(char s[], int lim)
 { // give a line with length in the begining
 		// high byte is ones-complement, hence breaks at lengths > 0xFEFF = 65279
 
-	short len = (short) KnR_getline(s, lim);
+	char c;
+	int len;
 
-	for (int i=len;i>=0;--i){
-		s[i+2] = s[i];
+	for (len=2; i < lim-1 && (c=getchar()) !=EOF && c!='\n'; ++len)
+		s[len] = c;
+	if (c== '\n') {
+		s[len++] = c;
 	}
+	s[len] = '\0';
+
+	len = (short) len - 2;
 	s[1] = len & 0xFF;
 	s[0] = (len >> 8) ^ 0xFF ;
 }
