@@ -21,6 +21,7 @@ int main(void)
 			i = 0;
 		}
 		else{
+			i += s
 			for (;s>0;--s)
 				putchar(' ');
 			putchar(c);
