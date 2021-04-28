@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "KnR_getline.h"
+#define MAX 0xFF
 
 /*
 Text is nline lines, each killed by /0.
@@ -12,22 +13,27 @@ void expose(char * lini[],int  nline)
     char line[MAX];
 
     do{
-        for (i=0; i <= nline; ++i){
-            for (j=0)
+        for (int i=0; i <= nline; ++i){
+            for (int j=0; 0;)
+                ;
         }
 
-        }while (line != '\0')
+        }while (0);
 }
 
 
-void linearise(char * lini[])
+int linearise(char * lini[])
+{
     int len, i;
     char line[MAX];
 	int mxlen = 0;
 
-    for (i=0; (len = KnR_getline(line, MAX)) > 0; ++i)
+    for (i=0; (len = KnR_getline(&line[1], MAX)) > 0; ++i){
+        line[0] = len;
         lini[i] = line;
-    return i
+    }
+    return i;
+}
 
 
 void main()
@@ -35,6 +41,7 @@ void main()
     char * lini[MAX];
     int nline;
 
-    nline = liearise(lini);
+    nline = linearise(lini);
+    printf("%d\n", (char) * lini[3]);
 
 }
