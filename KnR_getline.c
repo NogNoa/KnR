@@ -21,7 +21,7 @@ void copy(char to[], char from[])
 		;
 }
 
-int pascal_getline(char s[], int lim)
+_Bool pascal_getline(char s[], int lim)
 { // give a line with length in the begining
 		// high byte is ones-complement, hence breaks at lengths > 0xFEFF = 65279
 
