@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "KnR_getline.h"
 
 int main()
