@@ -11,14 +11,16 @@ void putstar(char c, int lim)
 
 int main()
 {
-    int i, gap;
+    int i;
     
-    for (i=7; i>1; --i)
-    {
+    for (i=7; i>1; --i){
         putstar(' ',i);
-        gap = 2 * (i - 2);
-        if (i - gap >= 0)
-            putstar('\b',gap);
+        if (4 >= i){
+            putstar('\b',2 * i - 4);
+        }
         putchar('\n');
     }
 }
+
+
+//i - gap = i - 2i + 4 = 4 - i
