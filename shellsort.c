@@ -1,3 +1,5 @@
+// Ritchie, D. and Kernighan, W. (1988) p57
+
 #include <stdio.h>
 
 void shellsort(int v[], int n)

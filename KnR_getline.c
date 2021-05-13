@@ -1,3 +1,5 @@
+// Ritchie, D. and Kernighan, W. (1988) p30
+
 #include <stdio.h>
 
 int KnR_getline(char s[], int lim)
@@ -20,6 +22,8 @@ void copy(char to[], char from[])
 	for (int i = 0;(to[i] = from[i]) != '\0'; ++i)
 		;
 }
+
+//original
 
 _Bool pascal_getline(char s[], int lim)
 { // give a line with length in the begining

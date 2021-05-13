@@ -23,4 +23,6 @@ int main()
 }
 
 
+//gap = 2 * (i - 2)
 //i - gap = i - 2i + 4 = 4 - i
+//gap == 2i - 4; gap/2 + 2 == i; (4 > i) == (4 > gap/2 + 2) == (2 > gap/2) == (4 > gap)

@@ -1,3 +1,5 @@
+// Ritchie, D. and Kernighan, W. (1988) p30
+
 #include "KnR_getline.h"
 
 int main()
