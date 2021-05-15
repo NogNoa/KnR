@@ -6,10 +6,26 @@ void smrt_fold (char str[])
 	#define IN 1
 	#define OUT 0
 	int j;
+	_Bool state = IN ;
+	int last = 0;
 
-	for (j=0;j<LNSIZ && str[j] ;++j)
-		{putchar(str[j]);}
+	for (j=0;str[j];++j)
+	{
+		if (str[j] == ' ' || str[j] == '\t')
+			state = OUT;
+		else if (state == OUT)
+		{
+			if (j>=LNSIZ)
+				break;
+			last = j;
+			state = IN;
+		}
+	}
+	for(int i=0;i<last;++i)
+		putchar(str[i]);
 	putchar('\n');
+	if (str[j])
+		smrt_fold(&str[last]);
 }
 
 void equ_fold (char str[])
@@ -32,7 +48,7 @@ int main(int argc, char const *argv[])
 		if (len <= LNSIZ)
 			{printf("%s", line);}
 		else 
-			{equ_fold(line);}
+			{smrt_fold(line);}
 	}
 	return 0;
 }
