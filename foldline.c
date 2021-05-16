@@ -1,15 +1,19 @@
 #include "KnR_getline.h"
 #define LNSIZ 0x50
 
+void smrt_fold(char*);
+
 void equ_fold (char str[])
 {
 	int j;
 
 	for (j=0;j<LNSIZ && str[j] ;++j)
 		{putchar(str[j]);}
-	putchar('\n');
 	if (str[j])
-		equ_fold(&str[LNSIZ]);
+	{
+		putchar('\n');
+		smrt_fold(&str[LNSIZ]);
+	}
 }
 
 
@@ -42,7 +46,7 @@ void smrt_fold (char str[])
 			smrt_fold(&str[last]);
 		else
 		{
-			printf("%s\n", str+last);
+			printf("%s", str+last);
 		}
 	}
 }
