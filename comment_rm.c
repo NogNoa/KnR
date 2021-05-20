@@ -1,58 +1,44 @@
 #include <stdio.h>
-# define BTHCMNT 3 // both comment modes are on
+#define BTHCMNT 3 // both comment modes are on
 #define MLTCMNT 2 /* multiline comment */
 #define LNCMNT 1 // one line comment 
 #define PRG 0 /* part of the code to be compiled */
 
-void stt_prg(char);
-void stt_lncmnt(char);
-void stt_mltcmnt(char);
-
-void main()
+void cmnt_inpt(char c, char g);
+short state = PRG;
+int main()
 {
-
-	char g;
-	state = PRG
-
-	while(char c = getchar() != EOF)
-		switch(state) {
-			case PRG: stt_prg(c); break;
-			case LNCMNT: stt_lncmnt(c);
-			case MLTCMNT: stt_mltcmnt(c); break;
-		}
-
-}
-
-void stt_prg(char c)
-{
-	if (c == '/')
+	char c,g;
+	
+	while((c = getchar()) != EOF)
 	{
+		if (c == '/' || c == '*')
+		{
 			g = getchar();
-			if (g == '*')
-				state |= 2;
-			else if (g == '/')
-				state |= 1;
-			else
-				printf("/d/d",c,g);
+			cmnt_inpt(c,g);
+		}
+		else
+		{
+			if (c == '\n')
+				state &= 2; //turn off LNCMT
+			if (!state)
+				putchar(c);
+		}
 	}
+	return 0;
+}
+
+void cmnt_inpt(char c, char g)
+{
+	if (c == '/' && g == '/')
+		state |= 1; //Turn on LNCMT
+	else if (c =='/' && g == '*')
+		state |= 2; //Turn on MLTCMT
+	else if (c == '*' && g == '/')
+		state &= 1; //Turn off MLTCMT
 	else
-		putchar(c);
-}
-
-void stt_lncmnt(char c)
-{
-	if (c == '\n')
-		stat &= 2;
-}
-
-void stt_mltcmnt(char c)
-{
-	if (c == '*')
 	{
-		g = getchar()
-		if (g == '/')
-			state &= 1;
-		
+		if (!state)
+			{putchar(c);putchar(g);}
 	}
-
 }
