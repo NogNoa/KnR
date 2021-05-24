@@ -19,8 +19,9 @@ void equ_fold (char str[])
 
 void smrt_fold (char str[])
 {
-	#define IN 1
-	#define OUT 0
+	_Bool const IN=1;
+	_Bool const OUT=0;
+	
 	int j;
 	_Bool state = IN ;
 	int last = 0;
