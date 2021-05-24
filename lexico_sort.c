@@ -13,7 +13,7 @@ void qsort(char *lineptr[], int left, int right);
 
 main()
 {	/* sort input lines */
-	int nlines; /* number of input lines read */
+	int nlines; /* number of input lines re'd */
 	if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
 		qsort(lineptr, 0, nlines-1);
 		writelines(lineptr, nlines);

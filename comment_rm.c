@@ -1,11 +1,15 @@
 #include <stdio.h>
-#define BTHCMNT 3 // both comment modes are on
-#define MLTCMNT 2 /* multiline comment */
-#define LNCMNT 1 // one line comment 
-#define PRG 0 /* part of the code to be compiled */
+/* 	comment:	cmnt
+			1 line-comment 
+			2 multiline comment
+	quote:		qt
+			1 single qoute char
+			2 double qoute string
+*/
 
 void cmnt_inpt(char c, char g);
-short state = PRG;
+char cmnt = 0;
+char qt = 0
 int main()
 {
 	char c,g;
@@ -20,8 +24,8 @@ int main()
 		else
 		{
 			if (c == '\n')
-				state &= 2; //turn off LNCMT
-			if (!state)
+				cmnt &= 2; //turn off LNCMT
+			if (!cmnt)
 				putchar(c);
 		}
 	}
@@ -31,14 +35,14 @@ int main()
 void cmnt_inpt(char c, char g)
 {
 	if (c == '/' && g == '/')
-		state |= 1; //Turn on LNCMT
+		cmnt |= 1; //Turn on LNCMT
 	else if (c =='/' && g == '*')
-		state |= 2; //Turn on MLTCMT
+		cmnt |= 2; //Turn on MLTCMT
 	else if (c == '*' && g == '/')
-		state &= 1; //Turn off MLTCMT
+		cmnt &= 1; //Turn off MLTCMT
 	else
 	{
-		if (!state)
+		if (!cmnt)
 			{putchar(c);putchar(g);}
 	}
 }
