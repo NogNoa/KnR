@@ -7,46 +7,46 @@
 			2 double qoute string
 */
 
-void cmnt_inpt(char c, char g);
+void cmnt_inpt(char c);
+void check_char(char c);
 char cmnt = 0;
 char qt = 0;
+_bool delay_cmnt
 int main()
 {
-	char c,g;
+	char c;
 	
 	while((c = getchar()) != EOF)
 	{
-		if ((c == '/' || c == '*') && !qt)
-		{
-			g = getchar();
-			cmnt_inpt(c,g);
-		}
-		else
-		{
-			if (c == '\n')
-				cmnt &= 2; //turn off LNCMT
-			else if (c == '\"')
-				qt ^= 2;
-			else if (c == '\'')
-				qt ^= 1;
-			if (!cmnt)
-				putchar(c);
-		}
+		check_char(c);
+		if (!cmnt)
+			putchar(c);
 	}
 	return 0;
 }
 
-void cmnt_inpt(char c, char g)
+void cmnt_inpt(char c)
 {
+	char g = getchar();
 	if (c == '/' && g == '/')
 		cmnt |= 1; //Turn on LNCMT
 	else if (c =='/' && g == '*')
 		cmnt |= 2; //Turn on MLTCMT
 	else if (c == '*' && g == '/')
 		cmnt &= 1; //Turn off MLTCMT
-	else
-	{
-		if (!cmnt)
-			{putchar(c);putchar(g);}
-	}
+	ungetc(g, stdin);
+}
+
+void check_char(char c)
+{
+	if (c == '\n')
+		cmnt &= 2; //turn off LNCMT
+	else if (c == '\"')
+		qt ^= 2;
+	else if (c == '\'')
+		qt ^= 1;
+	else if ((c == '/' || c == '*') && !qt)
+		{
+			cmnt_inpt(c);
+		}
 }
