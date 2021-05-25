@@ -23,7 +23,7 @@ void copy(char to[], char from[])
 		;
 }
 
-//original
+// original
 
 _Bool pascal_getline(char s[], int lim)
 { // give a line with length in the begining

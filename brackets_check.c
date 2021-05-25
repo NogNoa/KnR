@@ -84,5 +84,5 @@ void check_close(char c)
 
 /*well maybe a state machine design to begin with would have been better, but now we just have to make sure comnt and qoute state are exclusive
 		 and make the closing into a stack. 
-todo manage escape '\'
+done: manage escape '\'
 */
