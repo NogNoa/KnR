@@ -36,9 +36,9 @@ void cmnt_inpt(char c)
 	if (c == '*' && g == '/')
 		delay_cmnt = 1;
 	else{
-		if (c == '/' && g == '/')
+		if (c == '/' && g == '/' && !(cmnt&2))
 			cmnt |= 1; //Turn on LNCMT
-		else if (c =='/' && g == '*')
+		else if (c =='/' && g == '*' && !(cmnt&1))
 			cmnt |= 2; //Turn on MLTCMT
 		ungetc(g, stdin);
 	}
@@ -48,9 +48,9 @@ void check_char(char c)
 {
 	if (c == '\n')
 		cmnt &= 2; //turn off LNCMT
-	else if (c == '\"')
+	else if (c == '\"' && !(qt&1))
 		qt ^= 2;
-	else if (c == '\'')
+	else if (c == '\'' && !(qt&2))
 		qt ^= 1;
 	else if ((c == '/' || c == '*') && !qt)
 		{

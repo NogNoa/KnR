@@ -16,17 +16,19 @@ void check_char(char c);
 void check_close(char c);
 char cmnt = 0;
 char qt = 0;
-char cls = 0;
+char cls[0x100] = {0,};
+char pcls = 1;
 _Bool delay_cmnt;
 
-int main()
+
+char main()
 {
 	char c;
 	
 	while((c = getchar()) != EOF)
 	{
 		check_char(c);
-		if (!cmnt)
+		if (!cmnt && !qt)
 			check_close(c);
 		if (delay_cmnt)
 		{
@@ -34,8 +36,10 @@ int main()
 			delay_cmnt = 0;
 		}
 	}
-	printf("%d\n",cls);
-	return cls;
+	pcls--;
+	putchar(cls[pcls]);
+	printf(" %d\n",pcls);
+	return pcls;
 }
 
 void cmnt_inpt(char c)
@@ -44,9 +48,9 @@ void cmnt_inpt(char c)
 	if (c == '*' && g == '/')
 		delay_cmnt = 1;
 	else{
-		if (c == '/' && g == '/')
+		if (c == '/' && g == '/' && !(cmnt&2))
 			cmnt |= 1; //Turn on LNCMT
-		else if (c =='/' && g == '*')
+		else if (c =='/' && g == '*' && !(cmnt&1))
 			cmnt |= 2; //Turn on MLTCMT
 		ungetc(g, stdin);
 	}
@@ -56,9 +60,9 @@ void check_char(char c)
 {
 	if (c == '\n')
 		cmnt &= 2; //turn off LNCMT
-	else if (c == '\"')
+	else if (c == '\"' && !(qt&1))
 		qt ^= 2;
-	else if (c == '\'')
+	else if (c == '\'' && !(qt&2))
 		qt ^= 1;
 	else if ((c == '/' || c == '*') && !qt)
 		{
@@ -68,16 +72,14 @@ void check_char(char c)
 
 void check_close(char c)
 {
-	if (c == '(')
-		cls |= 1;
-	else if (c == '[')
-		cls |= 2;
-	else if (c == '{')
-		cls |= 4;
-	else if (c == '}')
-		cls &= 4;
-	else if (c == ']')
-		cls &= 2;
-	else if (c == ')')
-		cls &= 1;
+	if (c == '(' || c == '[' || c == '{')
+		cls[pcls++] = c;
+	else if (((c == '}' || c == ']') && cls[pcls-1] == c-2)
+			|| (c == ')' && cls[pcls-1] == c-1))
+		--pcls;
 }
+
+/*well maybe a state machine design to begin with would have been better, but now we just have to make sure comnt and qoute state are exclusive
+		 and make the closing into a stack. 
+todo manage escape \
+*/
