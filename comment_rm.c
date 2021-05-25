@@ -11,6 +11,7 @@ void cmnt_inpt(char c);
 void check_char(char c);
 char cmnt = 0;
 char qt = 0;
+char last = 0;
 _Bool delay_cmnt;
 int main()
 {
@@ -21,6 +22,7 @@ int main()
 		check_char(c);
 		if (!cmnt)
 			putchar(c);
+		last = c;
 		if (delay_cmnt)
 		{
 			cmnt &= 1; //Turn off MLTCMT
@@ -32,10 +34,11 @@ int main()
 
 void cmnt_inpt(char c)
 {
-	char g = getchar();
-	if (c == '*' && g == '/')
+	char g;
+	if (last == '*')
 		delay_cmnt = 1;
 	else{
+		g = getchar();
 		if (c == '/' && g == '/' && !(cmnt&2))
 			cmnt |= 1; //Turn on LNCMT
 		else if (c =='/' && g == '*' && !(cmnt&1))
@@ -48,11 +51,11 @@ void check_char(char c)
 {
 	if (c == '\n')
 		cmnt &= 2; //turn off LNCMT
-	else if (c == '\"' && !(qt&1))
+	else if (c == '\"' && last != '\\' && !(qt&1))
 		qt ^= 2;
-	else if (c == '\'' && !(qt&2))
+	else if (c == '\'' && last != '\\' && !(qt&2))
 		qt ^= 1;
-	else if ((c == '/' || c == '*') && !qt)
+	else if ((c == '/') && !qt)
 		{
 			cmnt_inpt(c);
 		}

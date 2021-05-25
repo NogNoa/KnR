@@ -16,6 +16,7 @@ void check_char(char c);
 void check_close(char c);
 char cmnt = 0;
 char qt = 0;
+char last = 0;
 char cls[0x100] = {0,};
 char pcls = 1;
 _Bool delay_cmnt;
@@ -30,6 +31,7 @@ char main()
 		check_char(c);
 		if (!cmnt && !qt)
 			check_close(c);
+		last = c;
 		if (delay_cmnt)
 		{
 			cmnt &= 1; //Turn off MLTCMT
@@ -44,10 +46,11 @@ char main()
 
 void cmnt_inpt(char c)
 {
-	char g = getchar();
-	if (c == '*' && g == '/')
+	char g;
+	if (last == '*')
 		delay_cmnt = 1;
 	else{
+		g = getchar();
 		if (c == '/' && g == '/' && !(cmnt&2))
 			cmnt |= 1; //Turn on LNCMT
 		else if (c =='/' && g == '*' && !(cmnt&1))
@@ -60,11 +63,11 @@ void check_char(char c)
 {
 	if (c == '\n')
 		cmnt &= 2; //turn off LNCMT
-	else if (c == '\"' && !(qt&1))
+	else if (c == '\"' && last != '\\' && !(qt&1))
 		qt ^= 2;
-	else if (c == '\'' && !(qt&2))
+	else if (c == '\'' &&last != '\\' &&  !(qt&2))
 		qt ^= 1;
-	else if ((c == '/' || c == '*') && !qt)
+	else if ((c == '/') && !qt)
 		{
 			cmnt_inpt(c);
 		}
@@ -81,5 +84,5 @@ void check_close(char c)
 
 /*well maybe a state machine design to begin with would have been better, but now we just have to make sure comnt and qoute state are exclusive
 		 and make the closing into a stack. 
-todo manage escape \
+todo manage escape '\'
 */
