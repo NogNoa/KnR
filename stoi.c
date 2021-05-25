@@ -13,9 +13,11 @@ return n;
 
 int htoi(char s[])
 { /* convert hexadecimal string to integer */
-	int n=0;
+	int i=0,n=0;
 	char d;
-	for (int i=0; s[i] != '\0';++i)
+	if (s[0]=='0' && s[1]=='x')
+		i = 2;
+	for (;s[i] != '\0' ;++i)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
 			d = (s[i] - '0');
