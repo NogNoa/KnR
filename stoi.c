@@ -15,11 +15,11 @@ int htoi(char s[])
 { /* convert hexadecimal string to integer */
 	int i=0,n=0;
 	char d;
-	if (s[0]=='0' && s[1]=='x')
+	if (s[0]=='0' && (s[1]=='x' || s[1]=='X'))
 		i = 2;
 	for (;s[i] != '\0' ;++i)
 	{
-		if (s[i] >= '0' && s[i] <= '9')
+		if (isdigit(s[i]))
 			d = (s[i] - '0');
 		else if (s[i] >= 'A' && s[i] <= 'F')
 			d = (s[i] - 'A' + 0xA);
