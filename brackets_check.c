@@ -41,7 +41,7 @@ char main()
 	pcls--;
 	putchar(cls[pcls]);
 	printf(" %d\n",pcls);
-	return pcls;
+	return cls;
 }
 
 void cmnt_inpt(char c)

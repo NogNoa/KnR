@@ -1,3 +1,5 @@
+#include <ctype.h>
+
 // Ritchie, D. and Kernighan, W. (1988) p41
 
 int atoi(char s[])
