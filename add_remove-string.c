@@ -1,6 +1,6 @@
 // Ritchie, D. and Kernighan, W. (1988) p45
 
-void squeeze(char s[], int c)
+char * squeeze(char s[], int c)
 { /* squeeze: delete all c from s */
 	int i, j;
 
@@ -11,7 +11,7 @@ void squeeze(char s[], int c)
 	return s;
 }
 
-char *strcat(char s[], char t[])
+char * strcat(char s[], char t[])
 { /* strcat: concatenate t to end of s; s must be big enough */
 	int i, j;
 
@@ -25,7 +25,7 @@ char *strcat(char s[], char t[])
 
 // original
 
-void squeeze_multi(char s1[], char s2[])
+char * squeeze_multi(char s1[], char s2[])
 { /* squeeze multi: delete any charecters from s2 in s1 */
 	int i, j;
 	_Bool cp;
@@ -36,8 +36,10 @@ void squeeze_multi(char s1[], char s2[])
 		for (int k = 0;s2[k] != '\0';j++)
 		{
 			if (s1[i] == s2[k])
+			{
 				cp = 0;
 				break;
+			}
 		}
 		if (cp)
 			s1[j++] = s1[i];
