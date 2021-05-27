@@ -13,6 +13,6 @@ int main(int argc, char *argv[])
 
 	for (int i=1;i<argc;++i)
 		printf("%d\n",htoi(argv[i]));
-	back = any(argv[1], argv[2]);
+	back = set(argv[1]);
 	printf("%s\n",back);
 }
