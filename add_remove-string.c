@@ -48,16 +48,17 @@ char * squeeze_multi(char s1[], char s2[])
 	return s1;
 }
 
-int any(char s1[], char s2[])
+char * any(char s1[], char s2[])
 { /* any: return the first time a charecter from s2 appears in s1 */
+	char fail[5] = "fail";
 	
 	for (int i = 0;s1[1] != '\0';i++)
 	{
 		for (int k = 0;s2[k] != '\0';k++)
 			if (s1[i] == s2[k])
-				return i;
+				return s1+i;
 	}
-	return -1; 
+	return fail; 
 }
 
 char * set(char s[])
