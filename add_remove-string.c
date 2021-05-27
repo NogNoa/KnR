@@ -47,3 +47,42 @@ char * squeeze_multi(char s1[], char s2[])
 	s1[j] = '\0';
 	return s1;
 }
+
+int any(char s1[], char s2[])
+{ /* any: return the first time a charecter from s2 appears in s1 */
+	
+	for (int i = 0;s1[1] != '\0';i++)
+	{
+		for (int k = 0;s2[k] != '\0';k++)
+			if (s1[i] == s2[k])
+				return i;
+	}
+	return -1; 
+}
+
+char * set(char s[])
+{ /* set: delete any repetition in s */
+	int i, j;
+	char back[0x100] = {0,};
+	_Bool cp;
+
+	for (i = j = 0; s[i] != '\0'; i++)
+	{
+		cp = 1;
+		for (int k = 0;back[k] != '\0';k++)
+		{
+			if (s[i] == back[k])
+			{
+				cp = 0;
+				break;
+			}
+		}
+		if (cp)
+			back[j++] = s[i];
+	}
+	s[j] = '\0';
+	return s;
+}
+
+/* todo: fix set
+*/
