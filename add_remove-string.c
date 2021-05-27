@@ -33,7 +33,7 @@ char * squeeze_multi(char s1[], char s2[])
 	for (i = j = 0; s1[i] != '\0'; i++)
 	{
 		cp = 1;
-		for (int k = 0;s2[k] != '\0';j++)
+		for (int k = 0;s2[k] != '\0';k++)
 		{
 			if (s1[i] == s2[k])
 			{
