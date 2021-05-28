@@ -25,11 +25,14 @@ char * strcat(char s[], char t[])
 
 // original
 
+char * set(char s[]);
+
 char * squeeze_multi(char s1[], char s2[])
 { /* squeeze multi: delete any charecters from s2 in s1 */
 	int i, j;
 	_Bool cp;
 
+	s2 = set(s2);
 	for (i = j = 0; s1[i] != '\0'; i++)
 	{
 		cp = 1;
@@ -51,6 +54,7 @@ char * squeeze_multi(char s1[], char s2[])
 int any(char s1[], char s2[])
 { /* any: return the first time a charecter from s2 appears in s1 */
 	
+	s2 = set(s2);
 	for (int i = 0;s1[1] != '\0';i++)
 	{
 		for (int k = 0;s2[k] != '\0';k++)
