@@ -87,3 +87,6 @@ char * set(char s[])
 	return s;
 }
 
+/* todo: for some reason in any() s1 includes both s2 and one space charecter (regardless of how much were entered at console), 
+such that instead of -1 on fail, the function returns the index of the start of s2
+*/
