@@ -33,3 +33,8 @@ int htoi(char s[])
 	}
 	return n;
 }
+
+char lower(char s)
+{ /* lower: if it's a capital letter, returns it's minuscule */
+	return ((s>'A') && (s<'Z')) ? (s+'a'-'A') : s;
+}
