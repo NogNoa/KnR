@@ -3,14 +3,14 @@ void escape(char s[], char t[])
 	char c;
 	int j = 0;
 	for (int i=0;(c = t[i]) != 0;++i){
-		if (c == '\n'){
-			s[j++] = '\\'; s[j++] = 'n';
+		switch(c){
+		case '\n':
+			s[j++] = '\\'; s[j++] = 'n';break;
+		case '\t':
+			s[j++] = '\\'; s[j++] = 't';break;
+		default:
+			s[j++] = c;break;
 		}
-		else if (c == '\t'){
-			s[j++] = '\\'; s[j++] = 't';
-		}
-		else
-			s[j++] = c;
 	}
 }
 
@@ -19,19 +19,21 @@ void descape(char s[], char t[])
 	char c;
 	int j = 0;
 	for (int i=0;(c = t[i]) != 0;++i){
-		if (c == '\\'){
-			if (t[i] == 'n')
-				s[j++] = '\n';
-			else if (t[i] == 't')
-				s[j++] = '\t';
-			else if (t[i] == '\\')
-				s[j++] = '\\';
-			else{
-				s[j++] = '\\';s[j++] = t[i];
+		switch(c){
+		case '\\':
+			switch (t[i]){
+			case 'n':
+				s[j++] = '\n';break;
+			case 't':
+				s[j++] = '\t';break;
+			case '\\':
+				s[j++] = '\\';break;
+			default:
+				s[j++] = '\\';s[j++] = t[i];break;
 			}
-			++i;
+			++i;break;
+		default:
+			s[j++] = c;break;
 		}
-		else
-			s[j++] = c;
 	}
 }

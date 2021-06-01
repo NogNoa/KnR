@@ -19,10 +19,13 @@ void control_flow(char s[], char t[])
 
 int main(int argc, char *argv[])
 {
-	char back[0x100];
+	char *call;
+	char back[0x1000];
+	FILE *file = fopen("control_flow.c","r");
 
-	byte_foolish();
-	control_flow(back,argv[1]);
-	printf("%s\n",back);
+	byte_foolish();	
+	fscanf(file, "%s", &call);
+	control_flow(back,call);
+	printf("%s\n",call);
 
 }
