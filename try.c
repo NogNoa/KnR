@@ -19,4 +19,5 @@ int main(int argc, char *argv[])
 	call = file_stringise(filename);
 	control_flow(back,call);
 	printf("%s\n",back);
+	printf("The value of EOF is %x\n\n", EOF);
 }
