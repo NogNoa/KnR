@@ -1,4 +1,5 @@
 #include <stdio.h>
+int atoi(char s[]);
 
 void putstar(char c, int lim)
 {
@@ -9,14 +10,16 @@ void putstar(char c, int lim)
     putchar('*');
 }
 
-int main()
+int main(int argc, char * argv[])
 {
-    int i;
+    int i, height;
+    height = (argc > 1) ? atoi(argv[1]) : 6;
+    int sub_height = height/2;
     
-    for (i=7; i>1; --i){
-        putstar(' ',i);
-        if (4 >= i){
-            putstar('\b',2 * i - 4);
+    for (i=height; i>0; --i){
+        putstar(' ',sub_height+i);
+        if (sub_height >= i){
+            putstar('\b',2 * i - 2);
         }
         putchar('\n');
     }
