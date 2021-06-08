@@ -26,6 +26,6 @@ int main(int argc, char * argv[])
 }
 
 
-//gap = 2 * (i - 2)
-//i - gap = i - 2i + 4 = 4 - i
-//gap == 2i - 4; gap/2 + 2 == i; (4 > i) == (4 > gap/2 + 2) == (2 > gap/2) == (4 > gap)
+//gap = 2 * (i - 1)
+//i - gap = i - 2i + 2 = 2 - i
+//gap == 2i - 2; gap/2 + 1 == i; (3 > i) == (3 > gap/2 + 1) == (1 > gap/2) == (2 > gap)
