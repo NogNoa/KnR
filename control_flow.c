@@ -22,7 +22,7 @@ void descape(char s[], char t[])
 	for (int i=0;(c = t[i]) != 0;++i){
 		switch(c){
 		case '\\':
-			switch (t[i]){
+			switch (t[++i]){
 			case 'n':
 				s[j++] = '\n';break;
 			case 't':
@@ -32,7 +32,7 @@ void descape(char s[], char t[])
 			default:
 				s[j++] = '\\';s[j++] = t[i];break;
 			}
-			++i;break;
+			break;
 		default:
 			s[j++] = c;break;
 		}
