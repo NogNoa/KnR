@@ -8,6 +8,18 @@ void escape(char s[], char t[])
 			s[j++] = '\\'; s[j++] = 'n';break;
 		case '\t':
 			s[j++] = '\\'; s[j++] = 't';break;
+		case '\b':
+			s[j++] = '\\'; s[j++] = 'b';break;
+		case '\v':
+			s[j++] = '\\'; s[j++] = 'v';break;
+		case '\f':
+			s[j++] = '\\'; s[j++] = 'f';break;
+		case '\r':
+			s[j++] = '\\'; s[j++] = 'r';break;
+		case '\'':
+		case '\"':
+		case '\\':
+			s[j++] = '\\'; s[j++] = c;break;
 		default:
 			s[j++] = c;break;
 		}
@@ -27,8 +39,18 @@ void descape(char s[], char t[])
 				s[j++] = '\n';break;
 			case 't':
 				s[j++] = '\t';break;
+			case 'b':
+				s[j++] = '\b';break;
+			case 'v':
+				s[j++] = '\v';break;
+			case 'f':
+				s[j++] = '\f';break;
+			case 'r':
+				s[j++] = '\r';break;
+			case '\'':
+			case '\"':
 			case '\\':
-				s[j++] = '\\';break;
+				s[j++] = t[i];break;
 			default:
 				s[j++] = '\\';s[j++] = t[i];break;
 			}
@@ -39,5 +61,3 @@ void descape(char s[], char t[])
 	}
 	s[j] = 0;
 }
-
-// done: Well I've checked online and it's essentially correct. don't know whata tell you
