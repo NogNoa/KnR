@@ -122,7 +122,7 @@ void expand(char s1[],char s2[])
 	
 	if (s1[0]=='-')
 	{
-		finit = s1[2];
+		finit = s1[1];
 		if (finit<'!')
 		{	finit = 0x7e;
 			finit_change=1;
@@ -159,6 +159,7 @@ void expand(char s1[],char s2[])
 		else
 			s2[j++] = s1[i];
 	}
+	s2[j]=0;
 
 }
 
