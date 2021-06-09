@@ -115,25 +115,57 @@ void descape(char s[], char t[])
 }
 
 void expand(char s1[],char s2[])
-{ // parse shorthand of the type a-z
-	int j=0;
+{	// parse shorthand of the type a-z
+	int i=0,j=0;
 	char init, finit;
-
-	for (int i=1;s1[i] != 0;++i)
+	_Bool finit_change=0;
+	
+	if (s1[0]=='-')
 	{
-		if (s1[i] == '-')
-		{
-			init = s1[i-1];
-			finit = s1[i+1];
-			if (init == ' ' || init == '\t' || init == '\n')
-				init = '!'; // first non-blank printable
-			if (finit == ' ' || finit == '\0' || finit == '\n' || finit == '\t')
-				finit = 0x7e; //in modernity it's supposed to always be '~'.
-			for(char k=init;k<=finit;++k)
-				s2[j++] = k;
+		finit = s1[2];
+		if (finit<'!')
+		{	finit = 0x7e;
+			finit_change=1;
 		}
-	else
-		s2[j++] = s1[i];
+		for(char k='!';k<finit;++k)
+				s2[j++] = k;
+		if (finit_change)
+		{	s2[j++] = 0x7e;
+			finit_change=0;
+		}
+		i=1;
+	}
+
+	for (;s1[i] != 0;++i)
+	{	if (s1[i+1] == '-')
+		{	init = s1[i];
+			finit = s1[i+2];
+			if (init<'!')
+			{	init = '!'; // first non-blank printable
+				s2[j++] = s1[i];
+			}
+			if (finit<'!')
+			{	finit = 0x7e; //in modernity it's supposed to always be '~'.
+				finit_change=1;
+			}
+			for(char k=init;k<finit;++k)
+				s2[j++] = k;
+			if (finit_change)
+			{	s2[j++] = 0x7e;
+				finit_change=0;
+			}
+			i++;
+		}
+		else
+			s2[j++] = s1[i];
 	}
 
 }
+
+/*	SOF- v
+	-EOF v
+	--
+	" -A" == " !@#$%^&*()A" v
+	"z- " == "z~ "  v
+	a-b-c
+*/
