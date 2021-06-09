@@ -113,3 +113,28 @@ void descape(char s[], char t[])
 	}
 	s[j] = 0;
 }
+
+void expand(char s1[],char s2[])
+{ // parse shorthand of the type a-z
+	int j=0;
+	char p=s1[0];
+
+	for (int i=1;(s1[i] != 0;++i))
+	{
+		if (s[i] == '-')
+			expendium(s1,s2,i)
+	}
+
+}
+
+void expendium(char call[], char back[], int i, int j)
+{
+	char init = s1[i-1], finit = s1[i+1];
+	
+	if (init == ' ' || init == '\t' || init == '\n')
+		init = "!"; // first non-blank printable
+	if (finit == ' ' || finit == '\0' || finit == '\n' || finit == '\t')
+		finit = 0x7e; //in modernity it's supposed to always be '~'.
+	
+
+}
