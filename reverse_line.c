@@ -9,7 +9,7 @@ void reverse(char to[], char from[],int len)
 	if (from[len - 1] == '\n'){
 		to[len] = '\n';
 		to[len + 1] = '\0';
-		to[0] = '\r';
+		to[0] = 0xe; //shift-out. Its pretty invisible.
 	}
 	else{
 		to[0] = from[len - 1];

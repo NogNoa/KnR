@@ -5,14 +5,17 @@
 
 int measure(int hest[]);
 void expose(int hest[], int mxlen);
+void mkrow(char row[], int len);
 
-void main()
+int main()
 {
 	int mxlen, hest[(MXWRD)];
 
 	mxlen = measure(hest);
     
 	expose(hest, mxlen);
+
+	return 0;
 }
 
 int measure(int hest[])
@@ -21,7 +24,6 @@ int measure(int hest[])
 	int len = 0;
     int mxlen = 0;
 	int state = OUT;
-
 
 	for (i = 0; i<(MXWRD); ++i)
 		hest[i] = 0;
@@ -44,20 +46,12 @@ int measure(int hest[])
 
 void expose(int hest[], int mxlen)
 {
-	void mkrow(char row[], int len);
-
-	int i,j;
+	int i;
 	//char plus;
-	char row[768]; //arbitrary 0x300
+	char row[0x300];
 
 	for (i=1; i<=(mxlen); ++i){
 		mkrow(row, hest[i]);
-		/*
-		if (i == mxlen)
-			plus = "+";
-		else
-			plus = " ";
-			*/
 		printf("%2d  %s\n",i, row);
 	}
 }
