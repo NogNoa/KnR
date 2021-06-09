@@ -6,7 +6,7 @@ void expand(char s1[],char s2[]);
 
 int main(int argc, char *argv[])
 {
-    char text1[50] = "-A a-c a-c-e a--~ d-a a-a -! ~- - z-";
+    char text1[50] = "-A a-c a-c-e !--~ d-a a-a -! ~- - z-";
     char text2[0x400];
     
     printf("Original string:\n%s\n", text1);

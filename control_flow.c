@@ -148,12 +148,10 @@ void expand(char s1[],char s2[])
 			{	finit = 0x7e; //in modernity it's supposed to always be '~'.
 				finit_change=1;
 			}
-			for(char k=init;k<finit;++k)
+			for(char k=init;k<=finit;++k)
 				s2[j++] = k;
-			if (finit_change)
-			{	s2[j++] = 0x7e;
-				finit_change=0;
-			}
+			if (finit == s1[i+2] && s1[i+3] != '-')
+				i++;
 			i++;
 		}
 		else
