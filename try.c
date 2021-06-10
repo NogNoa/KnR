@@ -6,13 +6,13 @@ void expand(char s1[],char s2[]);
 
 int main(int argc, char *argv[])
 {
-    char text1[50] = "-A a-c a-c-e !--~ d-a a-a -! ~- - z-";
-    char text2[0x400];
+    char call[50] = "-A a-c a-c-e !--~ d-a a-a -! ~- - z-";
+    char back[0x400];
     
-    printf("Original string:\n%s\n", text1);
+    printf("Original string:\n%s\n", call);
     
-    expand(text1, text2);
-    printf("Expanded string:\n%s\n", text2);
+    expand(call, back);
+    printf("Expanded string:\n%s\n", back);
     
     return 0;
 }

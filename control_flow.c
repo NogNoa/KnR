@@ -118,7 +118,6 @@ void expand(char s1[],char s2[])
 {	// parse shorthand of the type a-z
 	int i=0,j=0;
 	char init, finit;
-	_Bool finit_change=0;
 	
 	if (s1[0]=='-')
 	{
@@ -127,13 +126,11 @@ void expand(char s1[],char s2[])
 		{	finit = 0x7e;
 			finit_change=1;
 		}
-		for(char k='!';k<finit;++k)
+		for(char k='!';k<=finit;++k)
 				s2[j++] = k;
-		if (finit_change)
-		{	s2[j++] = 0x7e;
-			finit_change=0;
-		}
-		i=1;
+		if (finit == s1[1] && s1[2] != '-')
+			i++;
+		i++;
 	}
 
 	for (;s1[i] != 0;++i)
@@ -164,7 +161,7 @@ void expand(char s1[],char s2[])
 /*	SOF- v
 	-EOF v
 	--
-	" -A" == " !@#$%^&*()A" v
+	" -A" == " !"#$%&'()*+,-...A" v
 	"z- " == "z~ "  v
 	a-b-c
 */
