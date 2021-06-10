@@ -116,24 +116,11 @@ void descape(char s[], char t[])
 
 void expand(char s1[],char s2[])
 {	// parse shorthand of the type a-z
-	int i=0,j=0;
+	int j=0;
 	char init, finit;
+	s1[-1]='\r';
 	
-	if (s1[0]=='-')
-	{
-		finit = s1[1];
-		if (finit<'!')
-		{	finit = 0x7e;
-			finit_change=1;
-		}
-		for(char k='!';k<=finit;++k)
-				s2[j++] = k;
-		if (finit == s1[1] && s1[2] != '-')
-			i++;
-		i++;
-	}
-
-	for (;s1[i] != 0;++i)
+	for (int i=-1;s1[i] != 0;++i)
 	{	if (s1[i+1] == '-')
 		{	init = s1[i];
 			finit = s1[i+2];
@@ -142,9 +129,7 @@ void expand(char s1[],char s2[])
 				s2[j++] = s1[i];
 			}
 			if (finit<'!')
-			{	finit = 0x7e; //in modernity it's supposed to always be '~'.
-				finit_change=1;
-			}
+				finit = 0x7e; //in modernity it's supposed to always be '~'.
 			for(char k=init;k<=finit;++k)
 				s2[j++] = k;
 			if (finit == s1[i+2] && s1[i+3] != '-')
@@ -158,10 +143,12 @@ void expand(char s1[],char s2[])
 
 }
 
-/*	SOF- v
-	-EOF v
-	--
-	" -A" == " !"#$%&'()*+,-...A" v
-	"z- " == "z~ "  v
-	a-b-c
+/*	v SOF-
+	v -EOF 
+	v -- 	beheviour: the second - is used as literal and doesn't cause expension
+	v !---A beheviour: acts as !-- and than --A
+	v " -A" == " !"#$%&'()*+,-...A"
+	v "z- " == "z~ "  v
+	v a-b-c 
+	v c-a 	
 */
