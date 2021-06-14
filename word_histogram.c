@@ -1,7 +1,12 @@
 #include <stdio.h>
 #define IN 1 /* inside a word */
 #define OUT 0 /* outside a word */
-#define MXWRD 30
+#define MXWRD 0x20
+static inline _Bool unblank(char c)
+{
+	return c != ' ' && c != '\n' && c != '\t';
+}
+
 
 int measure(int hest[]);
 void expose(int hest[], int mxlen);
@@ -20,26 +25,25 @@ int main()
 
 int measure(int hest[])
 {
-	int i,c;
+	int i;
+	char c,prev='\n';
 	int len = 0;
     int mxlen = 0;
-	int state = OUT;
 
 	for (i = 0; i<(MXWRD); ++i)
 		hest[i] = 0;
 
 	while ((c = getchar()) != EOF) {
-		if (c != ' ' && c != '\n' && c != '\t'){
-			state = IN;
+		if (unblank(c)){
 			++len;
 		}
-		else if (state == IN){
+		else if (unblank(prev)){
 			++hest[len];
 			if (len > mxlen)
                 mxlen = len;
-			state = OUT;
 			len = 0;
 		}
+		prev=c;
 	}
     return mxlen;
 }

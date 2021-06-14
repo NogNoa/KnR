@@ -118,20 +118,27 @@ void expand(char s1[],char s2[])
 {	// parse shorthand of the type a-z
 	int j=0;
 	char init, finit;
-	s1[-1]='\r';
+	s1[-1]='\r'; //we need a -1st case
 	
 	for (int i=-1;s1[i] != 0;++i)
 	{	if (s1[i+1] == '-')
 		{	init = s1[i];
 			finit = s1[i+2];
-			if (init<'!')
-			{	init = '!'; // first non-blank printable
+			if (init<'!') // first non-blank printable
+			{	init = '!'; 
 				s2[j++] = s1[i];
 			}
 			if (finit<'!')
-				finit = 0x7e; //in modernity it's supposed to always be '~'.
-			for(char k=init;k<=finit;++k)
-				s2[j++] = k;
+				finit = 0x7e; 
+				//Last printable. In modernity it's supposed to always be '~'
+				//But this program is should also work correctly with 
+				//1965 ascii that ends z{¬}| rather than z{|}~
+			if (init>finit)
+				for(char k=init;k>=finit;--k)
+					s2[j++] = k;
+			else 
+				for(char k=init;k<=finit;++k)
+					s2[j++] = k;
 			if (finit == s1[i+2] && s1[i+3] != '-')
 				i++;
 			i++;
@@ -148,7 +155,7 @@ void expand(char s1[],char s2[])
 	v -- 	beheviour: the second - is used as literal and doesn't cause expension
 	v !---A beheviour: acts as !-- and than --A
 	v " -A" == " !"#$%&'()*+,-...A"
-	v "z- " == "z~ "  v
+	v "z- " == "z{|}~ "
 	v a-b-c 
-	v c-a 	
+	v c-a 	beheviour: expands to nothing.
 */
