@@ -1,9 +1,10 @@
 #include "KnR_getline.h"
-#define MAX 0xFF
+#define MAX 0x100
 
 /*
 Text is nline lines, each killed by /0.
 so we somehow also has to follow which lines are dead. this is beyond me.
+15.6.21 still not prepered
 */
 
 
@@ -12,24 +13,26 @@ void expose(char * lini[],int  nline)
 	char line[MAX];
 
 	do{
-		for (int i=0; i <= nline; ++i){
-			for (int j=0; 0;)
+		for (int i=0; i <= nline; ++i)
+		{	for (int j=0; 0;)
 				;
 		}
 
-		}while (0);
+	}while (0);
 }
 
+int mxlen = 0;
+char * lini[MAX];
 
-int linearise(char * lini[])
+int linearise(void)
 {
-	int len, i;
 	char line[MAX];
-	int mxlen = 0;
+	int i,len = 0;
 
-	for (i=0; pascal_getline(line, MAX); ++i){
-		line[0] = len;
-		lini[i] = line;
+	for (i=0; (len = KnR_getline(line, MAX)); ++i)
+	{	lini[i] = line;
+		if (len>mxlen)
+			mxlen=len;
 	}
 	return i;
 }
@@ -37,10 +40,9 @@ int linearise(char * lini[])
 
 void main()
 {
-	char * lini[MAX];
-	int nline;
+	int many_line;
 
-	nline = linearise(lini);
-	printf("%d\n", (char) * lini[3]);
-
+	many_line = linearise();
+	for (int i;i<50;++i)
+		printf("%s", lini[i]);
 }
