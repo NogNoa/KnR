@@ -78,7 +78,7 @@ void expose_ver(int hest[], int mxlen)
 
 	for (int i=mxcnt; i>0;--i)
 	{	mkrow_cnt(row, hest, i, mxlen);
-		printf("%2d %s\n",i, row);
+		printf("%2d|%s\n", i, row);
 	}
 	printf("   ");
 	for (int i=1;i<=mxlen;++i)
@@ -91,9 +91,9 @@ void mkrow_cnt(char row[], int hest[], int cnt, int mxlen)
 	int i,j=2;
 
 	for (i=1;i<=mxlen;i++,j+=3)
-		row[j-2]=row[j-1]=' ';
-	{	if (hest[i]>=cnt)
-			row[j]='|';
+	{	row[j-2]=row[j-1]=' ';
+		if (hest[i]>=cnt)
+			row[j]='*';
 		else
 			row[j]=' ';
 	}
