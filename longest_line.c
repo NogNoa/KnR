@@ -2,23 +2,51 @@
 
 #include "KnR_getline.h"
 
-int main()
+int KnR_main()
 {  /* print the longest input line */
 
-	int len;
-	int max = 0;
-	char line[MAXLINE];
-	char longest[MAXLINE];
+    int len;
+    int max = 0;
+    char line[MAXLINE];
+    char longest[MAXLINE];
 
-	while ((len = KnR_getline(line, MAXLINE)) > 0)
-		if (len > max) {
-			max = len;
-			copy(longest, line);
-		}
+    while ((len = KnR_getline(line, MAXLINE)) > 0)
+        if (len > max) {
+            max = len;
+            copy(longest, line);
+        }
 
-	if (max > 0)
-		printf("%s", longest);
-	return 0;
+    if (max > 0)
+        printf("%s", longest);
+    return 0;
 }
 
 
+//original
+
+int main()
+{   /* print the longest input line */
+
+    int len;
+    int max = 0;
+    char line[MAXLINE];
+    char dummy[MAXLINE];
+    char longest[MAXLINE];
+
+    while ((len = KnR_getline(line, MAXLINE)) > 0)
+    {
+        if (len == MAXLINE-1 && line[MAXLINE-2] != '\n')
+        {   
+            line[MAXLINE-1] = '\n'; line[MAXLINE] = '\0';
+            len += KnR_getline(dummy, MAXLINE);
+        }
+        if (len > max) {
+            max = len;
+            copy(longest, line);
+        }
+    }
+
+    if (max > 0)
+        printf("%d: %s", max, longest);
+    return 0;
+}
