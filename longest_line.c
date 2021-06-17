@@ -27,7 +27,7 @@ int KnR_main()
 int main()
 {   /* print the longest input line */
 
-    int len;
+    int len, dumlen;
     int max = 0;
     char line[MAXLINE];
     char dummy[MAXLINE];
@@ -38,7 +38,10 @@ int main()
         if (len == MAXLINE-1 && line[MAXLINE-2] != '\n')
         {   
             line[MAXLINE-1] = '\n'; line[MAXLINE] = '\0';
-            len += KnR_getline(dummy, MAXLINE);
+            while (dummy[dumlen-1] != '\n')
+            {
+            	len += (dumlen = KnR_getline(dummy, MAXLINE));
+            }
         }
         if (len > max) {
             max = len;
