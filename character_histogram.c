@@ -4,8 +4,9 @@
 
 void main()
 {
-	char mxchar = (char)-1;
-	int i, j, max = mxchar, min =0;
+	char mxchar = (unsigned char) -1 >> 1;
+	char mnchar = ' ';
+	int i, j;
 	char hest[mxchar], c;
 	
 	for (i = 0; i<mxchar; ++i)
@@ -15,14 +16,7 @@ void main()
 			++hest[c];
 	}
 
-	for (i=0; hest[i]==0;++i)
-		min=i;
-	for (i=mxchar;hest[i]==0;--i)
-		max=i;
-	
-	printf("%x %x",min, max);
-
-	for (i=min+1; i<max; ++i){
+	for (i=mnchar; i<mxchar; ++i){
 		putchar(i);printf("  ");
 		for (j=0; j<=hest[i]; ++j)
 			putchar('|');
