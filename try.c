@@ -12,10 +12,10 @@ int main(int argc, char *argv[])
     const int lng=0x20;
     char a[lng],b[lng],c[lng],d[lng];
 
-    itob(-2, a,10);
-    itob(1, b,10);
-    itob((~(~0U >> 1)), c,10);
-    itob((~(~0U >> 1))+2, d,10);
+    itob(-2, a,36);
+    itob(1, b,36);
+    itob((~(~0U >> 1)), c,12);
+    itob((~(~0U >> 1))+2, d,36);
 
 
     printf("%s %s  %s %s\n",a,b,c,d);

@@ -86,28 +86,35 @@ short itob(int n, char s[], short b)
 		return 1;
 	} 
 
-	if ((sign = (n < 0))) /* record sign */
-	{	if((digit = n % b)<0)
-		{	if (digit<-9)
-				s[i++] = -digit - 10 + 'A';
-			else 
-				s[i++] = -digit + '0';
-			n /= b;
-		}
-		n = -n; /* make n positive */
+
+	if((digit = n % b)<0)
+	{	digit = -digit;
+		n = -(n/b);
+		sign = 1;
 	}
-	do { /* generate digits in reverse order */
+	else
+		n = n/b;
+
+	if(digit<10)
+		s[i++] = digit + '0';
+	else
+		s[i++] = digit - 10 + 'A';
+	
+	while ((n /= b) > 0)
+	{ /* generate digits in reverse order */
 		if((digit = n % b)<10)
 			s[i++] = digit + '0';
 		else
 			s[i++] = digit - 10 + 'A';
-	} while ((n /= b) > 0); /* delete it */
+	}  /* delete it */
 	if (sign)
 		s[i++] = '-';
 	s[i] = '\0';
 	reverse(s);
 	return 0;
 }
+
+//for some reason at a power of 2 base the minimal negative integer is printed as -0
 
 char lower(char s)
 { /* lower: if it's a capital letter, returns it's minuscule */
