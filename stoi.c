@@ -95,17 +95,11 @@ short itob(int n, char s[], short b)
 	else
 		n = n/b;
 
-	if(digit<10)
-		s[i++] = digit + '0';
-	else
-		s[i++] = digit - 10 + 'A';
+	s[i++]=(digit<10)? digit + '0' : digit - 10 + 'A';
 	
 	while ((n /= b) > 0)
 	{ /* generate digits in reverse order */
-		if((digit = n % b)<10)
-			s[i++] = digit + '0';
-		else
-			s[i++] = digit - 10 + 'A';
+		s[i++] =((digit = n % b)<10)? digit + '0' : digit - 10 + 'A'
 	}  /* delete it */
 	if (sign)
 		s[i++] = '-';
