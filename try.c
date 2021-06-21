@@ -15,10 +15,10 @@ int main(int argc, char *argv[])
     itob(-2, a,36);
     itob(0, b,16);
     itob((~(~0U >> 1)), c,16);
-    itob((~(~0U >> 1))+2, d,36);
+    itoa((~(~0U >> 1)), d);
 
 
-    printf("%s %s  %s %s %x\n",a,b,c,d,(~(~0U >> 1))/16);
+    printf("%s %s  %s %s %x\n",a,b,c,d);
     
     return 0;
 }

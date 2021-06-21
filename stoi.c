@@ -57,18 +57,20 @@ int htoi(char s[])
 void itoa(int n, char s[])
 { /* itoa: convert n to characters in s */
 	int i=0;
-	_Bool sign; //1 is negative, 0 is positive;
+	_Bool sign = (n < 0); //1 is negative, 0 is positive;
+	unsigned m;
+	
 
-	if ((sign = (n < 0))) /* record sign */
-	{	if (n==-n)
-		{	s[i++] = -(n % 10) + '0';
-			n /= 10;
-		}
-		n = -n; /* make n positive */
-	}
+	if (n==-n)
+		m = ((unsigned)-(n+1))+1;
+	else
+		m = n;
+	if (sign)
+		m = -m; 
+
 	do { /* generate digits in reverse order */
-		s[i++] = n % 10 + '0'; /* get next digit */
-	} while ((n /= 10) > 0); /* delete it */
+		s[i++] = m % 10 + '0'; /* get next digit */
+	} while ((m /= 10) > 0); /* delete it */
 	if (sign)
 		s[i++] = '-';
 	s[i] = '\0';
