@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdio.h>
 void reverse(char s[]);
 
 // Ritchie, D. and Kernighan, W. (1988) p41
@@ -59,8 +60,7 @@ void itoa(int n, char s[])
 	_Bool sign; //1 is negative, 0 is positive;
 
 	if ((sign = (n < 0))) /* record sign */
-	{
-		if (n==-n)
+	{	if (n==-n)
 		{	s[i++] = -(n % 10) + '0';
 			n /= 10;
 		}
@@ -73,6 +73,40 @@ void itoa(int n, char s[])
 		s[i++] = '-';
 	s[i] = '\0';
 	reverse(s);
+}
+
+short itob(int n, char s[], short b)
+{ /* itoa: convert n to characters in s */
+	int i=0;
+	_Bool sign; //1 is negative, 0 is positive;
+	short digit;
+
+	if (b<1 || 36<b)
+	{	printf("%d is a bad base",b);
+		return 1;
+	} 
+
+	if ((sign = (n < 0))) /* record sign */
+	{	if((digit = n % b)<0)
+		{	if (digit<-9)
+				s[i++] = -digit - 10 + 'A';
+			else 
+				s[i++] = -digit + '0';
+			n /= b;
+		}
+		n = -n; /* make n positive */
+	}
+	do { /* generate digits in reverse order */
+		if((digit = n % b)<10)
+			s[i++] = digit + '0';
+		else
+			s[i++] = digit - 10 + 'A';
+	} while ((n /= b) > 0); /* delete it */
+	if (sign)
+		s[i++] = '-';
+	s[i] = '\0';
+	reverse(s);
+	return 0;
 }
 
 char lower(char s)
