@@ -1,3 +1,5 @@
+#include <string.h>
+
 // Ritchie, D. and Kernighan, W. (1988) p54
 
 int KnR_binsearch(int x, int v[], int n)
@@ -17,35 +19,17 @@ int KnR_binsearch(int x, int v[], int n)
 	return -1; /* no match */
 }
 
-int binsearch(int x, int v[], int n)
-{ /* binsearch: find x in v[0] <= v[1] <= ... <= v[n-1] */
-	int low, high, mid;
-	low = 0;
-	high = n - 1;
-	while (low < high) {
-		mid = (low+high)/2;
-		if (x < v[mid])
-			high = mid + 1;
-		else
-			low = mid + 1;
+// Ritchie, D. and Kernighan, W. (1988) p57
+
+void reverse(char s[])
+{ /* reverse: reverse string s in place */
+	int c, i, j;
+	for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
+		c = s[i];
+		s[i] = s[j];
+		s[j] = c;
 	}
-	if (low == high)
-		return low; //match
-	else 
-		return -1; // no match
 }
-/*
-assume   high = (low+high)/2 + 1; x = v[(low+high)/2] 
-happen	{high/2 = low/2 + 1
-	   	 high = low + 2}
-than    {(low < high)
-	       mid = high - 1
-	       x >= v[mid]
-	       low = mid + 1 = high
-	     (low >= high)
-	     ...}
-than 	 (x == v[mid]) iff (low == high)
-*/
 
 
 //Original
@@ -158,4 +142,34 @@ void expand(char s1[],char s2[])
 	v "z- " == "z{|}~ "
 	v a-b-c 
 	v c-a 	beheviour: expands to nothing.
+*/
+
+int binsearch(int x, int v[], int n)
+{ /* binsearch: find x in v[0] <= v[1] <= ... <= v[n-1] */
+	int low, high, mid;
+	low = 0;
+	high = n - 1;
+	while (low < high) {
+		mid = (low+high)/2;
+		if (x < v[mid])
+			high = mid + 1;
+		else
+			low = mid + 1;
+	}
+	if (low == high)
+		return low; //match
+	else 
+		return -1; // no match
+}
+/*
+assume   high = (low+high)/2 + 1; x = v[(low+high)/2] 
+happen	{high/2 = low/2 + 1
+	   	 high = low + 2}
+than    {(low < high)
+	       mid = high - 1
+	       x >= v[mid]
+	       low = mid + 1 = high
+	     (low >= high)
+	     ...}
+than 	 (x == v[mid]) iff (low == high)
 */
