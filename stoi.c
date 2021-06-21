@@ -85,7 +85,8 @@ short itob(int n, char s[], short b)
 	{	printf("%d is a bad base",b);
 		return 1;
 	} 
-
+	if (!n)
+		{s[0]='0';s[1]='\0';return 0;}
 
 	if((digit = n % b)<=0)
 	{	digit = -digit;
