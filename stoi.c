@@ -87,7 +87,7 @@ short itob(int n, char s[], short b)
 	} 
 
 
-	if((digit = n % b)<0)
+	if((digit = n % b)<=0)
 	{	digit = -digit;
 		n = -(n/b);
 		sign = 1;
@@ -109,7 +109,8 @@ short itob(int n, char s[], short b)
 	return 0;
 }
 
-//for some reason at a power of 2 base the minimal negative integer is printed as -0
+//now it prints the minimal negative correctly even with power of 2 base
+//but prints zero as -0 which is technicaly not wrong
 
 char lower(char s)
 { /* lower: if it's a capital letter, returns it's minuscule */
