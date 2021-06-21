@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
     const int lng=0x20;
     char a[lng],b[lng],c[lng],d[lng];
 
-    itoa(-1, a);
-    KnR_itoa(-1, b);
-    itoa(~(~0U >> 1), c);
-    KnR_itoa(~(~0U >> 1), d);
+    itoa(-2, a);
+    itoa(1, b);
+    itoa((~(~0U >> 1)), c);
+    itoa((~(~0U >> 1))+2, d);
 
 
     printf("%s %s  %s %s\n",a,b,c,d);
