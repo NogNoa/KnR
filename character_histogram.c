@@ -21,10 +21,10 @@ int main()
 			++hest[c];
 	}
 
-	for (i=0; hest[i]==0;++i)
-		mnchar=i;
+	for (mnchar=0; hest[mnchar]==0;++mnchar)
+		;
 
-	for (i=mnchar;i<' ';++i)
+	for (i=mnchar;i<0x20;++i)
 	{	printf("%s  ",unprintables[i]);
 		for (j=0; j<hest[i]; ++j)
 			putchar('|');
