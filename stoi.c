@@ -115,23 +115,27 @@ short itob(int n, char s[], short b)
 
 void fill_itoa(int n, char s[], int fill)
 {
-	int ln=0,j=0,k=0;
-	char c,sh[0x40];
-
-	itoa(n,sh);
-	reverse(sh);
-	while((c=sh[k++]) !=0 && c!='-')
-	{	s[j++] =c;
-		ln++;
-	}
-	for(int i=0;i<fill-ln;++i)
-		s[j++]='0';
+	int i=0;
+	_Bool sign = (n < 0); //1 is negative, 0 is positive;
+	unsigned m;
 	
-	if (sh[ln]=='-') 
-	/* ln stoped incrementing at '-' so sh[ln] is '-' 
-	rather than null for a negative sh */
-		s[j++]='-';
-	s[j]='\0';
+
+	if (n==-n)
+		m = ((unsigned)-(n+1))+1;
+	else
+	{	m = n;
+		if (sign)
+			m = -m;
+	}
+
+	do { /* generate digits in reverse order */
+		s[i++] = m % 10 + '0'; /* get next digit */
+	} while ((m /= 10) > 0); /* delete it */
+	while(i<fill)
+		s[i++]='0';
+	if (sign)
+		s[i++] = '-';
+	s[i] = '\0';
 	reverse(s);
 }
 
