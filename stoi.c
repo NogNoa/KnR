@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <stdio.h>
+#include <string.h>
 void reverse(char s[]);
 
 // Ritchie, D. and Kernighan, W. (1988) p41
@@ -111,6 +112,25 @@ short itob(int n, char s[], short b)
 	reverse(s);
 	return 0;
 }
+
+void fill_itoa(int n, char s[], int fill)
+{
+	int ln,j=0,k=0;
+	char c,sh[0x40];
+
+	itoa(n,sh);
+	ln=strlen(sh);
+	if (sh[k]=='-')
+	{	s[j++]='-';
+		k++;
+	}
+	for(int i=0;i<fill-ln;++i)
+		s[j++]='0';
+	for(;(c=sh[k]) != '\0';++k)
+		s[j++]=c;
+	s[j]='\0';
+}
+
 
 //now it prints the minimal negative correctly even with power of 2 base
 //but prints zero as -0 which is technicaly not wrong
