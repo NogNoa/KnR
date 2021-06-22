@@ -85,8 +85,8 @@ short itob(int n, char s[], short b)
 	short digit;
 	unsigned m;
 
-	if (b<1 || 36<b)
-	{	printf("%d is a bad base. Please use one between 1 and 36.",b);
+	if (b<2 || 36<b)
+	{	printf("%d is a bad base. Please use one between 2 and 36.\n",b);
 		s[0]='\0';
 		return 1;
 	}
