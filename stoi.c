@@ -64,9 +64,10 @@ void itoa(int n, char s[])
 	if (n==-n)
 		m = ((unsigned)-(n+1))+1;
 	else
-		m = n;
-	if (sign)
-		m = -m;
+	{	m = n;
+		if (sign)
+			m = -m;
+	}
 
 	do { /* generate digits in reverse order */
 		s[i++] = m % 10 + '0'; /* get next digit */
@@ -80,32 +81,30 @@ void itoa(int n, char s[])
 short itob(int n, char s[], short b)
 { /* itoa: convert n to characters in s */
 	int i=0;
-	_Bool sign; //1 is negative, 0 is positive;
+	_Bool sign = (n < 0); //1 is negative, 0 is positive;
 	short digit;
+	unsigned m;
 
 	if (b<1 || 36<b)
 	{	printf("%d is a bad base. Please use one between 1 and 36.",b);
 		s[0]='\0';
 		return 1;
-	} 
-	if (!n)
-		{s[0]='0';s[1]='\0';return 0;}
-
-	if((digit = n % b)<=0)
-	{	digit = -digit;
-		n = -(n/b);
-		sign = 1;
 	}
-	else
-		n = n/b;
 
-	s[i++] = digit + ((digit<10)? '0' :'A' - 10);
-	
-	while ((n /= b) > 0)
+	if (n==-n)
+		m = ((unsigned)-(n+1))+1;
+	else
+	{	m = n;
+		if (sign)
+			m = -m;
+	}
+
+	do
 	{ /* generate digits in reverse order */
-		digit = n % b;
+		digit = m % b;
 		s[i++] = digit + ((digit<10)? '0' :'A' - 10);
-	}  /* delete it */
+	}while ((m /= b) > 0);
+
 	if (sign)
 		s[i++] = '-';
 	s[i] = '\0';

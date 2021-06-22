@@ -13,12 +13,12 @@ int main(int argc, char *argv[])
     char a[lng],b[lng],c[lng],d[lng];
 
     itob(-2, a,36);
-    itob(0, b,16);
-    itob((~(~0U >> 1)), c,16);
-    itoa((~(~0U >> 1)), d);
+    itob(20, b,1);
+    itob((~(~0U >> 1)), c, 2);
+    itob((~(~0U >> 1)), d, 3);
 
 
-    printf("%s %s  %s %s %x\n",a,b,c,d);
+    printf("%s %s  %s %s\n",a,b,c,d);
     
     return 0;
 }
