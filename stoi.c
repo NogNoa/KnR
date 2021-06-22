@@ -115,20 +115,24 @@ short itob(int n, char s[], short b)
 
 void fill_itoa(int n, char s[], int fill)
 {
-	int ln,j=0,k=0;
+	int ln=0,j=0,k=0;
 	char c,sh[0x40];
 
 	itoa(n,sh);
-	ln=strlen(sh);
-	if (sh[k]=='-')
-	{	s[j++]='-';
-		k++;
+	reverse(sh);
+	while((c=sh[k++]) !=0 && c!='-')
+	{	s[j++] =c;
+		ln++;
 	}
 	for(int i=0;i<fill-ln;++i)
 		s[j++]='0';
-	for(;(c=sh[k]) != '\0';++k)
-		s[j++]=c;
+	
+	if (sh[ln]=='-') 
+	/* ln stoped incrementing at '-' so sh[ln] is '-' 
+	rather than null for a negative sh */
+		s[j++]='-';
 	s[j]='\0';
+	reverse(s);
 }
 
 
