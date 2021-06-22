@@ -66,7 +66,7 @@ void itoa(int n, char s[])
 	else
 		m = n;
 	if (sign)
-		m = -m; 
+		m = -m;
 
 	do { /* generate digits in reverse order */
 		s[i++] = m % 10 + '0'; /* get next digit */
@@ -84,7 +84,8 @@ short itob(int n, char s[], short b)
 	short digit;
 
 	if (b<1 || 36<b)
-	{	printf("%d is a bad base",b);
+	{	printf("%d is a bad base. Please use one between 1 and 36.",b);
+		s[0]='\0';
 		return 1;
 	} 
 	if (!n)
