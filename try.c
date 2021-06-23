@@ -13,10 +13,10 @@ int main(int argc, char *argv[])
     const int lng=0x20;
     char a[lng],b[lng],c[lng],d[lng];
 
-    fill_itoa(-2, a,36);
-    fill_itoa(20, b,1);
-    fill_itoa((~(~0U >> 1)), c, 20);
-    fill_itoa((~(~0U >> 1)), d, 30);
+    itoa(6, a);
+    itoa(20, b);
+    itob((~(~0U >> 1)), c, 20);
+    itob(100, d, 30);
 
 
     printf("%s %s  %s %s\n",a,b,c,d);

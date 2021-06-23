@@ -62,13 +62,10 @@ void itoa(int n, char s[])
 	unsigned m;
 	
 
-	if (n==-n)
+	if (sign)
 		m = ((unsigned)-(n+1))+1;
 	else
-	{	m = n;
-		if (sign)
-			m = -m;
-	}
+		m = n;
 
 	do { /* generate digits in reverse order */
 		s[i++] = m % 10 + '0'; /* get next digit */
@@ -92,13 +89,10 @@ short itob(int n, char s[], short b)
 		return 1;
 	}
 
-	if (n==-n)
+	if (sign)
 		m = ((unsigned)-(n+1))+1;
 	else
-	{	m = n;
-		if (sign)
-			m = -m;
-	}
+		m = n;
 
 	do
 	{ /* generate digits in reverse order */
@@ -119,14 +113,10 @@ void fill_itoa(int n, char s[], int fill)
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
 	unsigned m;
 	
-
-	if (n==-n)
+	if (sign)
 		m = ((unsigned)-(n+1))+1;
 	else
-	{	m = n;
-		if (sign)
-			m = -m;
-	}
+		m = n;
 
 	do { /* generate digits in reverse order */
 		s[i++] = m % 10 + '0'; /* get next digit */
