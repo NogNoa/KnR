@@ -23,6 +23,20 @@ char * strcat(char s[], char t[])
 	return s;
 }
 
+// Ritchie, D. and Kernighan, W. (1988) p64
+
+int strindex_1st(char s[], char t[])
+{	/* strindex: return index of t in s, -1 if none */
+	int i, j, k;
+	for (i = 0; s[i] != '\0'; i++) {
+		for (j=i, k=0; t[k]!='\0' && s[j]==t[k]; j++, k++)
+			;
+		if (k > 0 && t[k] == '\0')
+			return i;
+	}
+	return -1;
+}
+
 // original
 
 char * set(char s[]);
@@ -64,6 +78,10 @@ int any(char s1[], char s2[])
 	return -1; 
 }
 
+/* todo: for some reason in any() s1 includes both s2 and one space charecter (regardless of how much were entered at console), 
+such that instead of -1 on fail, the function returns the index of the start of s2
+*/
+
 char * set(char s[])
 { /* set: delete any repetition in s */
 	int i, j;
@@ -87,6 +105,41 @@ char * set(char s[])
 	return s;
 }
 
-/* todo: for some reason in any() s1 includes both s2 and one space charecter (regardless of how much were entered at console), 
-such that instead of -1 on fail, the function returns the index of the start of s2
-*/
+int charindex_last(char s[],char t)
+{ //returns the position of the rightmost occurrence of t in s
+	int back=-1;
+	char c;
+
+	for (int i;(c=s[i]) != 0;++i)
+	{	if (c==t)
+			back=i;
+	}
+	return back;
+
+}
+
+int charindex_1st(char s[],char t)
+{ //returns the position of the rightmost occurrence of t in s
+	char c;
+	int i=0;
+
+	for (i;(c=s[i]) != 0;++i)
+	{	if (c==t)
+			return i;
+	}
+	return -1;
+
+}
+
+int strindex_last(char s[], char t[])
+{	/* strindex: return index of last t in s, -1 if none */
+	int i, j, k,back=-1;
+
+	for (i = 0; s[i] != '\0'; i++) {
+		for (j=i, k=0; t[k]!='\0' && s[j]==t[k]; j++, k++)
+			;
+		if (k > 0 && t[k] == '\0')
+			back=i;
+	}
+	return back;
+}
