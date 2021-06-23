@@ -56,7 +56,7 @@ int htoi(char s[])
 }
 
 void itoa(int n, char s[])
-{ /* itoa: convert n to characters in s */
+{ /* itoa: convert n to string in s */
 	int i=0;
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
 	unsigned m;
@@ -77,7 +77,7 @@ void itoa(int n, char s[])
 }
 
 short itob(int n, char s[], short b)
-{ /* itoa: convert n to characters in s */
+{ /* itoa: convert n to base b string in s */
 	int i=0;
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
 	short digit;
@@ -108,7 +108,7 @@ short itob(int n, char s[], short b)
 }
 
 void fill_itoa(int n, char s[], int fill)
-{
+{ /* itoa: convert n to string od length fill in s*/
 	int i=0;
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
 	unsigned m;

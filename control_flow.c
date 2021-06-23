@@ -35,7 +35,7 @@ void reverse(char s[])
 //Original
 
 void escape(char s[], char t[])
-{
+{ //replace any special charecter with it's escape equivalent
 	char c;
 	int j = 0;
 	for (int i=0;(c = t[i]) != 0;++i){
@@ -64,7 +64,7 @@ void escape(char s[], char t[])
 }
 
 void descape(char s[], char t[])
-{
+{ //replace any escape charecter with it's special charecter equivalent
 	char c;
 	int j = 0;
 	for (int i=0;(c = t[i]) != 0;++i){
