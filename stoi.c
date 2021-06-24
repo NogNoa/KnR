@@ -32,6 +32,30 @@ void KnR_itoa(int n, char s[])
 	reverse(s);
 }
 
+// Ritchie, D. and Kernighan, W. (1988) p65
+
+double KnR_atof(char s[])
+{	/* atof: convert string s to double */
+	double val, power;
+	int i, sign;
+	
+	for (i = 0; isspace(s[i]); i++) /* skip white space */
+		;
+	sign = (s[i] == '-') ? -1 : 1;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	for (val = 0.0; isdigit(s[i]); i++)
+		val = 10.0 * val + (s[i] - '0');
+	if (s[i] == '.')
+		i++;
+	for (power = 1.0; isdigit(s[i]); i++) 
+	{	val = 10.0 * val + (s[i] - '0');
+		power *= 10;
+	}
+	return sign * val / power;
+}
+
+
 // original
 
 int htoi(char s[])
@@ -55,6 +79,7 @@ int htoi(char s[])
 	return n;
 }
 
+
 void itoa(int n, char s[])
 { /* itoa: convert n to string in s */
 	int i=0;
@@ -75,6 +100,7 @@ void itoa(int n, char s[])
 	s[i] = '\0';
 	reverse(s);
 }
+
 
 short itob(int n, char s[], short b)
 { /* itoa: convert n to base b string in s */
@@ -107,6 +133,7 @@ short itob(int n, char s[], short b)
 	return 0;
 }
 
+
 void fill_itoa(int n, char s[], int fill)
 { /* itoa: convert n to string od length fill in s*/
 	int i=0;
@@ -130,10 +157,10 @@ void fill_itoa(int n, char s[], int fill)
 }
 
 
-//now it prints the minimal negative correctly even with power of 2 base
-//but prints zero as -0 which is technicaly not wrong
-
 char lower(char s)
 { /* lower: if it's a capital letter, returns it's minuscule */
 	return ((s>'A') && (s<'Z')) ? (s+'a'-'A') : s;
 }
+
+
+
