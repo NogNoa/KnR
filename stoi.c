@@ -177,8 +177,8 @@ double tentothe(double power, int sign)
 
 double sci_atof(char s[])
 {	/* atof: convert string s to double */
-	double val, power=1.;
-	int i, sign, pow_sign=1;
+	double val, tens=1.;
+	int i, sign, pow_sign=1, power=0;
 	
 	for (i = 0; isspace(s[i]); i++) /* skip white space */
 		;
@@ -187,22 +187,18 @@ double sci_atof(char s[])
 		i++;
 	for (val = 0.0; isdigit(s[i]); i++)
 		val = 10.0 * val + (s[i] - '0');
+
 	if (s[i] == 'e' || s[i] == 'E')
-		{	i++;
-			if (isdigit(s[i]))
-				power=0.;
-		}
+			i++;
+	
 	if (s[i] == '-')
-	{
-		pow_sign=-1;
+	{	pow_sign=-1;
 		i++;
-		if (isdigit(s[i]))
-				power=0.;
 	}
 	for (; isdigit(s[i]); i++) 
 	{	power = 10.0 * power + (s[i] - '0');
 	}
-	power = tentothe(power, pow_sign);
-	return sign * val * power;
+	tens *= tentothe(power, pow_sign);
+	return sign * val * tens;
 }
 

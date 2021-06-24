@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
    
     a=strindex_last(s,"ca");
     b=strindex_1st(s,"ab");
-    c=sci_atof("-314159265359e-11");
-    d=sci_atof("314159265359e-11");
+    c=sci_atof("-314.159265359e-2");
+    d=sci_atof("31415.9265359e-4");
 
     printf("%d %d %f %f \n",a,b,c,d);
     
