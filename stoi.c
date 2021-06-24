@@ -29,7 +29,7 @@ void KnR_itoa(int n, char s[])
 	if (sign < 0)
 		s[i++] = '-';
 	s[i] = '\0';
-	reverse(s);
+	reverse(s); //defined in control_flow.c
 }
 
 // Ritchie, D. and Kernighan, W. (1988) p65
@@ -162,5 +162,47 @@ char lower(char s)
 	return ((s>'A') && (s<'Z')) ? (s+'a'-'A') : s;
 }
 
+double tentothe(double power, int sign)
+{ 	// return 10 ^ (sign * power)
+	double back=1;
 
+	if (sign > 0)
+		for (;power>0;--power)
+			back *= 10;
+	else
+		for (;power>0;--power)
+			back /= 10;
+	return back;
+}
+
+double sci_atof(char s[])
+{	/* atof: convert string s to double */
+	double val, power=1.;
+	int i, sign, pow_sign=1;
+	
+	for (i = 0; isspace(s[i]); i++) /* skip white space */
+		;
+	sign = (s[i] == '-') ? -1 : 1;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	for (val = 0.0; isdigit(s[i]); i++)
+		val = 10.0 * val + (s[i] - '0');
+	if (s[i] == 'e' || s[i] == 'E')
+		{	i++;
+			if (isdigit(s[i]))
+				power=0.;
+		}
+	if (s[i] == '-')
+	{
+		pow_sign=-1;
+		i++;
+		if (isdigit(s[i]))
+				power=0.;
+	}
+	for (; isdigit(s[i]); i++) 
+	{	power = 10.0 * power + (s[i] - '0');
+	}
+	power = tentothe(power, pow_sign);
+	return sign * val * power;
+}
 
