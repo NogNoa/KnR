@@ -2,11 +2,11 @@
 /* 	comment:	cmnt
 			1 line-comment 
 			2 multiline comment
-	quoute:		qt
-			1 single qoute char
-			2 double qoute string
+	quote:		qt
+			1 single quote char
+			2 double quote string
 	closing:	cls
-			1 parenteses
+			1 parentheses
 			2 brackets
 			4 braces
 */
@@ -22,7 +22,7 @@ char pcls = 1;
 _Bool delay_cmnt;
 
 
-char main()
+int main()
 {
 	char c;
 	
@@ -41,7 +41,7 @@ char main()
 	pcls--;
 	putchar(cls[pcls]);
 	printf(" %d\n",pcls);
-	return cls;
+	return pcls;
 }
 
 void cmnt_inpt(char c)
@@ -82,7 +82,8 @@ void check_close(char c)
 		--pcls;
 }
 
-/*well maybe a state machine design to begin with would have been better, but now we just have to make sure comnt and qoute state are exclusive
-		 and make the closing into a stack. 
+/* well maybe a state machine design to begin with would have been better,
+   but now we just have to make sure cmnt and qt state are exclusive and
+   make the closing into a stack.
 done: manage escape '\'
 */

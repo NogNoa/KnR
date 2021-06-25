@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int KnR_getline(char s[], int lim)
-{  // read a line into s, return lenght
+{  // read a line into s, return length
 
 	int c, i;
 
@@ -26,7 +26,7 @@ void copy(char to[], char from[])
 // original
 
 _Bool pascal_getline(char s[], int lim)
-{ // give a line with length in the begining
+{ // give a line with length in the beginning
 		// high byte is ones-complement, hence breaks at lengths > 0xFEFF = 65279
 
 	char c;

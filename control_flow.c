@@ -35,7 +35,7 @@ void reverse(char s[])
 //Original
 
 void escape(char s[], char t[])
-{ //replace any special charecter with it's escape equivalent
+{ //replace any special character with it's escape equivalent
 	char c;
 	int j = 0;
 	for (int i=0;(c = t[i]) != 0;++i){
@@ -64,7 +64,7 @@ void escape(char s[], char t[])
 }
 
 void descape(char s[], char t[])
-{ //replace any escape charecter with it's special charecter equivalent
+{ //replace any escape character with it's special character equivalent
 	char c;
 	int j = 0;
 	for (int i=0;(c = t[i]) != 0;++i){
@@ -136,12 +136,12 @@ void expand(char s1[],char s2[])
 
 /*	v SOF-
 	v -EOF 
-	v -- 	beheviour: the second - is used as literal and doesn't cause expension
-	v !---A beheviour: acts as !-- and than --A
+	v -- 	behaviour: the second - is used as literal and doesn't cause expansion
+	v !---A behaviour: acts as !-- and than --A
 	v " -A" == " !"#$%&'()*+,-...A"
 	v "z- " == "z{|}~ "
 	v a-b-c 
-	v c-a 	beheviour: expands to nothing.
+	v c-a 	behaviour: expands to nothing.
 */
 
 int binsearch(int x, int v[], int n)

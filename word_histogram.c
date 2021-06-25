@@ -18,6 +18,8 @@ int main()
 
 	mxlen = measure(hest);
     
+    expose_hor(hest, mxlen);
+    printf("\n--$$--\n\n");
 	expose_ver(hest, mxlen);
 
 	return 0;

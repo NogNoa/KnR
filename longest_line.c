@@ -37,7 +37,7 @@ int main()
     {
         if (len == MAXLINE-1 && line[MAXLINE-2] != '\n')
         {   
-            line[MAXLINE-1] = '\n'; line[MAXLINE] = '\0';
+            line[MAXLINE-2] = '\n';
             do {
             	len += (dumlen = KnR_getline(dummy, MAXLINE));
             } while(dummy[dumlen-1] != '\n');

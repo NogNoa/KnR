@@ -13,7 +13,7 @@ unsigned KnR_getbits(unsigned x, int p, int n)
 # endif
 
 unsigned getbits(unsigned x, int p, int n)
-{ /* getbits: get n bits from position p, sansibely, that is from right to left */
+{ /* getbits: get n bits from position p, sensibly, that is from right to left */
 	return ((x >> p) & ~(~0 << n));
 }
 

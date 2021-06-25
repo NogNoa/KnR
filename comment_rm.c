@@ -3,8 +3,8 @@
 			1 line-comment 
 			2 multiline comment
 	quote:		qt
-			1 single qoute char
-			2 double qoute string
+			1 single quote char
+			2 double quote string
 */
 
 void cmnt_inpt(char c);

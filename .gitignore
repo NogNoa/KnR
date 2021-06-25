@@ -11,3 +11,5 @@ x.c
 pep-8.htm
 array.c
 Heatfield word histogram.c
+.idea/
+.vscode/

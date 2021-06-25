@@ -11,7 +11,7 @@ char * squeeze(char s[], int c)
 	return s;
 }
 
-char * strcat(char s[], char t[])
+char * KnR_strcat(char s[], char t[])
 { /* strcat: concatenate t to end of s; s must be big enough */
 	int i, j;
 
@@ -42,7 +42,7 @@ int strindex_1st(char s[], char t[])
 char * set(char s[]);
 
 char * squeeze_multi(char s1[], char s2[])
-{ /* squeeze multi: delete any charecters from s2 in s1 */
+{ /* squeeze multi: delete any characters from s2 in s1 */
 	int i, j;
 	_Bool cp;
 
@@ -66,7 +66,7 @@ char * squeeze_multi(char s1[], char s2[])
 }
 
 int any(char s1[], char s2[])
-{ /* any: return the first time a charecter from s2 appears in s1 */
+{ /* any: return the first time a character from s2 appears in s1 */
 	
 	set(s2);
 	for (int i = 0;s1[1] != '\0';i++)
@@ -78,7 +78,7 @@ int any(char s1[], char s2[])
 	return -1; 
 }
 
-/* todo: for some reason in any() s1 includes both s2 and one space charecter (regardless of how much were entered at console), 
+/* todo: for some reason in any() s1 includes both s2 and one space character (regardless of how many were entered at console),
 such that instead of -1 on fail, the function returns the index of the start of s2
 */
 
@@ -110,7 +110,7 @@ int charindex_last(char s[],char t)
 	int back=-1;
 	char c;
 
-	for (int i;(c=s[i]) != 0;++i)
+	for (int i=0;(c=s[i]) != 0;++i)
 	{	if (c==t)
 			back=i;
 	}
@@ -123,7 +123,7 @@ int charindex_1st(char s[],char t)
 	char c;
 	int i=0;
 
-	for (i;(c=s[i]) != 0;++i)
+	for (;(c=s[i]) != 0;++i)
 	{	if (c==t)
 			return i;
 	}
