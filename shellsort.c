@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 void shellsort(int v[], int n)
-{ /* shellsort: sort v[0] to v[n-1] into increasing order */
+{ /* shell-sort: sort v[0] to v[n-1] into increasing order */
 	int gap, i, j, temp;
 
 	for (gap = n/2; gap > 0; gap /= 2)
@@ -17,11 +17,13 @@ void shellsort(int v[], int n)
 
 int main(){
 
-	int TeXt[10] = (int) "bmkTDWmTqD";
+    char text[10] = "bmkTDWmTqD";
+    int TeXt[10];
 
+    TeXt[0]= (int) *text;
 	shellsort(TeXt, 10);
-	TeXt = (char) TeXt;
-	printf("%s", TeXt);
+	text = (char) *TeXt;
+	printf("%s", text);
 	
 	return 0;
 }
