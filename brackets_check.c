@@ -22,7 +22,7 @@ char pcls = 1;
 _Bool delay_cmnt;
 
 
-int main()
+char* main()
 {
 	char c;
 	
@@ -41,7 +41,7 @@ int main()
 	pcls--;
 	putchar(cls[pcls]);
 	printf(" %d\n",pcls);
-	return pcls;
+	return cls;
 }
 
 void cmnt_inpt(char c)
