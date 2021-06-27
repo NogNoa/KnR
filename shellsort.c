@@ -20,9 +20,11 @@ int main(){
     char text[10] = "bmkTDWmTqD";
     int TeXt[10];
 
-    TeXt[0]= (int) *text;
+	for (int i;i<10;++i)
+		TeXt[i] = (int) text[i];
 	shellsort(TeXt, 10);
-	text = (char) *TeXt;
+	for (int i;i<10;++i)
+		text[i] = (char) TeXt[i];	
 	printf("%s", text);
 	
 	return 0;
