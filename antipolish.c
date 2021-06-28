@@ -7,9 +7,9 @@
 int getop(char []);
 void push(double);
 double pop(void);
-/* reverse Polish calculator */
+
 main()
-{
+{	/* reverse Polish calculator */
 	int type;
 	double op2;
 	char s[MAXOP];
@@ -50,6 +50,7 @@ main()
 int sp = 0; /* next free stack position */
 double val[MAXVAL]; /* value stack */
 /* push: push f onto value stack */
+
 void push(double f)
 {
 	if (sp < MAXVAL)
@@ -66,4 +67,30 @@ double pop(void)
 		printf("error: stack empty\n");
 		return 0.0;
 	}
+}
+
+#include <ctype.h>
+int getch(void);
+void ungetch(int);
+
+int getop(char s[])
+{	/* getop: get next character or numeric operand */
+	int i, c;
+	while ((s[0] = c = getch()) == ' ' || c == '\t')
+	;
+	s[1] = '\0';
+	if (!isdigit(c) && c != '.')
+	return c; /* not a number */
+	i = 0;
+	if (isdigit(c)) /* collect integer part */
+	while (isdigit(s[++i] = c = getch()))
+	;
+	if (c == '.') /* collect fraction part */
+	71
+	while (isdigit(s[++i] = c = getch()))
+	;
+	s[i] = '\0';
+	if (c != EOF)
+	ungetch(c);
+	return NUMBER;
 }
