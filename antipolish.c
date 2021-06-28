@@ -37,6 +37,8 @@ int main()
 			break;
 			case '\n':
 				printf("\t%.8g\n", pop(0));
+				while (pop(-27.37) != -27.37)
+					; //hey what are the odds of -27.37 being on the stack?
 			break;
 			default:
 				printf("error: unknown command %s\n", s);
@@ -121,13 +123,41 @@ void ungetch(int c)
 
 /* 
 how to input negative numbers
+ 3 - 4 == 3 4 -
 -3 + 4 == 3 - 4 +
 -3 - 4 == 3 - 4 -
 -3 * 4 == 3 - 4 *
 -3 * -4 == 3 - 0 4 - * (could be better)
-3 * -4 == 4 - * 3 (could be better)
+ 3 * -4 == 4 - * 3 == 3 0 4 - * (could be better)
 (-3)/4 == 3 - 4 /
 3/(-4) == 3 0 4 - / (could be better)
 (-3)/(-4) == 3 - 0 4 - / (could be better)
--(3/4) == 3 / 4 - 
+-(3/4) == 3 4 / - 
+
+strictly unary -
+
+ 3 - 4 == 3 4 - +
+-3 + 4 == 3 - 4 +
+-3 - 4 == 3 - 4 - +
+-3 * 4 == 3 - 4 *
+-3 * -4 == 3 - 4 - *
+ 3 * -4 == 3 4 - *
+(-3)/4 == 3 - 4 /
+3/(-4) == 3 4 - /
+(-3)/(-4) == 3 - 4 - /
+-(3/4) == 3 4 / -
+
+both negative constants and binary subtraction 
+(only assumed most idiomatic option)
+
+ 3 - 4 == 3 4 - 
+-3 + 4 == -3 4 +
+-3 - 4 == -3 4 - 
+-3 * 4 == -3 4 *
+-3 * -4 == -3 -4 *
+ 3 * -4 == 3 -4 *
+(-3)/4 == -3 4 /
+3/(-4) == 3 -4 /
+(-3)/(-4) == -3 -4 /
+-(3/4) == 0 3 4 / -
 */
