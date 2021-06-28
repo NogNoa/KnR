@@ -66,7 +66,6 @@ double pop(float idntt)
 	if (sp > 0)
 		return val[--sp];
 	else {
-		printf("error: stack empty\n");
 		return idntt; /* element of identity: 0.0 for +-, 1.0 for */
 	}
 }
@@ -119,3 +118,16 @@ void ungetch(int c)
 	else
 		buf[bufp++] = c;
 }
+
+/* 
+how to input negative numbers
+-3 + 4 == 3 - 4 +
+-3 - 4 == 3 - 4 -
+-3 * 4 == 3 - 4 *
+-3 * -4 == 3 - 0 4 - * (could be better)
+3 * -4 == 4 - * 3 (could be better)
+(-3)/4 == 3 - 4 /
+3/(-4) == 3 0 4 - / (could be better)
+(-3)/(-4) == 3 - 0 4 - / (could be better)
+-(3/4) == 3 / 4 - 
+*/
