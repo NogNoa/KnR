@@ -6,9 +6,9 @@
 #define NUMBER '0' /* signal that a number was found */
 int getop(char []);
 void push(double);
-double pop(void);
+double pop(float idntt);
 
-main()
+int main()
 {	/* reverse Polish calculator */
 	int type;
 	double op2;
@@ -36,7 +36,7 @@ main()
 					printf("error: zero divisor\n");
 			break;
 			case '\n':
-				printf("\t%.8g\n", pop());
+				printf("\t%.8g\n", pop(0));
 			break;
 			default:
 				printf("error: unknown command %s\n", s);
@@ -59,13 +59,13 @@ void push(double f)
 		printf("error: stack full, can't push %g\n", f);
 }
 
-double pop(_bool idntt)
+double pop(float idntt)
 {	/* pop: pop and return top value from stack */
 	if (sp > 0)
 		return val[--sp];
 	else {
 		printf("error: stack empty\n");
-		return (float) idntt; /* element of identity: 0 for +-, 1 for */
+		return idntt; /* element of identity: 0.0 for +-, 1.0 for */
 	}
 }
 
