@@ -19,19 +19,19 @@ main()
 				push(atof(s));
 			break;
 			case '+':
-				push(pop() + pop());
+				push(pop(0) + pop(0));
 			break;
 			case '*':
-				push(pop() * pop());
+				push(pop(1) * pop(1));
 			break;
 			case '-':
-				op2 = pop();
-				push(pop() - op2);
+				op2 = pop(0);
+				push(pop(0) - op2);
 			break;
 			case '/':
-				op2 = pop();
+				op2 = pop(1);
 				if (op2 != 0.0)
-					push(pop() / op2);
+					push(pop(1) / op2);
 				else
 					printf("error: zero divisor\n");
 			break;
@@ -59,13 +59,13 @@ void push(double f)
 		printf("error: stack full, can't push %g\n", f);
 }
 
-double pop(void)
+double pop(_bool idntt)
 {	/* pop: pop and return top value from stack */
 	if (sp > 0)
 		return val[--sp];
 	else {
 		printf("error: stack empty\n");
-		return 0.0;
+		return (float) idntt; //0 for +,- 1 for *,/
 	}
 }
 
