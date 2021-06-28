@@ -46,6 +46,7 @@ int main()
 	return 0;
 }
 
+
 #define MAXVAL 100 /* maximum depth of val stack */
 int sp = 0; /* next free stack position */
 double val[MAXVAL]; /* value stack */
@@ -59,6 +60,7 @@ void push(double f)
 		printf("error: stack full, can't push %g\n", f);
 }
 
+
 double pop(float idntt)
 {	/* pop: pop and return top value from stack */
 	if (sp > 0)
@@ -69,18 +71,22 @@ double pop(float idntt)
 	}
 }
 
+
 #include <ctype.h>
 int getch(void);
 void ungetch(int);
 
+
 int getop(char s[])
 {	/* getop: get next character or numeric operand */
 	int i, c;
-		while ((s[0] = c = getch()) == ' ' || c == '\t')
-			;
-	s[1] = '\0';
+	
+	while ((s[0] = c = getch()) == ' ' || c == '\t')
+		;
 	if (!isdigit(c) && c != '.')
+	{	s[1] = '\0';
 		return c; /* not a number */
+	}
 	i = 0;
 	if (isdigit(c)) /* collect integer part */
 		while (isdigit(s[++i] = c = getch()))
@@ -94,14 +100,18 @@ int getop(char s[])
 	return NUMBER;
 }
 
+
 #define BUFSIZE 100
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
+
 
 int getch(void) 
 {	/* get a (possibly pushed-back) character */
 	return (bufp > 0) ? buf[--bufp] : getchar();
 }
+
+
 void ungetch(int c) 
 {	/* push character back on input */
 	if (bufp >= BUFSIZE)
