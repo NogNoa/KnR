@@ -37,8 +37,6 @@ int main()
 			break;
 			case '\n':
 				printf("\t%.8g\n", pop(0));
-				while (pop(-27.37) != -27.37)
-					; //hey what are the odds of -27.37 being on the stack?
 			break;
 			default:
 				printf("error: unknown command %s\n", s);
@@ -160,4 +158,20 @@ both negative constants and binary subtraction
 3/(-4) == 3 -4 /
 (-3)/(-4) == -3 -4 /
 -(3/4) == 0 3 4 / -
+
+both negative constants and binary subtraction (strictly suffixial)
+(only assumed most idiomatic option)
+
+				;space change meaning to; no space 
+ 3 - 4 == 3 4 - ;;nop
+-3 + 4 == 3- 4 + 
+-3 - 4 == 3- 4 - ;;nop
+-3 * 4 == 3- 4 * 
+-3 * -4 == 3- 4- * ; 3- 4- + 
+ 3 * -4 == 3 4- * ; 3 4 -
+(-3)/4 == 3- 4 / 
+3/(-4) == 3 4- / ; 1 3 4 - /
+(-3)/(-4) == 3- 4- / ; 1 3- 4 - / 
+-(3/4) == 0 3 4 / - 
+
 */
