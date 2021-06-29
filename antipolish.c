@@ -1,4 +1,5 @@
 // Ritchie, D. and Kernighan, W. (1988) p69
+//freely edited
 
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
@@ -7,7 +8,7 @@
 #define ANS '1' /* signal for the last output */
 int getop(char []);
 void push(double);
-double pop(float idntt);
+double pop(_Bool idntt);
 void fifo_pop_all(void);
 double ans=0;
 
@@ -88,17 +89,19 @@ int getop(char s[])
 	while ((s[0] = c = getch()) == ' ' || c == '\t')
 		;
 	s[1] = '\0';
-	if (!isdigit(c) && c != '.' && c != '_')	
-		return c; /* not a number */
-	if (c == '_')
+	if (c == '_')  /* collect the last-answer charecter */
 		return ANS;
-	i = 0;
+	if (!isdigit(c) && c != '.')	
+		return c; /* not a number */
+	s[1]=' ';i = 2;
 	if (isdigit(c)) /* collect integer part */
 		while (isdigit(s[++i] = c = getch()))
 			;
 	if (c == '.') /* collect fraction part */
 		while (isdigit(s[++i] = c = getch()))
 			;
+	if ((c = getch()) == '-')
+		s[1] = '-';
 	s[i] = '\0';
 	if (c != EOF)
 		ungetch(c);
@@ -177,16 +180,16 @@ both negative constants and binary subtraction
 both negative constants and binary subtraction (strictly suffixial)
 (only assumed most idiomatic option)
 
-				;space change meaning to; no space 
- 3 - 4 == 3 4 - ;;nop
--3 + 4 == 3- 4 + 
--3 - 4 == 3- 4 - ;;nop
--3 * 4 == 3- 4 * 
--3 * -4 == 3- 4- * ; 3- 4- + 
- 3 * -4 == 3 4- * ; 3 4 -
-(-3)/4 == 3- 4 / 
-3/(-4) == 3 4- / ; 1 3 4 - /
-(-3)/(-4) == 3- 4- / ; 1 3- 4 - / 
--(3/4) == 0 3 4 / - 
+				 ;actual answer;space change meaning to; no space 
+ 3 - 4 == 3 4 -  ;-1;;3 -4
+-3 + 4 == 3- 4 + ;1;1
+-3 - 4 == 3- 4 - ;-7;-7;-3 -4
+-3 * 4 == 3- 4 * ;-12;-12
+-3 * -4 == 3- 4- * ;12;-7 
+ 3 * -4 == 3 4- * ;-12;-1
+(-3)/4 == 3- 4 / ;-.75;-.75
+3/(-4) == 3 4- / ;-.75;-1
+(-3)/(-4) == 3- 4- / ;.75;1/-7
+-(3/4) == 0 3 4 / - ;-.75;;
 
 */
