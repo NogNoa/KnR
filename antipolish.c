@@ -4,10 +4,12 @@
 #include <stdlib.h> /* for atof() */
 #define MAXOP 100 /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
+#define ANS '1' /* signal for the last output */
 int getop(char []);
 void push(double);
 double pop(float idntt);
 void fifo_pop_all(void);
+double ans=0;
 
 int main()
 {	/* reverse Polish calculator */
@@ -18,6 +20,9 @@ int main()
 		switch (type) {
 			case NUMBER:
 				push(atof(s));
+			break;
+			case ANS:
+				push(ans);
 			break;
 			case '+':
 				push(pop(0) + pop(0));
@@ -62,12 +67,12 @@ void push(double f)
 }
 
 
-double pop(float idntt)
+double pop(_Bool idntt)
 {	/* pop: pop and return top value from stack */
 	if (sp > 0)
 		return val[--sp];
 	else {
-		return idntt; /* element of identity: 0.0 for +-, 1.0 for */
+		return (double) idntt; /* element of identity: 0.0 for +-, 1.0 for */
 	}
 }
 
@@ -76,17 +81,17 @@ double pop(float idntt)
 int getch(void);
 void ungetch(int);
 
-
 int getop(char s[])
 {	/* getop: get next character or numeric operand */
 	int i, c;
 	
 	while ((s[0] = c = getch()) == ' ' || c == '\t')
 		;
-	if (!isdigit(c) && c != '.')
-	{	s[1] = '\0';
+	s[1] = '\0';
+	if (!isdigit(c) && c != '.' && c != '_')	
 		return c; /* not a number */
-	}
+	if (c == '_')
+		return ANS;
 	i = 0;
 	if (isdigit(c)) /* collect integer part */
 		while (isdigit(s[++i] = c = getch()))
@@ -124,7 +129,7 @@ void fifo_pop_all(void)
 {
 	putchar('\t');
 	for (int i=0;i<sp;++i)
-		printf("%.8g ",val[i]);
+		printf("%.8g ",(ans =val[i]));
 	putchar('\n');
 	sp = 0;
 }
