@@ -7,6 +7,7 @@
 int getop(char []);
 void push(double);
 double pop(float idntt);
+void fifo_pop_all(void);
 
 int main()
 {	/* reverse Polish calculator */
@@ -36,7 +37,7 @@ int main()
 					printf("error: zero divisor\n");
 			break;
 			case '\n':
-				printf("\t%.8g\n", pop(0));
+				fifo_pop_all();
 			break;
 			default:
 				printf("error: unknown command %s\n", s);
@@ -117,6 +118,15 @@ void ungetch(int c)
 		printf("ungetch: too many characters\n");
 	else
 		buf[bufp++] = c;
+}
+
+void fifo_pop_all(void)
+{
+	putchar('\t');
+	for (int i=0;i<sp;++i)
+		printf("%.8g ",val[i]);
+	putchar('\n');
+	sp = 0;
 }
 
 /* 
