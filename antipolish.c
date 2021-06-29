@@ -146,7 +146,7 @@ void fifo_pop_all(void)
 
 double fmod(double dend,double sor)
 {
-	return dend - (dend / sor) * sor;
+	return dend - ((int) ( dend / sor)) * sor;
 }
 
 /* 
@@ -211,17 +211,10 @@ both negative constants and binary subtraction (strictly suffixial)
 g*(c+d) + (e+f) = (a+b)
 (a+b) - g(c+d) = (e+f)
 
-fmod(a,c)
-{
-	g = a // c
-	back = a - g * c
-	return back
-}
+floor (7.2 / 3.5) = 2
+7.2 % 3.5 = .2
+7 % 3 = 1
+7.2 - 3.5 = 3.7
+7.2 - 3.5 * 2=.2 
 
-double fmod(dend,sor)
-{
-	floor = dend / sor
-	back = dend - floor * sor
-	return back
-}
 */
