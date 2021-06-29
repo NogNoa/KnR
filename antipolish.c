@@ -10,13 +10,13 @@ int getop(char []);
 void push(double);
 double pop(_Bool idntt);
 void fifo_pop_all(void);
+double fmod(double dend,double sor);
 double ans=0;
 
 int main()
 {	/* reverse Polish calculator */
 	int type;
 	double op2;
-	int op3;
 	char s[MAXOP];
 	while ((type = getop(s)) != EOF) {
 		switch (type) {
@@ -44,9 +44,9 @@ int main()
 					printf("error: zero divisor\n");
 			break;
 			case '%':
-				op3 = (int) pop(1);
-				if (op3 != 0)
-					push( (int) pop(1) % op3);
+				op2 = pop(1);
+				if (op2 != 0)
+					push(fmod(pop(1),op2));
 				else
 					printf("error: zero divisor\n");			
 			case '\n':
@@ -144,6 +144,11 @@ void fifo_pop_all(void)
 	sp = 0;
 }
 
+double fmod(double dend,double sor)
+{
+	return dend - (dend / sor) * sor;
+}
+
 /* 
 how to input negative numbers
  3 - 4 == 3 4 -
@@ -199,4 +204,24 @@ both negative constants and binary subtraction (strictly suffixial)
 (-3)/(-4) == 3- 4- / ;.75;1/-7
 -(3/4) == 0 3 4 / - ;-.75;;
 
+*/
+/*
+(a+b) % (c+d)= (e+f)
+(a+b) // (c+d) = g
+g*(c+d) + (e+f) = (a+b)
+(a+b) - g(c+d) = (e+f)
+
+fmod(a,c)
+{
+	g = a // c
+	back = a - g * c
+	return back
+}
+
+double fmod(dend,sor)
+{
+	floor = dend / sor
+	back = dend - floor * sor
+	return back
+}
 */
