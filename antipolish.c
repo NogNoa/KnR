@@ -16,6 +16,7 @@ int main()
 {	/* reverse Polish calculator */
 	int type;
 	double op2;
+	int op3;
 	char s[MAXOP];
 	while ((type = getop(s)) != EOF) {
 		switch (type) {
@@ -42,6 +43,12 @@ int main()
 				else
 					printf("error: zero divisor\n");
 			break;
+			case '%':
+				op3 = (int) pop(1);
+				if (op3 != 0)
+					push( (int) pop(1) % op3);
+				else
+					printf("error: zero divisor\n");			
 			case '\n':
 				fifo_pop_all();
 			break;
