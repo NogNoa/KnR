@@ -70,6 +70,12 @@ int main()
 }
 
 
+inline double fmod(double dend,double sor)
+{
+	return dend - floor( dend / sor) * sor;
+}
+
+
 #define MAXVAL 100 /* maximum depth of val stack */
 int sp = 0; /* next free stack position */
 double val[MAXVAL]; /* value stack */
@@ -83,7 +89,6 @@ void push(double f)
 		printf("error: stack full, can't push %g\n", f);
 }
 
-
 double pop(_Bool idntt)
 {	/* pop: pop and return top value from stack */
 	if (sp > 0)
@@ -91,6 +96,39 @@ double pop(_Bool idntt)
 	else {
 		return (double) idntt; /* element of identity: 0.0 for +-, 1.0 for */
 	}
+}
+
+void fifo_print_all(void)
+{
+	putchar('\t');
+	for (int i=0;i<sp;++i)
+		printf("%.8g ",val[i]);
+	putchar('\n');
+}
+
+inline void show(void)
+{
+	printf("%.8g ",val[sp-1]);
+}
+
+void duplicate(void)
+{
+	for (int i=0;i<sp;++i)
+		val[sp+i] = val[i];
+	sp*= 2;
+}
+
+void swap_top(void)
+{
+	double temp;
+	temp = val[sp-1];
+	val[sp-1] = val[sp-2];
+	val[sp-2] = temp;
+}
+
+inline void stack_clear(void)
+{
+	sp=0;
 }
 
 
@@ -129,8 +167,6 @@ int getop(char s[])
 }
 
 void show(void);
-void duplicate(void);
-void swap_top(void);
 void stack_clear(void);
 
 void getcmd(char s[])
@@ -141,7 +177,6 @@ void getcmd(char s[])
 
 	for (i=1;(s[i] = c = getch()) != ' ' && c != '\t' && c!= '\n';++i)
 		;
-	s[i+1]='\0';
 	if (compare(s,"showall"))
 		fifo_print_all();
 	else if (compare(s,"show"))
@@ -170,6 +205,9 @@ void getcmd(char s[])
 		push(abs(pop(0)));
 	else
 		printf("error: literal %s\n", s);
+	s[i+1]='\0';
+	if (c != EOF)
+		ungetch(c);
 }
 
 #define BUFSIZE 100
@@ -189,42 +227,6 @@ void ungetch(int c)
 		printf("ungetch: too many characters\n");
 	else
 		buf[bufp++] = c;
-}
-
-void fifo_print_all(void)
-{
-	putchar('\t');
-	for (int i=0;i<sp;++i)
-		printf("%.8g ",val[i]);
-	putchar('\n');
-}
-
-void show(void)
-{
-	printf("%.8g ",val[sp-1]);
-}
-
-void duplicate(void)
-{
-	for (int i=0;i<sp;++i)
-		val[sp+i] = val[i];
-	sp*= 2;
-}
-void swap_top(void)
-{
-	double temp;
-	temp = val[sp-1];
-	val[sp-1] = val[sp-2];
-	val[sp-2] = temp;
-}
-void stack_clear(void)
-{
-	sp=0;
-}
-
-double fmod(double dend,double sor)
-{
-	return dend - floor( dend / sor) * sor;
 }
 
 /* 
