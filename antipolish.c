@@ -162,6 +162,12 @@ void getcmd(char s[])
 	{	op2=pop(1);
 		push(pow(pop(1),op2));
 	}
+	else if (compare(s, "log"))
+		push(log(pop(1)));
+	else if (compare(s, "sqrt"))
+		push(sqrt(pop(1)));
+	else if (compare(s, "abs"))
+		push(abs(pop(0)));
 	else
 		printf("error: literal %s\n", s);
 }
@@ -218,7 +224,7 @@ void stack_clear(void)
 
 double fmod(double dend,double sor)
 {
-	return dend - ((int) ( dend / sor)) * sor;
+	return dend - floor( dend / sor) * sor;
 }
 
 /* 
