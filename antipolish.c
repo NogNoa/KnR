@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
+#include <math.h> /* for sin, exp, pow, etc. */
 #define MAXOP 100 /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
 #define ANS '1' /* signal for the last output */
@@ -135,6 +136,7 @@ void getcmd(char s[])
 {
 	int i;
 	char c;
+	double op2;
 
 	for (i=1;(s[i] = c = getch()) != ' ' && c != '\t' && c!= '\n';++i)
 		;
@@ -149,6 +151,16 @@ void getcmd(char s[])
 		swap_top();
 	else if (compare (s, "clear"))
 		stack_clear();
+	else if (compare(s, "sin"))
+		push(sin(pop(0)));
+	else if (compare(s, "exp"))
+		push(exp(pop(1)));
+	else if (compare(s, "cos"))
+		push(cos(exp(0)));
+	else if (compare(s, "pow"))
+	{	op2=pop(1);
+		push(pow(pop(1),op2));
+	}
 	else
 		printf("error: literal %s\n", s);
 }
