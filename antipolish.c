@@ -11,6 +11,7 @@
 _Bool compare(char s[], char sh[]); /* from add_remove-string.c */
 int getop(char []);
 void getcmd(char s[]);
+void fifo_print_all(void);
 void push(double);
 double pop(_Bool idntt);
 double fmod(double dend,double sor);
@@ -64,6 +65,7 @@ int main()
 			break;
 		}
 	}
+	fifo_print_all();
 	return 0;
 }
 
@@ -126,7 +128,6 @@ int getop(char s[])
 	return NUMBER;
 }
 
-void fifo_print_all(void);
 void show(void);
 void duplicate(void);
 void swap_top(void);
@@ -156,7 +157,7 @@ void getcmd(char s[])
 	else if (compare(s, "exp"))
 		push(exp(pop(1)));
 	else if (compare(s, "cos"))
-		push(cos(exp(0)));
+		push(cos(pop(0)));
 	else if (compare(s, "pow"))
 	{	op2=pop(1);
 		push(pow(pop(1),op2));
