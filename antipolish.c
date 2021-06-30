@@ -7,7 +7,7 @@
 #define NUMBER '0' /* signal that a number was found */
 #define ANS '1' /* signal for the last output */
 #define CMD '2' /* signal that a alphabetic string was found */
-_Bool compare(char s[], char sh[]);
+_Bool compare(char s[], char sh[]); /* from add_remove-string.c */
 int getop(char []);
 void getcmd(char s[]);
 void push(double);
@@ -103,7 +103,9 @@ int getop(char s[])
 		;
 	s[1] = '\0';
 	if (c == '_')  /* collect the last-answer charecter */
+	{	ans = val[sp-1];
 		return ANS;
+	}
 	if ('a'< c && c < 'z')
 		return CMD;
 	if (!isdigit(c) && c != '.')	
@@ -174,20 +176,32 @@ void fifo_print_all(void)
 {
 	putchar('\t');
 	for (int i=0;i<sp;++i)
-		printf("%.8g ",(ans =val[i]));
+		printf("%.8g ",val[i]);
 	putchar('\n');
 }
 
 void show(void)
 {
-	;
+	printf("%.8g ",val[sp-1]);
 }
+
 void duplicate(void)
-	{;}
+{
+	for (int i=0;i<sp;++i)
+		val[sp+i] = val[i];
+	sp*= 2;
+}
 void swap_top(void)
-	{;}
+{
+	double temp;
+	temp = val[sp-1];
+	val[sp-1] = val[sp-2];
+	val[sp-2] = temp;
+}
 void stack_clear(void)
-	{;}
+{
+	sp=0;
+}
 
 double fmod(double dend,double sor)
 {
