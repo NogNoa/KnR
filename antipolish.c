@@ -157,7 +157,7 @@ void getcmd(char s[])
 	else if (compare(s, "exp"))
 		push(exp(pop(1)));
 	else if (compare(s, "cos"))
-		push(cos(pop(0)));	
+		push(cos(pop(0)));
 	else if (compare(s, "pow"))
 	{	op2=pop(1);
 		push(pow(pop(1),op2));
