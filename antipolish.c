@@ -9,7 +9,7 @@
 int getop(char []);
 void push(double);
 double pop(_Bool idntt);
-void fifo_pop_all(void);
+void fifo_print_all(void);
 double fmod(double dend,double sor);
 double ans=0;
 
@@ -46,11 +46,12 @@ int main()
 			case '%':
 				op2 = pop(1);
 				if (op2 != 0)
-					push(fmod(pop(1),op2));
+					push(fmod(pop(0),op2));
 				else
-					printf("error: zero divisor\n");			
+					printf("error: zero divisor\n");
+			break;		
 			case '\n':
-				fifo_pop_all();
+				printf("\t%.8g\n", pop(0));
 			break;
 			default:
 				printf("error: unknown command %s\n", s);
@@ -135,13 +136,12 @@ void ungetch(int c)
 		buf[bufp++] = c;
 }
 
-void fifo_pop_all(void)
+void fifo_print_all(void)
 {
 	putchar('\t');
 	for (int i=0;i<sp;++i)
 		printf("%.8g ",(ans =val[i]));
 	putchar('\n');
-	sp = 0;
 }
 
 double fmod(double dend,double sor)
