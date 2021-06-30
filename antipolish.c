@@ -136,7 +136,7 @@ void getcmd(char s[])
 {
 	int i;
 	char c;
-	double op2;
+	double op1,op2;
 
 	for (i=1;(s[i] = c = getch()) != ' ' && c != '\t' && c!= '\n';++i)
 		;
@@ -152,14 +152,21 @@ void getcmd(char s[])
 	else if (compare (s, "clear"))
 		stack_clear();
 	else if (compare(s, "sin"))
-		push(sin(pop(0)));
+	{	op1=pop(0);
+		push(sin(op1));		
+	}
 	else if (compare(s, "exp"))
-		push(exp(pop(1)));
+	{	op1=pop(1);
+		push(exp(op1));
+	}
 	else if (compare(s, "cos"))
-		push(cos(exp(0)));
+	{	op1=pop(0);
+		push(cos(op1));		
+	}
 	else if (compare(s, "pow"))
 	{	op2=pop(1);
-		push(pow(pop(1),op2));
+		op1=pop(1);
+		push(pow(op1,op2));
 	}
 	else
 		printf("error: literal %s\n", s);
