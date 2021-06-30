@@ -6,10 +6,12 @@
 #define MAXOP 100 /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
 #define ANS '1' /* signal for the last output */
+#define CMD '2' /* signal that a alphabetic string was found */
+_Bool compare(char s[], char sh[]);
 int getop(char []);
+void getcmd(char s[]);
 void push(double);
 double pop(_Bool idntt);
-void fifo_print_all(void);
 double fmod(double dend,double sor);
 double ans=0;
 
@@ -25,6 +27,9 @@ int main()
 			break;
 			case ANS:
 				push(ans);
+			break;
+			case CMD:
+				getcmd(s);
 			break;
 			case '+':
 				push(pop(0) + pop(0));
@@ -50,7 +55,7 @@ int main()
 				else
 					printf("error: zero divisor\n");
 			break;		
-			case '\n':
+			case '=':
 				printf("\t%.8g\n", pop(0));
 			break;
 			default:
@@ -94,11 +99,13 @@ int getop(char s[])
 {	/* getop: get next character or numeric operand */
 	int i, c;
 	
-	while ((s[0] = c = getch()) == ' ' || c == '\t')
+	while ((s[0] = c = getch()) == ' ' || c == '\t' || c == '\n')
 		;
 	s[1] = '\0';
 	if (c == '_')  /* collect the last-answer charecter */
 		return ANS;
+	if ('a'< c && c < 'z')
+		return CMD;
 	if (!isdigit(c) && c != '.')	
 		return c; /* not a number */
 	s[1]=' ';i = 2;
@@ -116,6 +123,33 @@ int getop(char s[])
 	return NUMBER;
 }
 
+void fifo_print_all(void);
+void show(void);
+void duplicate(void);
+void swap_top(void);
+void stack_clear(void);
+
+void getcmd(char s[])
+{
+	int i;
+	char c;
+
+	for (i=1;(s[i] = c = getch()) != ' ' && c != '\t' && c!= '\n';++i)
+		;
+	s[i+1]='\0';
+	if (compare(s,"showall"))
+		fifo_print_all();
+	else if (compare(s,"show"))
+		show();
+	else if (compare(s,"dupp"))
+		duplicate();
+	else if (compare(s,"swap"))
+		swap_top();
+	else if (compare (s, "clear"))
+		stack_clear();
+	else
+		printf("error: literal %s\n", s);
+}
 
 #define BUFSIZE 100
 char buf[BUFSIZE]; /* buffer for ungetch */
@@ -143,6 +177,17 @@ void fifo_print_all(void)
 		printf("%.8g ",(ans =val[i]));
 	putchar('\n');
 }
+
+void show(void)
+{
+	;
+}
+void duplicate(void)
+	{;}
+void swap_top(void)
+	{;}
+void stack_clear(void)
+	{;}
 
 double fmod(double dend,double sor)
 {
