@@ -140,9 +140,9 @@ int getop(char s[])
 {	/* getop: get next character or numeric operand */
 	int i, c;
 	
-	while ((s[0] = c = getch()) == ' ' || c == '\t' || c == '\n')
+	while ((s[1] = c = getch()) == ' ' || c == '\t' || c == '\n')
 		;
-	s[1] = '\0';
+	s[2] = '\0';
 	if (c == '_')  /* collect the last-answer charecter */
 	{	ans = val[sp-1];
 		return ANS;
@@ -151,7 +151,7 @@ int getop(char s[])
 		return CMD;
 	if (!isdigit(c) && c != '.')	
 		return c; /* not a number */
-	s[1]=' ';i = 2;
+	s[0]=' ';i = 1;
 	if (isdigit(c)) /* collect integer part */
 		while (isdigit(s[++i] = c = getch()))
 			;
@@ -159,7 +159,7 @@ int getop(char s[])
 		while (isdigit(s[++i] = c = getch()))
 			;
 	if ((c = getch()) == '-')
-		s[1] = '-';
+		s[0] = '-';
 	s[i] = '\0';
 	if (c != EOF)
 		ungetch(c);
