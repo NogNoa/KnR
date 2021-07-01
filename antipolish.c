@@ -174,7 +174,7 @@ void getcmd(char s[])
 	char c;
 	double op2;
 
-	for (i=1;(s[i] = c = getch()) != ' ' && c != '\t' && c!= '\n';++i)
+	for (i=2;(s[i] = c = getch()) != ' ' && c != '\t' && c!= '\n';++i)
 		;
 	if (compare(s,"showall"))
 		fifo_print_all();

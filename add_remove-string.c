@@ -146,11 +146,15 @@ int strindex_last(char s[], char t[])
 
 _Bool compare(char s[], char sh[])
 { /* check if two strings are identical */
-	int i;
+	int i,j;
 
-	for (i = 0; s[i] == sh[i]; i++)
+	for(i=0;s[i] == ' '|| s[i] == '\t';i++)
 		{}
-	if (s[i] == ' ' || s[i] == '\n' ||s[i] == '\t' || s[i] == '\0')
+	for(j=0;sh[j] == ' '|| sh[j] == '\t';j++)
+		{}
+	for (; s[i] == sh[j]; i++,j++)
+		{}
+	if (sh[j] == '\0')
 		return 1;
 	else
 		return 0;
