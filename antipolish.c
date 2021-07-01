@@ -6,9 +6,7 @@
 #include <math.h> /* for sin, exp, pow, etc. */
 #define MAXOP 100 /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
-#define ANS '1' /* signal for the last output */
-#define CMD '2' /* signal that a alphabetic string was found */
-_Bool compare(char s[], char sh[]); /* from add_remove-string.c */
+#define CMD '1' /* signal that a alphabetic string was found */
 int getop(char []);
 void getcmd(char s[]);
 void fifo_print_all(void);
@@ -27,7 +25,7 @@ int main()
 			case NUMBER:
 				push(atof(s));
 			break;
-			case ANS:
+			case '_':
 				push(ans);
 			break;
 			case CMD:
@@ -144,8 +142,6 @@ int getop(char s[])
 	while ((s[1] = c = getch()) == ' ' || c == '\t' || c == '\n')
 		;
 	s[2] = '\0';
-	if (c == '_')  /* collect the last-answer charecter */
-		return ANS;
 	if ('a'< c && c < 'z')
 		return CMD;
 	if (!isdigit(c) && c != '.')	
@@ -165,6 +161,7 @@ int getop(char s[])
 	return NUMBER;
 }
 
+_Bool compare(char s[], char sh[]); /* from add_remove-string.c */
 void show(void);
 void stack_clear(void);
 
