@@ -58,7 +58,7 @@ int main()
 					printf("error: zero divisor\n");
 			break;		
 			case '=':
-				printf("\t%.8g\n", pop(0));
+				printf("\t%.8g\n", (ans=pop(0)));
 			break;
 			default:
 				printf("error: unknown command %s\n", s);
@@ -140,18 +140,17 @@ int getop(char s[])
 {	/* getop: get next character or numeric operand */
 	int i, c;
 	
+	s[0]=' ';
 	while ((s[1] = c = getch()) == ' ' || c == '\t' || c == '\n')
 		;
 	s[2] = '\0';
 	if (c == '_')  /* collect the last-answer charecter */
-	{	ans = val[sp-1];
 		return ANS;
-	}
 	if ('a'< c && c < 'z')
 		return CMD;
 	if (!isdigit(c) && c != '.')	
 		return c; /* not a number */
-	s[0]=' ';i = 1;
+	i = 1;
 	if (isdigit(c)) /* collect integer part */
 		while (isdigit(s[++i] = c = getch()))
 			;
