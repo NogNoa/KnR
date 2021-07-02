@@ -7,8 +7,10 @@
 #define MAXOP 100 /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
 #define CMD '1' /* signal that a alphabetic string was found */
+#define VAR '2' /* signal for the variable management routine */
 int getop(char []);
 void getcmd(char s[]);
+void getvar(char s[]);
 void fifo_print_all(void);
 void push(double);
 double pop(_Bool idntt);
@@ -30,6 +32,9 @@ int main()
 			break;
 			case CMD:
 				getcmd(s);
+			break;
+			case VAR:
+				getvar(s);
 			break;
 			case '+':
 				push(pop(0) + pop(0));
@@ -136,7 +141,8 @@ void ungetch(int);
 
 int getop(char s[])
 {	/* getop: get next character or numeric operand */
-	int i, c;
+	int i;
+	char c;
 	
 	s[0]=' ';
 	while ((s[1] = c = getch()) == ' ' || c == '\t' || c == '\n')
@@ -144,6 +150,8 @@ int getop(char s[])
 	s[2] = '\0';
 	if ('a'< c && c < 'z')
 		return CMD;
+	if ('A'< c && c< 'Z')
+		return VAR;
 	if (!isdigit(c) && c != '.')	
 		return c; /* not a number */
 	i = 1;
@@ -155,11 +163,32 @@ int getop(char s[])
 			;
 	if ((c = getch()) == '-')
 		s[0] = '-';
-	s[i] = '\0';
-	if (c != EOF)
+	else if (c != EOF)
 		ungetch(c);
+	s[i] = '\0';
 	return NUMBER;
 }
+
+_Bool var_able[26];
+float var[26]={0};
+
+void getvar(char s[])
+{
+	char c,v=s[1];
+
+	while ((c = getch()) == ' ' || c == '\t' || c == '\n')
+		;
+	if (c == '$')
+	{	var[v-'A']=pop(0);
+		var_able[v-'A']=1;
+	}
+	else if (var_able[v-'A'])
+		push(var[v-'A']);
+	else if (c != EOF)
+		ungetch(c);
+}
+
+
 
 _Bool compare(char s[], char sh[]); /* from add_remove-string.c */
 void show(void);
