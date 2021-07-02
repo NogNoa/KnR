@@ -161,7 +161,7 @@ int getop(char s[])
 	if (c == '.') /* collect fraction part */
 		while (isdigit(s[++i] = c = getch()))
 			;
-	if ((c = getch()) == '-')
+	if (c == '-')
 		s[0] = '-';
 	else if (c != EOF)
 		ungetch(c);
