@@ -106,12 +106,13 @@ void fifo_print_all(void)
 	putchar('\t');
 	for (int i=0;i<sp;++i)
 		printf("%.8g ",val[i]);
+	ans=val[i];
 	putchar('\n');
 }
 
 inline void show(void)
 {
-	printf("%.8g ",val[sp-1]);
+	printf("%.8g ",(ans=val[sp-1]));
 }
 
 void duplicate(void)
