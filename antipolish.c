@@ -136,7 +136,7 @@ inline void stack_clear(void)
 }
 
 
-#include <ctype.h>
+#include <ctype.h> /* for isdigit() */
 int getch(void);
 void ungetch(int);
 
@@ -240,6 +240,7 @@ void getcmd(char s[])
 		ungetch(c);
 }
 
+#include <string.h> /* for strlen() */
 #define BUFSIZE 100
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
@@ -257,6 +258,17 @@ void ungetch(int c)
 		printf("ungetch: too many characters\n");
 	else
 		buf[bufp++] = c;
+}
+
+void unget(char s[])
+{
+	int l;
+
+	if (bufp + (l=strlen(s)) > BUFSIZE )
+		printf("unget: too long string %s\n",s);
+	else
+		for (int i=0;i<l;++i)
+			buf[bufp++] = s[i];
 }
 
 /* 
