@@ -106,7 +106,7 @@ void fifo_print_all(void)
 	putchar('\t');
 	for (int i=0;i<sp;++i)
 		printf("%.8g ",val[i]);
-	ans=val[i];
+	ans=val[sp-1];
 	putchar('\n');
 }
 
@@ -186,6 +186,8 @@ void getvar(char s[])
 	else 
 	{	if (var_able[v-'A'])
 			push(var[v-'A']);
+		else
+			printf("error: undefined variable %c\n",v);
 		if (c != EOF)
 			ungetch(c);
 	}
@@ -232,7 +234,7 @@ void getcmd(char s[])
 	else if (compare(s, "abs"))
 		push(abs(pop(0)));
 	else
-		printf("error: literal %s\n", s);
+		printf("error: unknown literal %s\n", s);
 	s[i+1]='\0';
 	if (c != EOF)
 		ungetch(c);
