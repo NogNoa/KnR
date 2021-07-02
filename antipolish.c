@@ -150,7 +150,7 @@ int getop(char s[])
 	s[2] = '\0';
 	if ('a'< c && c < 'z')
 		return CMD;
-	if ('A'< c && c< 'Z')
+	if ('A' <= c && c <= 'Z')
 		return VAR;
 	if (!isdigit(c) && c != '.')	
 		return c; /* not a number */
@@ -182,10 +182,12 @@ void getvar(char s[])
 	{	var[v-'A']=pop(0);
 		var_able[v-'A']=1;
 	}
-	else if (var_able[v-'A'])
-		push(var[v-'A']);
-	else if (c != EOF)
-		ungetch(c);
+	else 
+	{	if (var_able[v-'A'])
+			push(var[v-'A']);
+		if (c != EOF)
+			ungetch(c);
+	}
 }
 
 
