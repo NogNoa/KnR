@@ -20,15 +20,13 @@
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
 #include <math.h> /* for sin, exp, pow, etc. */
-#include "KnR_getline.h"
 #define MAXOP 100 /* max size of operand or operator */
-//#define MAXLINE 0x400 /* max size of line */
 #define NUMBER '0' /* signal that a number was found */
 #define CMD '1' /* signal that a alphabetic string was found */
 #define VAR '2' /* signal for the variable management routine */
-int getop(char l[], char s[]);
-void getcmd(char l[], char s[]);
-void getvar(char l[], char s[]);
+int getop(char []);
+void getcmd(char s[]);
+void getvar(char s[]);
 void fifo_print_all(void);
 void push(double);
 double pop(_Bool idntt);
@@ -37,62 +35,59 @@ double ans=0;
 
 int main()
 {	/* reverse Polish calculator */
-	int type, len;
+	int type;
 	double op2;
-	char s[MAXOP], l[MAXLINE];
-
-	while ((len = KnR_getline(l,MAXLINE)) != 0) {
-		while ((type = getop(l,s)) != '\0') {
-			switch (type) {
-				case NUMBER:
-					push(atof(s));
-				break;
-				case '_':
-					push(ans);
-				break;
-				case CMD:
-					getcmd(l,s);
-				break;
-				case VAR:
-					getvar(l,s);
-				break;
-				case '+':
-					push(pop(0) + pop(0));
-				break;
-				case '*':
-					push(pop(1) * pop(1));
-				break;
-				case '-':
-					op2 = pop(0);
-					push(pop(0) - op2);
-				break;
-				case '/':
-					op2 = pop(1);
-					if (op2 != 0.0)
-						push(pop(1) / op2);
-					else
-						printf("error: zero divisor\n");
-				break;
-				case '%':
-					op2 = pop(1);
-					if (op2 != 0)
-						push(fmod(pop(0),op2));
-					else
-						printf("error: zero divisor\n");
-				break;
-				case ':':
-					push(1/pop(1));
-				break;
-				case '=':
-					printf("\t%.8g\n", (ans=pop(0)));
-				break;
-				default:
-					printf("error: unknown command %s\n", s);
-				break;
-			}
+	char s[MAXOP];
+	while ((type = getop(s)) != EOF) {
+		switch (type) {
+			case NUMBER:
+				push(atof(s));
+			break;
+			case '_':
+				push(ans);
+			break;
+			case CMD:
+				getcmd(s);
+			break;
+			case VAR:
+				getvar(s);
+			break;
+			case '+':
+				push(pop(0) + pop(0));
+			break;
+			case '*':
+				push(pop(1) * pop(1));
+			break;
+			case '-':
+				op2 = pop(0);
+				push(pop(0) - op2);
+			break;
+			case '/':
+				op2 = pop(1);
+				if (op2 != 0.0)
+					push(pop(1) / op2);
+				else
+					printf("error: zero divisor\n");
+			break;
+			case '%':
+				op2 = pop(1);
+				if (op2 != 0)
+					push(fmod(pop(0),op2));
+				else
+					printf("error: zero divisor\n");
+			break;
+			case ':':
+				push(1/pop(1));
+			break;
+			case '=':
+				printf("\t%.8g\n", (ans=pop(0)));
+			break;
+			default:
+				printf("error: unknown command %s\n", s);
+			break;
 		}
-		fifo_print_all();
 	}
+	fifo_print_all();
 	return 0;
 }
 
@@ -160,36 +155,34 @@ inline void stack_clear(void)
 
 
 #include <ctype.h> /* for isdigit() */
-int lp=0; /*line pointer */
+int getch(void);
+void ungetch(int);
 
-int getop(char l[], char s[])
+int getop(char s[])
 {	/* getop: get next character or numeric operand */
 	int i;
 	char c;
 	
 	s[0]=' ';
-	while ((s[1] = c = l[lp++]) == ' ' || c == '\t' || c == '\n')
+	while ((s[1] = c = getch()) == ' ' || c == '\t' || c == '\n')
 		;
 	s[2] = '\0';
 	if ('a'< c && c < 'z')
 		return CMD;
 	if ('A' <= c && c <= 'Z')
 		return VAR;
-	if (!isdigit(c) && c != '.')
-	{	if (c == '\n')
-			lp=0;
+	if (!isdigit(c) && c != '.')	
 		return c; /* not a number */
-	}
 	i = 1;
 	if (isdigit(c)) /* collect integer part */
-		while (isdigit(s[++i] = c = l[lp++]))
+		while (isdigit(s[++i] = c = getch()))
 			;
 	if (c == '.') /* collect fraction part */
-		while (isdigit(s[++i] = c = l[lp++]))
+		while (isdigit(s[++i] = c = getch()))
 			;
 	if (c == '~')
 		s[0] = '-';
-	lp--;
+	ungetch(c);
 	s[i] = '\0';
 	return NUMBER;
 }
@@ -197,11 +190,11 @@ int getop(char l[], char s[])
 _Bool var_able[26];
 float var[26]={0};
 
-void getvar(char l[], char s[])
+void getvar(char s[])
 {
 	char c,v=s[1];
 
-	while ((c = l[lp++]) == ' ' || c == '\t' || c == '\n')
+	while ((c = getch()) == ' ' || c == '\t' || c == '\n')
 		;
 	if (c == '$')
 	{	var[v-'A']=pop(0);
@@ -212,7 +205,7 @@ void getvar(char l[], char s[])
 			push(var[v-'A']);
 		else
 			printf("error: undefined variable %c\n",v);
-	lp--;
+		ungetch(c);
 	}
 }
 
@@ -222,13 +215,13 @@ _Bool compare(char s[], char sh[]); /* from add_remove-string.c */
 void show(void);
 void stack_clear(void);
 
-void getcmd(char l[], char s[])
+void getcmd(char s[])
 {
 	int i;
 	char c;
 	double op2;
 
-	for (i=2;(s[i] = c = l[lp++]) != ' ' && c != '\t' && c!= '\n';++i)
+	for (i=2;(s[i] = c = getch()) != ' ' && c != '\t' && c!= '\n';++i)
 		;
 	if (compare(s,"showall"))
 		fifo_print_all();
@@ -259,7 +252,37 @@ void getcmd(char l[], char s[])
 	else
 		printf("error: unknown literal %s\n", s);
 	s[i+1]='\0';
-	lp--;
+	ungetch(c);
+}
+
+
+#include <string.h> /* for strlen() */
+#define BUFSIZE 100
+char buf[BUFSIZE]; /* buffer for ungetch */
+int bufp = 0; /* next free position in buf */
+
+int getch(void) 
+{	/* get a (possibly pushed-back) character */
+	return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c) 
+{	/* push character back on input */
+	if (bufp >= BUFSIZE)
+		printf("ungetch: too many characters\n");
+	else if (c != EOF)
+		buf[bufp++] = c;
+}
+
+void unget(char s[])
+{
+	int l;
+
+	if (bufp + (l=strlen(s)) > BUFSIZE )
+		printf("unget: too long string %s\n",s);
+	else
+		for (int i=0;i<l;++i)
+			buf[bufp++] = s[i];
 }
 
 /* 
