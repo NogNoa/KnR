@@ -1,6 +1,22 @@
 // Ritchie, D. and Kernighan, W. (1988) p69
 //freely edited
 
+/*
+	Allowed input:
+				  digits for numbers,
+				  lowercase for commands some operators,
+				  UPPER CASE for variables,
+				  symbols for the rest of the operators.
+	the calculator use polish notation, every operator is postfixial
+	unary operators : ~, :, $, sin, cos, exp, log, sqrt, abs
+	binary operators: +, -, *, /, %, pow
+	control commands: =, show, showall, dupp, swap, clear
+	Variables are single uppercase letter, they are assigned with $ and called without it
+	_ is variable for the last printed value. 
+*/
+
+
+
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
 #include <math.h> /* for sin, exp, pow, etc. */
@@ -24,14 +40,7 @@ int main()
 	int type, len;
 	double op2;
 	char s[MAXOP], l[MAXLINE];
-	/*
-	printf("Allowed input:\n\t\t\t  digits for numbers,\n\t\t\t  lowercase for commands some operators,\n\t\t\t  UPPER CASE for variables,\n\t\t\t  symbols for the rest of\n");
-	printf("the calculator use polish notation, every operator is postfixial");
-	printf("unary operators:~, :, $, sin, cos, exp, log, sqrt, abs");
-	printf("binary operators:+,-,*,/,%%,pow");
-	printf("control commands:=, show, showall, dupp, swap, clear");
-	printf("Variables are single uppercase letter, they are defined with $ and called without it");
-	*/
+
 	while ((len = KnR_getline(l,MAXLINE)) != 0) {
 		while ((type = getop(l,s)) != '\0') {
 			switch (type) {
