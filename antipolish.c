@@ -164,8 +164,7 @@ int getop(char s[])
 			;
 	if (c == '-')
 		s[0] = '-';
-	else if (c != EOF)
-		ungetch(c);
+	ungetch(c);
 	s[i] = '\0';
 	return NUMBER;
 }
@@ -188,8 +187,7 @@ void getvar(char s[])
 			push(var[v-'A']);
 		else
 			printf("error: undefined variable %c\n",v);
-		if (c != EOF)
-			ungetch(c);
+		ungetch(c);
 	}
 }
 
@@ -236,8 +234,7 @@ void getcmd(char s[])
 	else
 		printf("error: unknown literal %s\n", s);
 	s[i+1]='\0';
-	if (c != EOF)
-		ungetch(c);
+	ungetch(c);
 }
 
 #include <string.h> /* for strlen() */
@@ -256,7 +253,7 @@ void ungetch(int c)
 {	/* push character back on input */
 	if (bufp >= BUFSIZE)
 		printf("ungetch: too many characters\n");
-	else
+	else if (c != EOF)
 		buf[bufp++] = c;
 }
 
