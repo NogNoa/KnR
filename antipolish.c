@@ -244,29 +244,20 @@ void getcmd(char s[])
 #define BUFSIZE 100
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
-char bufc='\0';
 
 
 int getch(void) 
 {	/* get a (possibly pushed-back) character */
-	char back;
-
-	if (bufc != 0) 
-	{	back = bufc;
-		bufc = '\0';
-	}
-	else
-		back = getchar();
-	reurn back;
+	return (bufp > 0) ? buf[--bufp] : getchar();
 }
 
 
 void ungetch(int c) 
 {	/* push character back on input */
-	if (bufc != 0)
-		printf("ungetch: buffer occupied\n");
+	if (bufp >= BUFSIZE)
+		printf("ungetch: too many characters\n");
 	else
-		bufc = c;
+		buf[bufp++] = c;
 }
 
 void unget(char s[])
