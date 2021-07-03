@@ -22,6 +22,12 @@ int main()
 	int type;
 	double op2;
 	char s[MAXOP];
+	printf("Allowed input:\n\t\t\t  digits for numbers,\n\t\t\t  lowercase for commands some operators,\n\t\t\t  UPPER CASE for variables,\n\t\t\t  symbols for the rest of")
+	printf("the calculator use polish notation, every operator is postfixial")
+	printf("unary operators:~, :, $, sin, cos, exp, log, sqrt, abs")
+	printf("binary operators:+,-,*,/,%%,pow")
+	printf("control commands:=, show, showall, dupp, swap, clear")
+	printf("Variables are single uppercase letter, they are defined with $ and called without it")
 	while ((type = getop(s)) != EOF) {
 		switch (type) {
 			case NUMBER:
@@ -59,7 +65,10 @@ int main()
 					push(fmod(pop(0),op2));
 				else
 					printf("error: zero divisor\n");
-			break;		
+			break;
+			case ':':
+				push(1/pop(1));
+			break;
 			case '=':
 				printf("\t%.8g\n", (ans=pop(0)));
 			break;
@@ -82,7 +91,6 @@ inline double fmod(double dend,double sor)
 #define MAXVAL 100 /* maximum depth of val stack */
 int sp = 0; /* next free stack position */
 double val[MAXVAL]; /* value stack */
-
 
 void push(double f)
 {	/* push: push f onto value stack */
@@ -162,7 +170,7 @@ int getop(char s[])
 	if (c == '.') /* collect fraction part */
 		while (isdigit(s[++i] = c = getch()))
 			;
-	if (c == '-')
+	if (c == '~')
 		s[0] = '-';
 	ungetch(c);
 	s[i] = '\0';
@@ -237,17 +245,16 @@ void getcmd(char s[])
 	ungetch(c);
 }
 
+
 #include <string.h> /* for strlen() */
 #define BUFSIZE 100
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
 
-
 int getch(void) 
 {	/* get a (possibly pushed-back) character */
 	return (bufp > 0) ? buf[--bufp] : getchar();
 }
-
 
 void ungetch(int c) 
 {	/* push character back on input */
