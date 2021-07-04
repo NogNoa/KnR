@@ -248,7 +248,7 @@ void getcmd(char s[])
 	else if (compare(s, "sqrt"))
 		push(sqrt(pop(1)));
 	else if (compare(s, "abs"))
-		push(abs(pop(0)));
+		push(fabs(pop(0)));
 	else
 		printf("error: unknown literal %s\n", s);
 	s[i+1]='\0';
