@@ -14,7 +14,7 @@ char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
 char out[1000];
 
-main() /* convert declaration to words */
+int main() /* convert declaration to words */
 {
 	while (gettoken() != EOF) { /* 1st token on line */
 		strcpy(datatype, token); /* is the datatype */

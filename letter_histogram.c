@@ -2,7 +2,7 @@
 #define IN 1 /* inside a word */
 #define OUT 0 /* outside a word */
 
-void main()
+int main()
 {
 	int c, hest[26], i, j;
 	
@@ -23,6 +23,7 @@ void main()
 			putchar('|');
 		putchar('\n');
 	}
+	return 0;
 }
 
 //todo: add count len

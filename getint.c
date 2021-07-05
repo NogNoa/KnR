@@ -1,5 +1,6 @@
 // Ritchie, D. and Kernighan, W. (1988) p86
 
+#include <stdio.h>
 #include <ctype.h>
 
 int getch(void);

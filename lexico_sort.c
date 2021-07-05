@@ -11,7 +11,7 @@ void writelines(char *lineptr[], int nlines);
 void qsort(char *lineptr[], int left, int right);
 
 
-main()
+int main()
 {	/* sort input lines */
 	int nlines; /* number of input lines re'd */
 	if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
@@ -26,7 +26,7 @@ main()
 
 #define MAXLEN 1000 /* max length of any input line */
 
-int getline(char *, int);
+int KnR_getline(char *, int);
 char *alloc(int);
 
 
@@ -35,7 +35,7 @@ int readlines(char *lineptr[], int maxlines)
 	int len, nlines;
 	char *p, line[MAXLEN];
 	nlines = 0;
-	while ((len = getline(line, MAXLEN)) > 0)
+	while ((len = KnR_getline(line, MAXLEN)) > 0)
 	if (nlines >= maxlines || (p = alloc(len)) == NULL)
 	return -1;
 	else {

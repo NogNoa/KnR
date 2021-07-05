@@ -1,7 +1,7 @@
 #include <stdio.h>
 float lower, upper, step, fahr;
 
-main()
+int main()
 {
     lower = -20, upper = 150, step = 10;
 
@@ -13,4 +13,5 @@ main()
         printf("%3dc %6.0ff\n", cels, fahr);
         cels = cels + step;
     }
+    return 0;
 }

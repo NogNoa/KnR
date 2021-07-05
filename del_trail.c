@@ -3,7 +3,7 @@
 #define OUT 0 /* outside a word */
 	// that's a tab
 
-void main()
+int main()
 {	
 	int c, state = IN, i = 0;
 	char blank[0x20];
@@ -30,5 +30,6 @@ void main()
 				putchar(c);
 			}
 		}	
-	}		
+	}	
+	return 0;	
 }			
