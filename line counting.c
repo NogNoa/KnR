@@ -1,6 +1,6 @@
 #include <stdio.h>
 /* count lines in input */
-void main()
+int main()
 {
     int c, nl = 0;
 
@@ -9,4 +9,5 @@ void main()
             ++nl;
     }
     printf("%d\n", nl);
+    return 0;
 }
