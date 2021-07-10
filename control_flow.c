@@ -52,6 +52,8 @@ void escape(char s[], char t[])
 			s[j++] = '\\'; s[j++] = 'f';break;
 		case '\r':
 			s[j++] = '\\'; s[j++] = 'r';break;
+		case '%':
+			s[j++] = '%' ; s[j++] = '%';break;
 		case '\'':
 		case '\"':
 		case '\\':
