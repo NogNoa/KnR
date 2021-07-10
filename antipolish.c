@@ -7,12 +7,33 @@
 				  lowercase for commands some operators,
 				  UPPER CASE for variables,
 				  symbols for the rest of the operators.
-	the calculator use polish notation, every operator is postfixial
+	
+
 	unary operators : ~, :, $, sin, cos, exp, log, sqrt, abs
 	binary operators: +, -, *, /, %, pow
 	control commands: =, show, showall, dupp, swap, clear
-	Variables are single uppercase letter, they are assigned with $ and called without it
-	_ is variable for the last printed value. 
+	
+	
+	the calculator use polish notation, every operator is postfixial	
+
+	Variables are single uppercase letter, they are assigned with 
+	$ and called without it
+	
+	Example: "3 A &" assigns 3 to A. "2 A * =" than returns "6". 
+	
+	_ is variable that is always assigned the last printed value.
+
+
+	=    returns the most recent input or product and remove it from the stack
+	show	does the same without removing it.
+	showall		prints the whole stuck
+	dupp	duplicate the whole stuck (AB -> ABAB, not AABB)
+	swap	swaps the last two elements on top of the stack
+	clear 	deletes the stack.
+	~	is the unary - (turns positive to negative and v.v)
+	:	turns a number into its reciprocal.  
+	% 	is mod division
+
 */
 
 
