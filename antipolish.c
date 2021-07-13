@@ -36,7 +36,7 @@
 
 */
 
-
+/* gcc with add_remove-string.cl
 
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
@@ -52,7 +52,7 @@ void fifo_print_all(void);
 void push(double);
 double pop(_Bool idntt);
 double fmod(double dend,double sor);
-_Bool compare(char s[], char sh[]); /* from add_remove-string.c */
+_Bool compare(char s[], char sh[]); /* from add_remove-string.cl */
 double ans=0;
 
 int main(int argc, char *argv[])

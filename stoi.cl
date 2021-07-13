@@ -1,7 +1,9 @@
+/* gcc with control_flow.cl */
+
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-void reverse(char s[]);
+void reverse(char s[]); //from control_flow.cl
 
 // Ritchie, D. and Kernighan, W. (1988) p41
 
@@ -155,6 +157,13 @@ void fill_itoa(int n, char s[], int fill)
 	s[i] = '\0';
 	reverse(s);
 }
+
+
+void rcrs_itoa()(int n, char s[])
+{ /* itoa: convert n to string in s using recursion */
+
+}
+
 
 
 char lower(char s)
