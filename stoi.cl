@@ -3,6 +3,11 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+
+#ifndef reverse
+	#include "control_flow.cl"
+#endif
+
 void reverse(char s[]); //from control_flow.cl
 
 // Ritchie, D. and Kernighan, W. (1988) p41
@@ -159,9 +164,19 @@ void fill_itoa(int n, char s[], int fill)
 }
 
 
-void rcrs_itoa()(int n, char s[])
+void rcrs_itoa(int n, char s[])
 { /* itoa: convert n to string in s using recursion */
+	static int i=0;
+	int m;
 
+	if (n<0) 
+	{	s[i++]='-';
+		n = -n;
+	}
+	if ((m=n/10) > 0)
+		rcrs_itoa(m,s);
+	s[i++] = n % 10 + '0';
+	s[i] = '\0';
 }
 
 

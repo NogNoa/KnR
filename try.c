@@ -1,16 +1,17 @@
 #include <stdio.h>
 //#include <string.h>
-void escape(char s[], char t[]);
-void descape(char s[], char t[]);
-char * file_stringise(char * filename);
+#include "stoi.cl"
+void rcrs_itoa(int n, char s[]);
 
 int main(int argc, char *argv[])
 {
-    char *scroll,codex[2048];
+    int n;
+    char s[1024];
 
-    scroll = file_stringise(argv[1]);
-    escape(codex,scroll);
-    printf("%s\n",codex);
+    scanf("%d",&n);
+
+    rcrs_itoa(n,s);
+    printf("%s\n",s);
     
     return 0;
 }
