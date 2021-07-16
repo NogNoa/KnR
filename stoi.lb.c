@@ -164,9 +164,9 @@ void fill_itoa(int n, char s[], int fill)
 }
 
 
-int rcrs_itoa(int n, char s[], int i)
+void rcrs_itoa(int n, char s[])
 { /* itoa: convert n to string in s using recursion */
-	//start at i=0;
+	static int i=0;
 	int m;
 
 	if (n<0) 
@@ -174,10 +174,9 @@ int rcrs_itoa(int n, char s[], int i)
 		n = -n;
 	}
 	if ((m=n/10) > 0)
-		i=rcrs_itoa(m,s,i);
+		rcrs_itoa(m,s);
 	s[i++] = n % 10 + '0';
 	s[i] = '\0';
-	return i;
 }
 
 
