@@ -179,6 +179,6 @@ than 	 (x == v[mid]) iff (low == high)
 void rcrs_reverse(char s[])
 { /* reverse: reverse string s in place using recursion */
 	static int i;
-	if 
+	if (1);
 
 }

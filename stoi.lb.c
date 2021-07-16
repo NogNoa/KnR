@@ -5,7 +5,7 @@
 #include <string.h>
 
 #ifndef reverse
-	#include "control_flow.lib.c"
+	#include "control_flow.lb.c"
 #endif
 
 void reverse(char s[]); //from control_flow.cl
@@ -164,9 +164,9 @@ void fill_itoa(int n, char s[], int fill)
 }
 
 
-void rcrs_itoa(int n, char s[])
+int rcrs_itoa(int n, char s[], int i)
 { /* itoa: convert n to string in s using recursion */
-	static int i=0;
+	//start at i=0;
 	int m;
 
 	if (n<0) 
@@ -174,9 +174,10 @@ void rcrs_itoa(int n, char s[])
 		n = -n;
 	}
 	if ((m=n/10) > 0)
-		rcrs_itoa(m,s);
+		i=rcrs_itoa(m,s,i);
 	s[i++] = n % 10 + '0';
 	s[i] = '\0';
+	return i;
 }
 
 

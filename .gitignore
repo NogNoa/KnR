@@ -1,4 +1,4 @@
-a.out
+[abc].out
 *.elf
 *.exe
 *.o
@@ -12,3 +12,4 @@ pep-8.htm
 array.c
 .idea/
 .vscode/
+*.pdb
