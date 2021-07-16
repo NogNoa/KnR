@@ -159,3 +159,9 @@ _Bool compare(char s[], char sh[])
 	else
 		return 0;
 }
+
+#define swap(t,x,y) \
+	t temp=x; \
+	x = y; \
+	y= temp;
+#undef swap

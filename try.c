@@ -1,6 +1,8 @@
 #include <stdio.h>
-#include <ctype.h>
 #include "stoi.lb.c"
+#ifndef swap
+    #include "add_remove-string.lb.c"
+#endif
 void rcrs_itoa(int n, char s[]);
 
 int main(int argc, char *argv[])
@@ -14,8 +16,9 @@ int main(int argc, char *argv[])
     rcrs_reverse(0,s);
     printf("%s\n",s);
     
-    printf("size_t:%lx signed int:%lx unsigned int:%lx \n int:%x char:%x\n",sizeof(size_t),sizeof(int signed),sizeof(int unsigned),(int)EOF,(char)EOF);
-
+    int a = 14, b=23;
+    swap(int, a, b);
+    printf("%x\n %x\n",a,b);
 
     return 0;
 
