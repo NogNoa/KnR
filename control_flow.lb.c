@@ -179,7 +179,8 @@ than 	 (x == v[mid]) iff (low == high)
 void rcrs_reverse(int i, char s[])
 { /* reverse: reverse string s in place using recursion */
 	static int len, middle;
-	int dif, temp;
+	int temp;
+	float alt;
 	if (s[i] != '\0')
 		rcrs_reverse(i+1, s);
 	else
@@ -187,9 +188,9 @@ void rcrs_reverse(int i, char s[])
 		middle=((float)len)/2;
 	}
 	if (i<=middle)
-	{	dif = middle-i;
-		temp=s[i];;
-		s[i]=s[i+2 * dif];
-		s[i+2 * dif]=temp;
+	{	alt = 2 * middle - i;
+		temp=s[i];
+		s[i]=s[alt];
+		s[alt]=temp;
 	}
 }
