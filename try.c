@@ -11,7 +11,9 @@ int main(int argc, char *argv[])
     scanf("%d",&n);
 
     rcrs_itoa(n,s);
+    rcrs_reverse(0,s);
     printf("%s\n",s);
     
     return 0;
+
 }
