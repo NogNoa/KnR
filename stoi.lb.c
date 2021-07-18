@@ -4,11 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifndef reverse
-	#include "control_flow.lb.c"
-#endif
-
-void reverse(char s[]); //from control_flow.cl
+void reverse(char s[]); //from control_flow.lb.c
 
 // Ritchie, D. and Kernighan, W. (1988) p41
 

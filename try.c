@@ -1,24 +1,27 @@
 #include <stdio.h>
 #include "stoi.lb.c"
-#ifndef swap
-    #include "add_remove-string.lb.c"
+#ifndef recrs_reverse
+    #include "control_flow.lb.c"
+#endif
+#ifndef getint
+    #include "molon.lb.c"
 #endif
 void rcrs_itoa(int n, char s[]);
+void recrs_reverse(char s[]);
 
 int main(int argc, char *argv[])
 {
-    int n;
+    int n, m[0x100];
     char s[1024];
 
     scanf("%d",&n);
 
     rcrs_itoa(n,s);
-    rcrs_reverse(0,s);
+    recrs_reverse(s);
     printf("%s\n",s);
-    
-    int a = 14, b=23;
-    swap(int, a, b);
-    printf("%x\n %x\n",a,b);
+
+    getint(m);
+    printf("%d\n",*m);
 
     return 0;
 

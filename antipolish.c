@@ -36,7 +36,7 @@
 
 */
 
-/* gcc with add_remove-string.cl
+/* gcc with add_remove-string.lb.c */
 
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
@@ -52,7 +52,7 @@ void fifo_print_all(void);
 void push(double);
 double pop(_Bool idntt);
 double fmod(double dend,double sor);
-_Bool compare(char s[], char sh[]); /* from add_remove-string.cl */
+_Bool compare(char s[], char sh[]); /* from add_remove-string.lb.c */
 double ans=0;
 
 int main(int argc, char *argv[])
@@ -181,6 +181,7 @@ inline void stack_clear(void)
 
 
 #include <ctype.h> /* for isdigit() */
+#include "molon.lb.c"
 int getch(void);
 void ungetch(int);
 
@@ -279,32 +280,3 @@ void getcmd(char s[])
 	ungetch(c);
 }
 
-
-#include <string.h> /* for strlen() */
-#define BUFSIZE 100
-char buf[BUFSIZE]; /* buffer for ungetch */
-int bufp = 0; /* next free position in buf */
-
-int getch(void) 
-{	/* get a (possibly pushed-back) character */
-	return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c) 
-{	/* push character back on input */
-	if (bufp >= BUFSIZE)
-		printf("ungetch: too many characters\n");
-	else if (c != EOF)
-		buf[bufp++] = c;
-}
-
-void unget(char s[])
-{
-	int l;
-
-	if (bufp + (l=strlen(s)) > BUFSIZE )
-		printf("unget: too long string %s\n",s);
-	else
-		for (int i=0;i<l;++i)
-			buf[bufp++] = s[i];
-}
