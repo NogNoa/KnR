@@ -11,7 +11,7 @@ void recrs_reverse(char s[]);
 
 int main(int argc, char *argv[])
 {
-    int n, m[0x100];
+    int n, m[0x100]={0};
     char s[1024];
 
     scanf("%d",&n);
