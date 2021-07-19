@@ -11,7 +11,8 @@ void recrs_reverse(char s[]);
 
 int main(int argc, char *argv[])
 {
-    int n, m[0x100]={0};
+    int n; 
+    double m[0x100]={0};
     char s[1024];
 
     scanf("%d",&n);
@@ -20,8 +21,8 @@ int main(int argc, char *argv[])
     recrs_reverse(s);
     printf("%s\n",s);
 
-    getint(m);
-    printf("%d\n",*m);
+    getfloat(m);
+    printf("%f\n",*m);
 
     return 0;
 
