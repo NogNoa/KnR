@@ -16,9 +16,9 @@ int getint(int *pn)
 		return 0;
 	}
 	sign = (g == '-') ? -1 : 1;
+	c = getch();
 	if (g == '+' || g == '-')
-	{	c = getch();
-		if (c == EOF)
+	{	if (c == EOF)
 		{	ungetch(g);
 			return c; //EOF
 		}
@@ -27,8 +27,6 @@ int getint(int *pn)
 			return 0; //NaN
 			}
 	}
-	else
-		c=g;
 	for (*pn = 0; isdigit(c); c = getch())
 		*pn = 10 * *pn + (c - '0');
 	*pn *= sign;
@@ -50,19 +48,17 @@ int getfloat(double *pn)
 		return 0;
 	}
 	sign = (g == '-') ? -1 : 1;
+	c = getch();
 	if (g == '+' || g == '-' || g == '.')
-	{	c = getch();
-		if (c == EOF)
+	{	if (c == EOF)
 		{	ungetch(g);
 			return c; //EOF
 		}
 		else if (!isdigit(c))
-			{ungetch(c); ungetch(g);
+			{ungetch(c);ungetch(g);
 			return 0; //NaN
 			}
 	}
-	else
-		c=g;
 	for (*pn = 0; isdigit(c); c = getch())
 		*pn = 10 * *pn + (c - '0');
 	if (c == '.')
