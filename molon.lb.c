@@ -39,30 +39,36 @@ int getint(int *pn)
 
 int getfloat(double *pn)
 {   /* getfloat: get next float from input into *pn */
-	char c, g, sign;
+	signed char c, s=0, sign;
 	int i=0;
-	while (isspace(g = getch())) /* skip white space */
+	while (isspace(c = getch())) /* skip white space */
 		;
-	if (!isdigit(g) && g != EOF && g != '+' && g != '-'&& g != '.') {
-		ungetch(g); /* it is not a number */
+	if (!isdigit(c) && c != EOF && c != '+' && c != '-' && c!= '.') {
+		ungetch(c); /* it is not a number */
 		return 0;
 	}
-	sign = (g == '-') ? -1 : 1;
-	c = getch();
-	if (g == '+' || g == '-' || g == '.')
-	{	if (c == EOF)
-		{	ungetch(g);
-			return c; //EOF
-		}
-		else if (!isdigit(c))
-			{ungetch(c);ungetch(g);
-			return 0; //NaN
-			}
+	sign = (c == '-') ? -1 : 1;
+	if (c == '+' || c == '-')
+	{	s=c;
+		c = getch();
+		if (!isdigit(c))
+		{	if (c!= EOF)
+				ungetch(c);
+			if (s)
+				ungetch(s);
+			return 0;
 	}
 	for (*pn = 0; isdigit(c); c = getch())
 		*pn = 10 * *pn + (c - '0');
 	if (c == '.')
 	{	c = getch();
+		if (!isdigit(c))
+		{	if (c!= EOF)
+				ungetch(c);
+			if (s)
+				ungetch('.');
+			return 0;
+		}
 		for (;isdigit(c); c = getch(), i++)
 			*pn = 10 * *pn + (c - '0');
 	}
