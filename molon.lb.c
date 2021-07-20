@@ -20,13 +20,18 @@ int getint(int *pn)
 	{	s=c;
 		c = getch();
 	}
+	if (!isdigit(c))
+	{	if (c!= EOF)
+			ungetch(c);
+		if (s)
+			ungetch(s);
+		return 0;
+	}
 	for (*pn = 0; isdigit(c); c = getch())
 		*pn = 10 * *pn + (c - '0');
 	*pn *= sign;
 	if (c != EOF)
 		ungetch(c);
-	if (s && !*pn)
-		ungetch(s);
 	return c;
 }
 

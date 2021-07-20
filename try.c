@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    int n[0x100]={0}, r;
+    int n[0x100]={-1}, r;
     double m[0x100]={0};
 
     r=getint(n);
