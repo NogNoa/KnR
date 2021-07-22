@@ -178,11 +178,9 @@ char * ptr_strcat(char *s, char *t)
 _Bool strend(char *s, char *t)
 { /* strend: return true if t occoures at end of s */
 
-	if (*t == '\0')
-		return 1;
 	while (*s++ != *t && *s != '\0')
 		;
-	if (*s == '\0')
+	if (*s == '\0' && *t != '\0')
 		return 0;
 	while (*s++ == *++t && *t !='\0') 
 		;
