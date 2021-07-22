@@ -168,8 +168,8 @@ _Bool compare(char s[], char sh[])
 char * ptr_strcat(char *s, char *t)
 { /* strcat: concatenate t to end of s; s must be big enough */
 	char * back=s;
-	while (*s != '\0') /* find end of s */
-		s++;
+	for (;*s != '\0';s++) /* find end of s */
+		;
 	while ((*s++ = *t++) != '\0') /* copy t */
 		;
 	return back;
@@ -182,10 +182,10 @@ _Bool strend(char *s, char *t)
 
 	char *begins=s,*begint=t;
 	s+=strlen(s);
-	t+=strlen(s);
-	while (*s-- == *t-- && s >= begins)
+	t+=strlen(t);
+	for (;*s == *t && s >= begins;s--,t--)
 		;
-	if (t <= begint)
+	if (t < begint)
 		return 1;
 	else
 		return 0;
