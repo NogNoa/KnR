@@ -57,6 +57,7 @@ int getfloat(double *pn)
 			if (s)
 				ungetch(s);
 			return 0;
+		}
 	}
 	for (*pn = 0; isdigit(c); c = getch())
 		*pn = 10 * *pn + (c - '0');

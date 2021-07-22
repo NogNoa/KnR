@@ -1,18 +1,12 @@
 #include <stdio.h>
-#ifndef getint
-    #include "molon.lb.c"
-#endif
+#include "add_remove-string.lb.c"
 
 
 int main(int argc, char *argv[])
 {
-    int n[0x100]={-1}, r;
-    double m[0x100]={0};
-
-    r=getint(n);
-    printf("%d %x\n",*n,r);
-    getfloat(m);
-    printf("%f\n",*m);
+    char s[]="molon ";
+    char sh[]="labe! ";
+    printf("%s\n",ptr_strcat(s,sh));
 
     return 0;
 

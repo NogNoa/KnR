@@ -39,7 +39,28 @@ int strindex_1st(char s[], char t[])
 
 // original
 
-char * set(char s[]);
+char * set(char s[])
+{ /* set: delete any repetition in s */
+	int i, j;
+	_Bool cp;
+
+	for (i = j = 0; s[i] != '\0'; i++)
+	{
+		cp = 1;
+		for (int k = 0;k<j;k++)
+		{
+			if (s[i] == s[k])
+			{
+				cp = 0;
+				break;
+			}
+		}
+		if (cp)
+			s[j++] = s[i];
+	}
+	s[j] = '\0';
+	return s;
+}
 
 char * squeeze_multi(char s1[], char s2[])
 { /* squeeze multi: delete any characters from s2 in s1 */
@@ -82,28 +103,6 @@ int any(char s1[], char s2[])
 such that instead of -1 on fail, the function returns the index of the start of s2
 */
 
-char * set(char s[])
-{ /* set: delete any repetition in s */
-	int i, j;
-	_Bool cp;
-
-	for (i = j = 0; s[i] != '\0'; i++)
-	{
-		cp = 1;
-		for (int k = 0;k<j;k++)
-		{
-			if (s[i] == s[k])
-			{
-				cp = 0;
-				break;
-			}
-		}
-		if (cp)
-			s[j++] = s[i];
-	}
-	s[j] = '\0';
-	return s;
-}
 
 int charindex_last(char s[],char t)
 { //returns the position of the rightmost occurrence of t in s
@@ -165,3 +164,13 @@ _Bool compare(char s[], char sh[])
 	x = y; 			  \
 	y= temp;
 #undef swap
+
+char * ptr_strcat(char *s, char *t)
+{ /* strcat: concatenate t to end of s; s must be big enough */
+	char * back=s;
+	while (*s != '\0') /* find end of s */
+		s++;
+	while ((*s++ = *t++) != '\0') /* copy t */
+		;
+	return back;
+}
