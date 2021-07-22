@@ -175,18 +175,18 @@ char * ptr_strcat(char *s, char *t)
 	return back;
 }
 
+size_t strlen(char *);
+
 _Bool strend(char *s, char *t)
 { /* strend: return true if t occoures at end of s */
 
-	while (*s++ != *t && *s != '\0')
+	char *begins=s,*begint=t;
+	s+=strlen(s);
+	t+=strlen(s);
+	while (*s-- == *t-- && s >= begins)
 		;
-	if (*s == '\0' && *t != '\0')
-		return 0;
-	while (*s++ == *++t && *t !='\0') 
-		;
-	if (*t == '\0')
+	if (t <= begint)
 		return 1;
 	else
 		return 0;
-
 }
