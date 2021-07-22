@@ -168,9 +168,9 @@ _Bool compare(char s[], char sh[])
 char * ptr_strcat(char *s, char *t)
 { /* strcat: concatenate t to end of s; s must be big enough */
 	char * back=s;
-	for (;*s != '\0';s++) /* find end of s */
+	for (;*s;s++) /* find end of s */
 		;
-	while ((*s++ = *t++) != '\0') /* copy t */
+	while ((*s++ = *t++)) /* copy t */
 		;
 	return back;
 }
