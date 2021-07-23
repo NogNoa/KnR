@@ -190,3 +190,22 @@ _Bool strend(char *s, char *t)
 	else
 		return 0;
 }
+
+
+char *alt_strncpy(char *s,char *ct, int n)
+{ /*copy at most n characters of string ct to s; return s. Pad with '\0''s
+    if ct has fewer than n characters. */
+	return s;
+}
+
+char *alt_strncat(char *s,char *ct,int n)
+{ /* concatenate at most n characters of string ct to string s, terminate s
+     with '\0'; return s. */
+	return s;
+}
+
+int alt_strncmp(char *cs,char *ct,int n)
+{ /* compare at most n characters of string cs to string ct; return <0 if
+     cs<ct, 0 if cs==ct, or >0 if cs>ct. */
+	return 0;
+}
