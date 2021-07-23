@@ -186,20 +186,20 @@ _Bool strend(char *s, char *t)
 }
 
 
-char *alt_strncpy(char *s,char *ct, int n)
+char *alt_strncpy(char *calls,char *ct, int n)
 { /*copy at most n characters of string ct to s; return s. Pad with '\0''s
     if ct has fewer than n characters. */
-	char * calls = s;
+	char *s = calls;
 	int i=0;
 	while (i++ < n && (*s++ = *ct++))  {}
 	for (;i++ <= n;*s++='\0')  		{}
 	return calls;
 }
 
-char *alt_strncat(char *s,char *ct,int n)
+char *alt_strncat(char *calls,char *ct,int n)
 { /* concatenate at most n characters of string ct to string s, terminate s
      with '\0'; return s. */
-	char * calls = s;
+	char *s = calls;
 	for (;*s;s++)  {} /* find end of s */
 	for (int i=0;i++ <= n && (*s++ = *ct++);) {} /* copy t */
 	*s = '\0';
