@@ -218,3 +218,11 @@ int alt_strncmp(char *cs,char *ct,int n)
 		return 0;
 	return *cs-*ct;
 }
+
+
+/* strcpy: copy t to s; pointer version 3 */
+void sy(char *s, char *t)
+{
+	while (*s++ = *t++)
+		;
+}
