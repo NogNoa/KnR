@@ -191,7 +191,7 @@ char *alt_strncpy(char *calls,char *ct, int n)
     if ct has fewer than n characters. */
 	char *s = calls;
 	int i=0;
-	while (i++ < n && (*s++ = *ct++))  {}
+	for (;i < n && (*s++ = *ct++);i++)  {}
 	for (;i++ <= n;*s++='\0')  		{}
 	return calls;
 }
