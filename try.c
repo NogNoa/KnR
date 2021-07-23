@@ -10,10 +10,13 @@ int main(int argc, char *argv[])
     printf("%d\n",strend("vga\0brr","ga"));
     char *t="ani";
     //char *v="atzmi";
-    sy(t,"atzmi");
+    alt_strncpy(t,"atzmi",3);
     printf("%s\n",t);
+    
     printf("%d\n",alt_strncmp("vfb","vga",2));
-    //printf("%s\n",alt_strncat("ani"," veatzmi",4));
+    
+    t = alt_strncat("ani"," veatzmi",5);
+    printf("%s\n",t);
 
 
     return 0;

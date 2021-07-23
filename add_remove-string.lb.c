@@ -192,7 +192,7 @@ char *alt_strncpy(char *s,char *ct, int n)
 	char * calls = s;
 	int i=0;
 	while (i++ < n && (*s++ = *ct++))  {}
-	for (;i++ < n;*s++='\0')  		{}
+	for (;i++ <= n;*s++='\0')  		{}
 	return calls;
 }
 
@@ -201,7 +201,7 @@ char *alt_strncat(char *s,char *ct,int n)
      with '\0'; return s. */
 	char * calls = s;
 	for (;*s;s++)  {} /* find end of s */
-	for (int i=0;i++ < n && (*s++ = *ct++);) {} /* copy t */
+	for (int i=0;i++ <= n && (*s++ = *ct++);) {} /* copy t */
 	*s = '\0';
 	return calls;
 }
@@ -210,10 +210,10 @@ int alt_strncmp(char *cs,char *ct,int n)
 { /* compare at most n characters of string cs to string ct; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	
-	int i=1;
+	int i=0;
 	for(;*cs == ' ' || *cs == '\t';cs++)  {}
 	for(;*ct == ' ' || *ct == '\t';ct++)  {}
-	for (;i++ < n && *cs == *ct && *ct;cs++,ct++)	   {}
+	for (;i++ <= n && *cs == *ct && *ct;cs++,ct++)	   {}
 	if (!*cs)
 		return 0;
 	return *cs-*ct;

@@ -13,3 +13,5 @@ array.c
 .idea/
 .vscode/
 *.pdb
+*.ilk
+*.obj
