@@ -206,12 +206,15 @@ char *alt_strncat(char *s,char *ct,int n)
 	return calls;
 }
 
-int alt_strcmp(char *cs,char *ct)
-{ /* compare string cs to string ct; return <0 if
+int alt_strncmp(char *cs,char *ct,int n)
+{ /* compare at most n characters of string cs to string ct; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
-
+	
+	int i=1;
 	for(;*cs == ' ' || *cs == '\t';cs++)  {}
 	for(;*ct == ' ' || *ct == '\t';ct++)  {}
-	for (;*cs == *ct && *ct;cs++,ct++)	   {}
+	for (;i++ < n && *cs == *ct && *ct;cs++,ct++)	   {}
+	if (!*cs)
+		return 0;
 	return *cs-*ct;
 }
