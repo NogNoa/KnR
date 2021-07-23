@@ -190,26 +190,28 @@ char *alt_strncpy(char *s,char *ct, int n)
 { /*copy at most n characters of string ct to s; return s. Pad with '\0''s
     if ct has fewer than n characters. */
 	char * calls = s;
-	for (int i=0;i++ < n && (*s++ = *ct++);)  {}
+	int i=0;
+	while (i++ < n && (*s++ = *ct++))  {}
+	for (;i++ < n;*s++='\0')  		{}
 	return calls;
 }
 
 char *alt_strncat(char *s,char *ct,int n)
 { /* concatenate at most n characters of string ct to string s, terminate s
      with '\0'; return s. */
-	char * calls=s;
+	char * calls = s;
 	for (;*s;s++)  {} /* find end of s */
 	for (int i=0;i++ < n && (*s++ = *ct++);) {} /* copy t */
 	*s = '\0';
 	return calls;
 }
 
-int alt_strncmp(char *cs,char *ct,int n)
-{ /* compare at most n characters of string cs to string ct; return <0 if
+int alt_strcmp(char *cs,char *ct)
+{ /* compare string cs to string ct; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 
 	for(;*cs == ' ' || *cs == '\t';cs++)  {}
 	for(;*ct == ' ' || *ct == '\t';ct++)  {}
-	while (*cs++ == *ct++ && *ct)  {}
-	return (!*ct);
+	for (;*cs == *ct && *ct;cs++,ct++)	   {}
+	return *cs-*ct;
 }
