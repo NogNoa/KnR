@@ -151,12 +151,9 @@ _Bool compare(char s[], char sh[])
 		{}
 	for(j=0;sh[j] == ' '|| sh[j] == '\t';j++)
 		{}
-	for (; s[i] == sh[j]; i++,j++)
+	while(s[i++] == sh[j++])
 		{}
-	if (sh[j] == '\0')
-		return 1;
-	else
-		return 0;
+	return (!sh[j]);
 }
 
 #define swap(t,x,y) \
@@ -167,12 +164,10 @@ _Bool compare(char s[], char sh[])
 
 char * ptr_strcat(char *s, char *t)
 { /* strcat: concatenate t to end of s; s must be big enough */
-	char * back=s;
-	for (;*s;s++) /* find end of s */
-		;
-	while ((*s++ = *t++)) /* copy t */
-		;
-	return back;
+	char * calls=s;
+	for (;*s;s++)  {} /* find end of s */
+	while ((*s++ = *t++))  {} /* copy t */
+	return calls;
 }
 
 size_t strlen(char *);
@@ -183,8 +178,7 @@ _Bool strend(char *s, char *t)
 	char *begins=s,*begint=t;
 	s+=strlen(s);
 	t+=strlen(t);
-	for (;*s == *t && s >= begins;s--,t--)
-		;
+	for (;*s == *t && s >= begins;s--,t--)  {}
 	if (t < begint)
 		return 1;
 	else
@@ -195,17 +189,27 @@ _Bool strend(char *s, char *t)
 char *alt_strncpy(char *s,char *ct, int n)
 { /*copy at most n characters of string ct to s; return s. Pad with '\0''s
     if ct has fewer than n characters. */
-	return s;
+	char * calls = s;
+	for (int i=0;i++ < n && (*s++ = *ct++);)  {}
+	return calls;
 }
 
 char *alt_strncat(char *s,char *ct,int n)
 { /* concatenate at most n characters of string ct to string s, terminate s
      with '\0'; return s. */
-	return s;
+	char * calls=s;
+	for (;*s;s++)  {} /* find end of s */
+	for (int i=0;i++ < n && (*s++ = *ct++);) {} /* copy t */
+	*s = '\0';
+	return calls;
 }
 
 int alt_strncmp(char *cs,char *ct,int n)
 { /* compare at most n characters of string cs to string ct; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
-	return 0;
+
+	for(;*cs == ' ' || *cs == '\t';cs++)  {}
+	for(;*ct == ' ' || *ct == '\t';ct++)  {}
+	while (*cs++ == *ct++ && *ct)  {}
+	return (!*ct);
 }
