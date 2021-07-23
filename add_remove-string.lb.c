@@ -190,9 +190,8 @@ char *alt_strncpy(char *calls,char *ct, int n)
 { /*copy at most n characters of string ct to s; return s. Pad with '\0''s
     if ct has fewer than n characters. */
 	char *s = calls;
-	int i=0;
-	for (;i < n && (*s++ = *ct++);i++)  {}
-	for (;i++ <= n;*s++='\0')  		{}
+	for (;0 < n && (*s++ = *ct++);n--)  {}
+	for (;0 <= n--;*s++='\0')  		{}
 	return calls;
 }
 
@@ -201,7 +200,7 @@ char *alt_strncat(char *calls,char *ct,int n)
      with '\0'; return s. */
 	char *s = calls;
 	for (;*s;s++)  {} /* find end of s */
-	for (int i=0;i++ <= n && (*s++ = *ct++);) {} /* copy t */
+	while (0 <= n-- && (*s++ = *ct++)) {} /* copy t */
 	*s = '\0';
 	return calls;
 }
@@ -210,10 +209,9 @@ int alt_strncmp(char *cs,char *ct,int n)
 { /* compare at most n characters of string cs to string ct; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	
-	int i=0;
 	for(;*cs == ' ' || *cs == '\t';cs++)  {}
 	for(;*ct == ' ' || *ct == '\t';ct++)  {}
-	for (;i++ <= n && *cs == *ct && *ct;cs++,ct++)	   {}
+	for (;0 <= n-- && *cs == *ct && *ct;cs++,ct++)	   {}
 	if (!*cs)
 		return 0;
 	return *cs-*ct;
