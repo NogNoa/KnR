@@ -1,14 +1,15 @@
 /* gcc with control_flow.lib.c */
 
 #include <ctype.h>
-#include <stdio.h>
+#ifndef printf
+	#include <stdio.h>
+#endif
 #include <string.h>
+#ifndef malloc 
+	#include <stdlib.h>
+#endif
 
 void reverse(char s[]); //from control_flow.lb.c
-
-// Ritchie, D. and Kernighan, W. (1988) p41
-
-int atoi(char s[]);
 
 // Ritchie, D. and Kernighan, W. (1988) p59
 
@@ -54,10 +55,9 @@ double KnR_atof(char s[])
 
 // original
 
-int atoi(char *s)
+int alt_atoi(char *s)
 { /* ptr_atoi: convert s to integer */
 int n;
-//const char* basi = "0123456789abcdefghijklmnopqrstuvwxyz"
 n = 0;
 for (; *s >= '0' && *s <= '9'; s++)
 	n = 10 * n + (*s - '0');
@@ -108,16 +108,17 @@ void itoa(int n, char s[])
 }
 
 
-short itob(int n, char *s, short b)
+char * itob(int n, short b)
 { /* itoa: convert n to base b string in s */
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
 	short digit;
 	unsigned m;
+	char *s=malloc(1024);
 
 	if (b<2 || 36<b)
 	{	printf("%d is a bad base. Please use one between 2 and 36.\n",b);
 		*s='\0';
-		return 1;
+		return s;
 	}
 
 	if (sign)
@@ -135,7 +136,7 @@ short itob(int n, char *s, short b)
 		*s++ = '-';
 	*s = '\0';
 	reverse(s);
-	return 0;
+	return s;
 }
 
 
@@ -233,5 +234,23 @@ double sci_atof(char s[])
 	return sign * val * tens;
 }
 
-
+int btoi(char *s,int b)
+{ /* ptr_atoi: convert s to integer */
+	int n=0;
+	char *v;
+	const char basi[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+	if (b < 2 ||strlen(basi) < b)
+	{	printf("%d is a bad base. Please use one between 2 and 36.\n",b);
+		return 0;
+	}
+	do 
+	{
+		v=strchr(basi,*s);
+		*s=v-basi;
+		n = b * n + *s++;
+	}
+	while (*s >= 0 && *s <= b);
+		
+	return n;
+}
 
