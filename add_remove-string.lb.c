@@ -162,7 +162,7 @@ _Bool compare(char s[], char sh[])
 	y= temp;
 #undef swap
 
-char * ptr_strcat(char *s, char *t)
+char * alt_strcat(char *s, char *t)
 { /* strcat: concatenate t to end of s; s must be big enough */
 	char * calls=s;
 	for (;*s;s++)  {} /* find end of s */
@@ -215,12 +215,4 @@ int alt_strncmp(char *cs,char *ct,int n)
 	if (!*cs)
 		return 0;
 	return *cs-*ct;
-}
-
-
-/* strcpy: copy t to s; pointer version 3 */
-void sy(char *s, char *t)
-{
-	while (*s++ = *t++)
-		;
 }

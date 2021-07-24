@@ -1,19 +1,16 @@
 #include <stdio.h>
-#include "add_remove-string.lb.c"
+#include "KnR_getline.lb.c"
+#include "stoi.lb.c"
+#include "control_flow.lb.c"
+
 
 int main(int argc, char *argv[])
 {
-    char s[]="molon ";
-    char sh[]="labe! ";
-    printf("%s\n",ptr_strcat(s,sh));
-    printf("%d\n",strend("vga\0brr","ga"));
-    char *t= "atzmi";
-    t=alt_strncpy(t, "ani", 3);
-    printf("%s\n",t);
-    t = alt_strncat(t," veatzmi",7);
-    printf("%s\n",t);
-    printf("%d\n",alt_strncmp("vfb","vga",2));
-
+    char *s=0;
+    int i=ptr_KnR_getline(s,128);
+    printf("%s %d\n",s,i);
+    itob(i,s,18);
+    printf("%s %d\n",s,atoi("128"));
 
     return 0;
 

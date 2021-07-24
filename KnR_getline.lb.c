@@ -1,6 +1,7 @@
 // Ritchie, D. and Kernighan, W. (1988) p30
 
 #include <stdio.h>
+#include "KnR_getline.h"
 
 int KnR_getline(char s[], int lim)
 {  // read a line into s, return length
@@ -46,4 +47,19 @@ _Bool pascal_getline(char s[], int lim)
 	s[0] = (len >> 8) ^ 0xFF ;
 
 	return 1;
+}
+
+int ptr_KnR_getline(char *s, int n)
+{  // read a line into s, return length
+
+	char c;
+	int lim=n;
+
+	for (; 0 < n-1 && (c=getchar()) !=EOF && c!='\n'; n--)
+		*s++ = c;
+	if (c== '\n') {
+		*s++ = c;
+	}
+	*s = '\0';
+	return lim-n;
 }

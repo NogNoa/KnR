@@ -8,14 +8,7 @@ void reverse(char s[]); //from control_flow.lb.c
 
 // Ritchie, D. and Kernighan, W. (1988) p41
 
-int atoi(char s[])
-{ /* atoi: convert s to integer */
-int i, n;
-n = 0;
-for (i = 0; s[i] >= '0' && s[i] <= '9'; ++i)
-	n = 10 * n + (s[i] - '0');
-return n;
-}
+int atoi(char s[]);
 
 // Ritchie, D. and Kernighan, W. (1988) p59
 
@@ -61,6 +54,16 @@ double KnR_atof(char s[])
 
 // original
 
+int atoi(char *s)
+{ /* ptr_atoi: convert s to integer */
+int n;
+//const char* basi = "0123456789abcdefghijklmnopqrstuvwxyz"
+n = 0;
+for (; *s >= '0' && *s <= '9'; s++)
+	n = 10 * n + (*s - '0');
+return n;
+}
+
 int htoi(char s[])
 { /* convert hexadecimal string to integer */
 	int i=0,n=0;
@@ -105,16 +108,15 @@ void itoa(int n, char s[])
 }
 
 
-short itob(int n, char s[], short b)
+short itob(int n, char *s, short b)
 { /* itoa: convert n to base b string in s */
-	int i=0;
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
 	short digit;
 	unsigned m;
 
 	if (b<2 || 36<b)
 	{	printf("%d is a bad base. Please use one between 2 and 36.\n",b);
-		s[0]='\0';
+		*s='\0';
 		return 1;
 	}
 
@@ -126,12 +128,12 @@ short itob(int n, char s[], short b)
 	do
 	{ /* generate digits in reverse order */
 		digit = m % b;
-		s[i++] = digit + ((digit<10)? '0' :'A' - 10);
+		*s++ = digit + ((digit<10)? '0' :'A' - 10);
 	}while ((m /= b) > 0);
 
 	if (sign)
-		s[i++] = '-';
-	s[i] = '\0';
+		*s++ = '-';
+	*s = '\0';
 	reverse(s);
 	return 0;
 }
@@ -230,4 +232,6 @@ double sci_atof(char s[])
 	tens *= tentothe(power, pow_sign);
 	return sign * val * tens;
 }
+
+
 
