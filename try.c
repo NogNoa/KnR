@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    char *s=0;
+    char s[1024];
     int i=ptr_KnR_getline(s,128);
     printf("%s %d\n",s,i);
     itob(i,s,18);
