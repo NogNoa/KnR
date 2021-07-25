@@ -117,28 +117,28 @@ int charindex_last(char s[],char t)
 
 }
 
-int charindex_1st(char s[],char t)
+int charindex_1st(char *calls,char t)
 { //returns the position of the rightmost occurrence of t in s
-	char c;
-	int i=0;
+	char c,*s=calls;
 
-	for (;(c=s[i]) != 0;++i)
+	for (;(c=*s++) != 0;)
 	{	if (c==t)
-			return i;
+			return s-calls;
 	}
 	return -1;
 
 }
 
-int strindex_last(char s[], char t[])
+int strindex_last(char *calls, char *callt)
 {	/* strindex: return index of last t in s, -1 if none */
-	int i, j, k,back=-1;
+	int back=-1;
+	char *s=calls,*t,*r;
 
-	for (i = 0; s[i] != '\0'; i++) {
-		for (j=i, k=0; t[k]!='\0' && s[j]==t[k]; j++, k++)
+	for (; *s != '\0'; s++) {
+		for (r=s, t=callt; *t != '\0' && *r==*t; r++, t++)
 			;
-		if (k > 0 && t[k] == '\0')
-			back=i;
+		if (*t == '\0')
+			back=s-calls;
 	}
 	return back;
 }
@@ -170,7 +170,7 @@ char * alt_strcat(char *s, char *t)
 	return calls;
 }
 
-size_t strlen(char *);
+size_t strlen(const char *);
 
 _Bool strend(char *s, char *t)
 { /* strend: return true if t occoures at end of s */

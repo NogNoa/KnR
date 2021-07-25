@@ -9,7 +9,7 @@
 	#include <stdlib.h>
 #endif
 
-void reverse(char s[]); //from control_flow.lb.c
+char *reverse(char *); //from control_flow.lb.c
 
 // Ritchie, D. and Kernighan, W. (1988) p59
 

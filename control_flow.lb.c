@@ -21,7 +21,7 @@ int KnR_binsearch(int x, int v[], int n)
 
 // Ritchie, D. and Kernighan, W. (1988) p57
 
-void reverse(char s[])
+void KnR_reverse(char s[])
 { /* reverse: reverse string s in place */
 	int c, i, j;
 	for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
@@ -175,6 +175,21 @@ than    {(low < high)
 	     ...}
 than 	 (x == v[mid]) iff (low == high)
 */
+
+char *reverse(char *calls)
+{ /* reverse: reverse string s in place */
+	char *j,*i=j=calls, temp;
+
+	while(*j++)	{}
+	j-=2;
+
+	for (; i < j; i++, j--) {
+		temp = *i;
+		*i = *j;
+		*j = temp;
+	}
+	return calls;
+}
 
 void real_recrs_reverse(int i, char s[])
 { /* reverse: reverse string s in place using recursion */
