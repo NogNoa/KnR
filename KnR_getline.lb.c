@@ -1,6 +1,5 @@
 // Ritchie, D. and Kernighan, W. (1988) p30
 
-#include <stdio.h>
 #include "KnR_getline.h"
 
 int KnR_getline(char s[], int lim)
