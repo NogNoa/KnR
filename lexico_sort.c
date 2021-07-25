@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include "KnR_getline.h"
+#include "KnR_getline.lb.c"
 #define MAXLINES 5120 /* max #lines to be sorted */
 
 char *lineptr[MAXLINES]; /* pointers to text lines */
@@ -26,8 +27,9 @@ int main()
 }
 
 
-
-char *alloc(int); /*in molon.lb.c */
+#ifndef alloc
+	#include "molon.lb.c"
+#endif
 
 
 int readlines(char *lineptr[], int maxlines,char *p)
