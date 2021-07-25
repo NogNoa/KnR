@@ -237,20 +237,14 @@ double sci_atof(char s[])
 int btoi(char *s,int b)
 { /* ptr_atoi: convert s to integer */
 	int n=0;
-	char *v;
+	char digit;
 	const char basi[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 	if (b < 2 ||strlen(basi) < b)
 	{	printf("%d is a bad base. Please use one between 2 and 36.\n",b);
 		return 0;
 	}
-	do 
-	{
-		v=strchr(basi,*s);
-		*s=v-basi;
-		n = b * n + *s++;
-	}
-	while (*s >= 0 && *s <= b);
-		
+	while ((digit=strchr(basi,*s++)-basi) >= 0 && digit <= b)
+		n = b * n + digit;	
 	return n;
 }
 
