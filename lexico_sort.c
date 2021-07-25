@@ -6,15 +6,16 @@
 
 char *lineptr[MAXLINES]; /* pointers to text lines */
 
-int readlines(char *lineptr[], int nlines);
+int readlines(char *lineptr[], int nlines, char *snglptr);
 void writelines(char *lineptr[], int nlines);
 void qsort(char *lineptr[], int left, int right);
-
+#define MAXLEN 1024 /* max length of any input line */
 
 int main()
 {	/* sort input lines */
 	int nlines; /* number of input lines re'd */
-	if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
+	char snglptr[MAXLEN];
+	if ((nlines = readlines(lineptr, MAXLINES,snglptr)) >= 0) {
 		qsort(lineptr, 0, nlines-1);
 		writelines(lineptr, nlines);
 		return 0;
@@ -24,18 +25,18 @@ int main()
 	}
 }
 
-#define MAXLEN 1000 /* max length of any input line */
-
-char *alloc(int);
 
 
-int readlines(char *lineptr[], int maxlines)
+char *alloc(int); /*in molon.lb.c */
+
+
+int readlines(char *lineptr[], int maxlines,char *p)
 {	/* readlines: read input lines */
 	int len, nlines;
-	char *p, line[MAXLEN];
+	char line[MAXLEN];
 	nlines = 0;
 	while ((len = ptr_KnR_getline(line, MAXLEN)) > 0)
-	{	if (nlines >= maxlines || (p = alloc(len)) == NULL)
+	{	if (nlines >= maxlines || p == NULL)
 			return -1;
 		else {
 			line[len-1] = '\0'; /* delete newline */
