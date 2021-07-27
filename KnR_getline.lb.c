@@ -1,7 +1,5 @@
 // Ritchie, D. and Kernighan, W. (1988) p30
 
-#include "KnR_getline.h"
-
 int KnR_getline(char s[], int lim)
 {  // read a line into s, return length
 

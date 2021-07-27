@@ -2,7 +2,6 @@
 
 #include <string.h>
 #include "KnR_getline.h"
-#include "KnR_getline.lb.c"
 #define MAXLINES 5120 /* max #lines to be sorted */
 
 char *lineptr[MAXLINES]; /* pointers to text lines */
