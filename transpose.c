@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "KnR_getline.h"
 #define MAX 0x1024
 
@@ -20,7 +21,7 @@ void expose(char * lini[],int  nline, int mxlen)
 	for (int i=0; i < mxlen; ++i)
 	{	for (int lin=0;lin<nline ;++lin)
 		{	c=lini[lin][i];
-			if (dead[lin] && c == '\t')
+			if (dead[lin] || isspace(c))
 				putchar(' ');
 			else
 				putchar(c);
@@ -43,8 +44,6 @@ int linearise(void)
 	for (nline=0; (len = KnR_getline(line, MAX)); ++nline)
 	{	if (nline >= MAX || (p=malloc(len)) == NULL)
 			return -1;
-		if (line[len-1]== '\n')
-			line[--len] = '\0';
 		strcpy(p,line);
 		lini[nline] = p;
 		if (len>mxlen)
