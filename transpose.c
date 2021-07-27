@@ -19,14 +19,13 @@ void expose(char * lini[],int  nline, int mxlen)
 
 	for (int i=0; i < mxlen; ++i)
 	{	for (int lin=0;lin<nline ;++lin)
-		{	if (dead[lin])
+		{	c=lini[lin][i];
+			if (dead[lin] && c == '\t')
 				putchar(' ');
 			else
-			{	c=lini[lin][i];
 				putchar(c);
-				if (c=='\0')
-					dead[lin]=1;
-			}
+			if (c=='\0')
+				dead[lin]=1;
 		}
 	putchar('\n');
 	}
