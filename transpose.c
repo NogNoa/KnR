@@ -2,7 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 #include "KnR_getline.h"
-#define MAX 0x1024
+#include "KnR_getline.lb.c"
+#define MAX 0x400
 
 /*
 Text is nline lines, each killed by /0.
@@ -21,12 +22,12 @@ void expose(char * lini[],int  nline, int mxlen)
 	for (int i=0; i < mxlen; ++i)
 	{	for (int lin=0;lin<nline ;++lin)
 		{	c=lini[lin][i];
+			if (c=='\0')
+				dead[lin]=1;
 			if (dead[lin] || isspace(c))
 				putchar(' ');
 			else
 				putchar(c);
-			if (c=='\0')
-				dead[lin]=1;
 		}
 	putchar('\n');
 	}
