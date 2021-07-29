@@ -25,9 +25,8 @@ _Bool month_day(int year, int yearday, int *pmonth, int *pday)
 	leap = (!(year%4) && (year%100)) || !(year%400);
 	if (year < 1582 || yearday < 1 || yearday > 365 + leap)
 		return 1;
-	yearday -= (leap && yearday > 60);
 	for (i = 1; yearday > daytab[leap][i]; i++)
-		yearday -= daytab[0][i];
+		yearday -= daytab[leap][i];
 	*pmonth = i;
 	*pday = yearday;
 	return 0;
