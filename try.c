@@ -1,19 +1,21 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "KnR_getline.lb.c"
-#include "stoi.lb.c"
-#include "control_flow.lb.c"
-#include "add_remove-string.lb.c"
+#include "time.lb.c"
 
 
 int main(int argc, char *argv[])
 {
-    char *s=malloc(1024);
-    s=itob(i,18);
-    printf("%s %d\n",s,btoi("128",16));
-    i=charindex_1st("char *calls",'a');
-    int j=strindex_last("abanibiabonibe", "ib");
-    printf("%x %x\n",i,j);
-
+    int year, month, day, yearday;
+    
+    for (year = 1970; year <= 2000; ++year) {
+        for (yearday = 1; yearday < 366; ++yearday) {
+            if (month_day(year, yearday, &month, &day) == 1) {
+                printf("month_day failed: %d %d\n",
+                    year, yearday);
+            } else if (day_of_year(year, month, day) != yearday) {
+                printf("bad result: %d %d\n", year, yearday);
+                printf("month = %d, day = %d\n", month, day);
+            }
+        }
+    }
     return 0;
 }
