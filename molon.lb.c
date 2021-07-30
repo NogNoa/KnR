@@ -1,7 +1,10 @@
 // Ritchie, D. and Kernighan, W. (1988) p86
-
-#include <stdio.h>
-#include <ctype.h>
+#ifndef printf
+	#include <stdio.h>
+#endif
+#ifndef isdigit
+	#include <ctype.h>
+#endif
 
 int getch(void);
 void ungetch(int);
