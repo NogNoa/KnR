@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+/* max line length 72 */
 
 int detab_reg(int gap)
 {
@@ -15,7 +16,11 @@ int detab_reg(int gap)
 			putchar(c);
 			i = 0;
 		}
-		else{
+		else
+		{	if (i > 72)
+			{	putchar('\n');
+				i=0;
+			}
 			putchar(c);
 			++i;
 		}
@@ -31,21 +36,28 @@ int detab(int len, int *stops)
 	while ((c = getchar()) != EOF){
 		if (c == '\t')
 		{	_Bool cnt=1;
-			while (cnt)
+			while (cnt && i < 72)
 			{	putchar(' ');
 				 ++i;
 				for (int*p=stops;p<stops+len;++p)
 					if (*p==i)
 						cnt=0;
-					else if
+			}
+			if (i > 72)
+			{	putchar('\n');
+				i=0;
 			}
 		}
 		else if (c == '\n'){
 			putchar(c);
 			i = 0;
 		}
-		else{
-			putchar(c);
+		else if (c == ' ' && i > 72)
+			{	putchar('\n');
+				i=0;
+			}
+		else
+		{	putchar(c);
 			++i;
 		}
 	}
