@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-/* max line length 72 */
+#define MXLIN 72 /* max line length*/
 
 int detab_reg(int gap)
 {
@@ -9,15 +9,14 @@ int detab_reg(int gap)
 	
 	while ((c = getchar()) != EOF){
 		if (c == '\t')
-			for(int j = i % gap; j < gap; ++j, ++i){
+			for(int j = i % gap; j < gap && i <= MXLIN; ++j, ++i)
 				putchar(' ');
-			}
 		else if (c == '\n'){
 			putchar(c);
 			i = 0;
 		}
 		else
-		{	if (i > 72)
+		{	if (c == ' ' && i > MXLIN)
 			{	putchar('\n');
 				i=0;
 			}
@@ -36,14 +35,14 @@ int detab(int len, int *stops)
 	while ((c = getchar()) != EOF){
 		if (c == '\t')
 		{	_Bool cnt=1;
-			while (cnt && i < 72)
+			while (cnt)
 			{	putchar(' ');
 				 ++i;
 				for (int*p=stops;p<stops+len;++p)
-					if (*p==i)
+					if (*p==i || i > MXLIN)
 						cnt=0;
 			}
-			if (i > 72)
+			if (i > MXLIN)
 			{	putchar('\n');
 				i=0;
 			}
@@ -52,7 +51,7 @@ int detab(int len, int *stops)
 			putchar(c);
 			i = 0;
 		}
-		else if (c == ' ' && i > 72)
+		else if (c == ' ' && i > MXLIN)
 			{	putchar('\n');
 				i=0;
 			}
@@ -68,7 +67,8 @@ int detab(int len, int *stops)
 int main(int argc, char *argv)
 {
 	int back;
-
+	//stdin = fopen("detab.c", "r");
+	
 	if (argc < 2)
 		/* tab-stops of 4-spaces each. */
 		back = detab_reg(4);
