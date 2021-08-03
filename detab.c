@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #define MXLIN 72 /* max line length*/
 
 int detab_reg(int gap)
@@ -8,19 +9,19 @@ int detab_reg(int gap)
 	char c;
 	
 	while ((c = getchar()) != EOF){
-		if (c == '\t')
-			for(int j = i % gap; j < gap && i <= MXLIN; ++j, ++i)
-				putchar(' ');
-		else if (c == '\n'){
-			putchar(c);
-			i = 0;
-		}
-		else
-		{	if (c == ' ' && i > MXLIN)
+		if (isspace(c) && i > MXLIN)
 			{	putchar('\n');
 				i=0;
 			}
-			putchar(c);
+		else if (c == '\t')
+			for(int j = i % gap; j < gap; ++j, ++i)
+				putchar(' ');
+		else if (c == '\n')
+		{	putchar(c);
+			i = 0;
+		}
+		else
+		{	putchar(c);
 			++i;
 		}
 	}
@@ -33,28 +34,28 @@ int detab(int len, int *stops)
 	char c;
 	
 	while ((c = getchar()) != EOF){
-		if (c == '\t')
+		if (isspace(c) && i > MXLIN)
+			{	putchar('\n');
+				i=0;
+			}
+		else if (c == '\t')
 		{	_Bool cnt=1;
 			while (cnt)
 			{	putchar(' ');
 				 ++i;
 				for (int*p=stops;p<stops+len;++p)
-					if (*p==i || i > MXLIN)
+					if (*p==i)
 						cnt=0;
-			}
-			if (i > MXLIN)
-			{	putchar('\n');
-				i=0;
+				if (i > MXLIN)
+					{	putchar('\n');
+						cnt=i=0;
+					}
 			}
 		}
 		else if (c == '\n'){
 			putchar(c);
 			i = 0;
 		}
-		else if (c == ' ' && i > MXLIN)
-			{	putchar('\n');
-				i=0;
-			}
 		else
 		{	putchar(c);
 			++i;
