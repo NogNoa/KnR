@@ -65,7 +65,7 @@ int detab(int len, int *stops)
 
 }
 
-int main(int argc, char *argv)
+int main(int argc, char *argv[])
 {
 	int back;
 
@@ -75,7 +75,7 @@ int main(int argc, char *argv)
 	else 
 	{	int stops[argc-1];
 		for (int i=1;i<argc;i++)
-		{	stops[i-1] = atoi(argv+i);
+		{	stops[i-1] = atoi(argv[i]);
 		}
 		back = detab(argc, stops);
 	}
