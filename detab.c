@@ -30,9 +30,9 @@ int detab_reg(int start,int gap)
 				i=0;
 			}
 		else if (c == '\t')
-			if (i<start) while (i++<start)
+			if (i<start) while (i++ < start)
 				putchar(' ');
-			else for(int j = i % gap; j <= gap; ++j, ++i)
+			else while (i++ <= (i/gap*gap + 1))
 				putchar(' ');
 		else if (c == '\n')
 		{	putchar(c);
@@ -59,7 +59,7 @@ int detab(int len, int *stops)
 		else if (c == '\t')
 		{	int *lwbd; //low boundary
 			lwbd = fndcrsr(i,stops,len);
-			for(int j = *lwbd; j < *(lwbd+1); ++j, ++i) 
+			while(i++ < *(lwbd+1)) 
 				putchar(' ');
 		}
 		else if (c == '\n')

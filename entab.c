@@ -3,14 +3,13 @@
 
 int main(void)
 {
-	int i=0;
+	int i=0, s=0;
 	char c;
-	int s=0;
-	int r;
 	
 	while ((c = getchar()) != EOF){
 		if (c == ' '){
 			++s;
+			int r;
 			if (s >= (r = (4 - i % 4))){
 				putchar('\t');
 				s -= r;
