@@ -30,9 +30,9 @@ int detab_reg(int start,int gap)
 				i=0;
 			}
 		else if (c == '\t')
-			if (i<start)
-				i=start;
-			else for(int j = i % gap; j < gap; ++j, ++i)
+			if (i<start) while (i++<start)
+				putchar(' ');
+			else for(int j = i % gap; j <= gap; ++j, ++i)
 				putchar(' ');
 		else if (c == '\n')
 		{	putchar(c);
@@ -107,3 +107,5 @@ int main(int argc, char *argv[])
 	}
 	return back;
 }
+
+/* todo: make combined mathod that just create 1 list of stops from both speicel and regular arguments */
