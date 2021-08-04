@@ -25,14 +25,14 @@ int detab_reg(int start,int gap)
 	char c;
 	
 	while ((c = getchar()) != EOF){
-		if (isspace(c) && i > MXLIN)
+	{	if (isspace(c) && i > MXLIN)
 			{	putchar('\n');
 				i=0;
 			}
 		else if (c == '\t')
 			if (i<start) while (i++ < start)
 				putchar(' ');
-			else while (i++ <= (i/gap*gap + 1))
+			else for (int j=i;i++ <= (j/gap*gap + 1);)
 				putchar(' ');
 		else if (c == '\n')
 		{	putchar(c);
