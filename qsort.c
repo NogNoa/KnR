@@ -10,7 +10,7 @@ void swap(int v[], int i, int j)
 	v[j] = temp;
 }
 
-void qsort(int v[], int left, int right)
+void KnR_qsort(int v[], int left, int right)
 {	/* qsort: sort v[left]...v[right] into increasing order */
 
 	int i, last;
@@ -26,6 +26,6 @@ void qsort(int v[], int left, int right)
 		if (v[i] < v[left])
 			swap(v, ++last, i);
 	swap(v, left, last); /* restore partition elem */
-	qsort(v, left, last-1);
-	qsort(v, last+1, right);
+	KnR_qsort(v, left, last-1);
+	KnR_qsort(v, last+1, right);
 }

@@ -3,6 +3,8 @@
 #include <ctype.h>
 #define MXLIN 72 /* max line length*/
 
+void KnR_qsort(int v[], int left, int right);
+
 int detab_reg(int gap)
 {
 	int i=0;
@@ -28,7 +30,7 @@ int detab_reg(int gap)
 	return i;
 }
 
-int detab(int len, int *stops)
+int detab1(int len, int *stops)
 {
 	int i=0;
 	char c;
@@ -47,22 +49,29 @@ int detab(int len, int *stops)
 					if (*p==i)
 						cnt=0;
 				if (i > MXLIN)
-					{	putchar('\n');
-						cnt=i=0;
+					{	putchar('\n'); 
+						cnt=i=0;	
 					}
 			}
 		}
-		else if (c == '\n'){
+		else if (c == '\n'){ 
 			putchar(c);
 			i = 0;
 		}
 		else
-		{	putchar(c);
+		{	putchar(c);	
 			++i;
 		}
 	}
 	return i;	
 
+}
+
+int detab2(int len, int *stops)
+{
+	int *p=stops;
+	while (p<stops+len);
+	return *p;
 }
 
 int main(int argc, char *argv[])
@@ -78,7 +87,8 @@ int main(int argc, char *argv[])
 		for (int i=1;i<argc;i++)
 		{	stops[i-1] = atoi(argv[i]);
 		}
-		back = detab(argc, stops);
+		KnR_qsort(stops,0,argc-2);
+		back = detab1(argc-1, stops);
 	}
 	return back;
 }
