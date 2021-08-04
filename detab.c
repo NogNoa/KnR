@@ -44,44 +44,7 @@ int detab_reg(int gap)
 	return i;
 }
 
-int detab1(int len, int *stops)
-{
-	int i=0;
-	char c;
-	
-	while ((c = getchar()) != EOF){
-		if (isspace(c) && i > MXLIN)
-			{	putchar('\n');
-				i=0;
-			}
-		else if (c == '\t')
-		{	_Bool cnt=1;
-			while (cnt)
-			{	putchar(' ');
-				 ++i;
-				for (int*p=stops;p<stops+len;++p)
-					if (*p==i)
-						cnt=0;
-				if (i >= MXLIN)
-					{	putchar('\n'); 
-						cnt=i=0;	
-					}
-			}
-		}
-		else if (c == '\n'){ 
-			putchar(c);
-			i = 0;
-		}
-		else
-		{	putchar(c);	
-			++i;
-		}
-	}
-	return i;	
-
-}
-
-int detab2(int len, int *stops)
+int detab(int len, int *stops)
 {
 	int i=0;
 	char c;
@@ -127,14 +90,8 @@ int main(int argc, char *argv[])
 		//KnR_qsort(stops,0,argc-2);
 		qsort(stops,argc+1,sizeof(int),cmp);
 		if (0< stops[0] || stops[argc] > MXLIN)
-		{	fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
-			printf("Run anyway?\n");
-			char ans;
-			scanf("%c",&ans);
-			if (ans != 'y')
-				return 0;
-		}
-		back = detab2(argc+1, stops);
+			fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
+		back = detab(argc+1, stops);
 	}
 	return back;
 }
