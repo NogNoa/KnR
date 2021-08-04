@@ -118,13 +118,14 @@ int main(int argc, char *argv[])
 		/* tab-stops of 4-spaces each. */
 		back = detab_reg(4);
 	else 
-	{	int stops[argc-1];
+	{	int stops[argc+1];
 		for (int i=1;i<argc;i++)
-		{	stops[i-1] = atoi(argv[i]);
+		{	stops[i] = atoi(argv[i]);
 		}
+		stops[0]=0; stops[argc+1]=MXLIN;
 		//KnR_qsort(stops,0,argc-2);
-		qsort(stops,argc-1,sizeof(int),cmp);
-		back = detab2(argc-1, stops);
+		qsort(stops,argc+1,sizeof(int),cmp);
+		back = detab2(argc+1, stops);
 	}
 	return back;
 }
