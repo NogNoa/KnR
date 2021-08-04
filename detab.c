@@ -19,7 +19,7 @@ int *fndcrsr(int i, int *stops, int len) //find cursor
 	return p;	
 }
 
-int detab_reg(int gap)
+int detab_reg(int start,int gap)
 {
 	int i=0;
 	char c;
@@ -30,7 +30,9 @@ int detab_reg(int gap)
 				i=0;
 			}
 		else if (c == '\t')
-			for(int j = i % gap; j < gap; ++j, ++i)
+			if (i<start)
+				i=start;
+			else for(int j = i % gap; j < gap; ++j, ++i)
 				putchar(' ');
 		else if (c == '\n')
 		{	putchar(c);
@@ -79,19 +81,29 @@ int main(int argc, char *argv[])
 	
 	if (argc < 2)
 		/* tab-stops of 4-spaces each. */
-		back = detab_reg(4);
-	//else if (argv[1][0]='')
+		back = detab_reg(0,4);
 	else 
-	{	int stops[argc+1];
+	{	int n=0,m=0;
 		for (int i=1;i<argc;i++)
-		{	stops[i] = atoi(argv[i]);
+		{	if (*argv[i] == '+')
+				n=atoi(argv[i]+1);
+			if (*argv[i] == '-')
+				m=atoi(argv[i]+1);
 		}
-		stops[0]=0; stops[argc+1]=MXLIN;
-		//KnR_qsort(stops,0,argc-2);
-		qsort(stops,argc+1,sizeof(int),cmp);
-		if (0< stops[0] || stops[argc] > MXLIN)
-			fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
-		back = detab(argc+1, stops);
+		if (n)	
+			back = detab_reg(m,n);
+		else 
+		{	int stops[argc+1];
+			for (int i=1;i<argc;i++)
+			{	stops[i] = atoi(argv[i]);
+			}
+			stops[0]=0; stops[argc+1]=MXLIN;
+			//KnR_qsort(stops,0,argc-2);
+			qsort(stops,argc+1,sizeof(int),cmp);
+			if (0< stops[0] || stops[argc] > MXLIN)
+				fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
+			back = detab(argc+1, stops);
+		}
 	}
 	return back;
 }
