@@ -24,7 +24,7 @@ int detab_reg(int start,int gap)
 	int i=0;
 	char c;
 	
-	while ((c = getchar()) != EOF){
+	while ((c = getchar()) != EOF)
 	{	if (isspace(c) && i > MXLIN)
 			{	putchar('\n');
 				i=0;
@@ -61,6 +61,10 @@ int detab(int len, int *stops)
 			lwbd = fndcrsr(i,stops,len);
 			while(i++ < *(lwbd+1)) 
 				putchar(' ');
+			if (i>=MXLIN)
+			{	putchar('\n');
+				i = 0;
+			}
 		}
 		else if (c == '\n')
 		{	putchar(c);
@@ -87,7 +91,7 @@ int main(int argc, char *argv[])
 		for (int i=1;i<argc;i++)
 		{	if (*argv[i] == '+')
 				n=atoi(argv[i]+1);
-			if (*argv[i] == '-')
+			else if (*argv[i] == '-')
 				m=atoi(argv[i]+1);
 		}
 		if (n)	
