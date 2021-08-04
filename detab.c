@@ -10,7 +10,7 @@ int cmp(const void *a, const void *b)
 	return ( *(int*)a - *(int*)b );
 }
 
-int *fndcrsr(int i, int *stops, int len)
+int *fndcrsr(int i, int *stops, int len) //find cursor
 {
 	int *p;
 	for (p=stops;p<stops+len;++p)
@@ -62,7 +62,7 @@ int detab1(int len, int *stops)
 				for (int*p=stops;p<stops+len;++p)
 					if (*p==i)
 						cnt=0;
-				if (i > MXLIN)
+				if (i >= MXLIN)
 					{	putchar('\n'); 
 						cnt=i=0;	
 					}
@@ -92,9 +92,9 @@ int detab2(int len, int *stops)
 				i=0;
 			}
 		else if (c == '\t')
-		{	int *lwbd;
+		{	int *lwbd; //low boundary
 			lwbd = fndcrsr(i,stops,len);
-			for(int j = *lwbd; j < *(lwbd+1); ++j, ++i)
+			for(int j = *lwbd; j < *(lwbd+1); ++j, ++i) 
 				putchar(' ');
 		}
 		else if (c == '\n')
@@ -117,6 +117,7 @@ int main(int argc, char *argv[])
 	if (argc < 2)
 		/* tab-stops of 4-spaces each. */
 		back = detab_reg(4);
+	//else if (argv[1][0]='')
 	else 
 	{	int stops[argc+1];
 		for (int i=1;i<argc;i++)
@@ -125,6 +126,14 @@ int main(int argc, char *argv[])
 		stops[0]=0; stops[argc+1]=MXLIN;
 		//KnR_qsort(stops,0,argc-2);
 		qsort(stops,argc+1,sizeof(int),cmp);
+		if (0< stops[0] || stops[argc] > MXLIN)
+		{	fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
+			printf("Run anyway?\n");
+			char ans;
+			scanf("%c",&ans);
+			if (ans != 'y')
+				return 0;
+		}
 		back = detab2(argc+1, stops);
 	}
 	return back;
