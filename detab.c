@@ -19,32 +19,6 @@ int *fndcrsr(int i, int *stops, int len) //find cursor
 	return p;	
 }
 
-int detab_reg(int start,int gap)
-{
-	int i=0;
-	char c;
-	
-	while ((c = getchar()) != EOF)
-	{	if (isspace(c) && i > MXLIN)
-			{	putchar('\n');
-				i=0;
-			}
-		else if (c == '\t')
-			if (i<start) while (i++ < start)
-				putchar(' ');
-			else for (int j=i;i++ < (j/gap+1)*gap;)
-				putchar(' ');
-		else if (c == '\n')
-		{	putchar(c);
-			i = 0;
-		}
-		else
-		{	putchar(c);
-			++i;
-		}
-	}
-	return i;
-}
 
 int detab(int start, int gap, int *stops, int len)
 {
@@ -52,14 +26,14 @@ int detab(int start, int gap, int *stops, int len)
 	char c;
 	
 	while ((c = getchar()) != EOF)
-	{	if (isspace(c) && i > MXLIN)
+	{	if (isspace(c) && i >= MXLIN)
 			{	putchar('\n');
 				i=0;
 			}
 		else if (c == '\t')
 		{	int *lwbd; //low boundary
 			lwbd = fndcrsr(i,stops,len);
-			int gpstp = (i/gap+1)*gap;
+			int gpstp = (i/gap+1)*gap; //gap stop
 			if (i<start) while (i++ < start)
 				putchar(' ');
 			else while(i++ < *(lwbd+1) && i < gpstp) 
@@ -114,11 +88,13 @@ int main(int argc, char *argv[])
 	//stdin = fopen("detab.c", "r");
 	
 	if (argc < 2)
-		/* tab-stops of 4-spaces each. */
-		back = detab_reg(0,4);
+	{	/* tab-stops of 4-spaces each. */
+		int stops[2]={0,MXLIN};
+		back = detab(0,4,stops,2);
+	}
 	else 
 	{	taby = arg_prcs(argc, argv);
-		back = detab_reg(taby.m,taby.n);
+		back = detab(taby.m,taby.n,taby.stops, argc+1);
 	}
 	return back;
 }
