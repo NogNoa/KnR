@@ -1,5 +1,5 @@
-#include <stdio.h>
-#define MXLIN 72 /* max line length*/
+#include <ctype.h>
+#include "tabbin.h"
 
 struct tabbin arg_prcs(int argc, char *argv[]);
 
@@ -47,11 +47,6 @@ int detab(int start, int gap, int *stops, int len)
 	}
 	return i;
 }
-
-struct tabbin 
-{	int n,m;
-	int *stops;
-};
 
 int main(int argc, char *argv[])
 {

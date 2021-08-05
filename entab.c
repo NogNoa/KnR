@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "tabbin.h"
 
 struct tabbin arg_prcs(int argc, char *argv[]);
 
@@ -35,11 +35,6 @@ int entab(int gap)
 	}
 	return i;
 }
-
-struct tabbin 
-{	int n,m;
-	int *stops;
-};
 
 int main(int argc, char *argv[])
 {

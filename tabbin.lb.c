@@ -1,17 +1,11 @@
-#include <stdio.h>
 #include <stdlib.h>
 
-#define MXLIN 72 /* max line length*/
+#include "tabbin.h"
 
 int cmp(const void *a, const void *b)
 {
 	return ( *(int*)a - *(int*)b );
 }
-
-struct tabbin 
-{	int n,m;
-	int *stops;
-};
 
 struct tabbin arg_prcs(int argc, char *argv[])
 {
