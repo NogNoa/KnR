@@ -32,7 +32,7 @@ int detab_reg(int start,int gap)
 		else if (c == '\t')
 			if (i<start) while (i++ < start)
 				putchar(' ');
-			else for (int j=i;i++ <= (j/gap*gap + 1);)
+			else for (int j=i;i++ < (j/gap+1)*gap;)
 				putchar(' ');
 		else if (c == '\n')
 		{	putchar(c);
@@ -46,7 +46,7 @@ int detab_reg(int start,int gap)
 	return i;
 }
 
-int detab(int len, int *stops)
+int detab(int start, int gap, int *stops, int len)
 {
 	int i=0;
 	char c;
@@ -59,7 +59,10 @@ int detab(int len, int *stops)
 		else if (c == '\t')
 		{	int *lwbd; //low boundary
 			lwbd = fndcrsr(i,stops,len);
-			while(i++ < *(lwbd+1)) 
+			int gpstp = (i/gap+1)*gap;
+			if (i<start) while (i++ < start)
+				putchar(' ');
+			else while(i++ < *(lwbd+1) && i < gpstp) 
 				putchar(' ');
 			if (i>=MXLIN)
 			{	putchar('\n');
@@ -115,7 +118,7 @@ int main(int argc, char *argv[])
 		back = detab_reg(0,4);
 	else 
 	{	taby = arg_prcs(argc, argv);
-		back = detab(argc+1,taby.stops);
+		back = detab_reg(taby.m,taby.n);
 	}
 	return back;
 }
