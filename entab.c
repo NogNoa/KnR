@@ -6,26 +6,26 @@ struct tabbin arg_prcs(int argc, char *argv[]);
 
 int entab(int gap)
 {
-	int i=0, s=0;
+	int i=0, spc=0;
 	char c;
 	
 	while ((c = getchar()) != EOF){
 		if (c == ' '){
-			++s;
-			int r;
-			if (s >= (r = (gap - i % gap))){
-				putchar('\t');
-				s -= r;
+			++spc;
+			int rmn;
+			if (spc >= (rmn = (gap - i % gap)))
+			{	putchar('\t');
+				spc -= rmn;
 				i = 0;
 			}
 		}
-		else if (c == '\t'){
-			putchar('\t');
+		else if (c == '\t')
+		{	putchar('\t');
 			i = 0;
 		}
-		else{
-			i += s;
-			for (;s>0;--s)
+		else
+		{	i += spc;
+			for (;--spc>0;)
 				putchar(' ');
 			putchar(c);
 			++i;
