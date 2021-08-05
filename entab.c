@@ -1,7 +1,10 @@
 #include <stdio.h>
+
+struct tabbin arg_prcs(int argc, char *argv[]);
+
 /* tab-stops of 4-spaces each. */
 
-int main(void)
+int entab(int gap)
 {
 	int i=0, s=0;
 	char c;
@@ -10,7 +13,7 @@ int main(void)
 		if (c == ' '){
 			++s;
 			int r;
-			if (s >= (r = (4 - i % 4))){
+			if (s >= (r = (gap - i % gap))){
 				putchar('\t');
 				s -= r;
 				i = 0;
@@ -31,4 +34,25 @@ int main(void)
 			i = 0;
 	}
 	return i;
+}
+
+struct tabbin 
+{	int n,m;
+	int *stops;
+};
+
+int main(int argc, char *argv[])
+{
+	int back;
+	struct tabbin taby;
+
+	if (argc < 2)
+	{	
+		back = entab(4);
+	}
+	else
+	{	taby = arg_prcs(argc, argv);
+		back = entab(taby.n);
+	}
+	return back;
 }

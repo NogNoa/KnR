@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
 #define MXLIN 72 /* max line length*/
 
 struct tabbin arg_prcs(int argc, char *argv[]);
