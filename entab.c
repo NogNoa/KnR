@@ -16,7 +16,7 @@ int entab(int strt, int gap, int *stops, int len)
 			++spc;
 			int nxtstp = fndstp(strt, gap, stops , 0, i); //nxtstp
 			int rmn = (nxtstp - i);
-			if (spc >= rmn)
+			if (spc > rmn)
 			{	putchar('\t');
 				i   += rmn;
 				spc -= rmn;
@@ -28,7 +28,7 @@ int entab(int strt, int gap, int *stops, int len)
 			{	putchar('\n');
 				i=spc=0;
 			}
-			else for (;--spc>0;)
+			else for (;spc>0;--spc)
 				putchar(' ');
 			putchar(c);
 			++i;
@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
 {
 	int back;
 	struct tabbin taby;
+
+	stdin = fopen("a.txt","r");
 
 	if (argc < 2)
 	{	int stops[2] = {0,MXLIN};
