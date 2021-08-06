@@ -6,7 +6,7 @@ struct tabbin arg_prcs(int argc, char *argv[]);
 int *fndcrsr(int i, int *stops, int len) //find cursor
 {
 	int *p;
-	for (p=stops;p<stops+len;++p)
+	for (p=stops;p+1<stops+len;++p)
 		if (*p <= i && i < *(p+1))
 			break;
 	return p+1;	
@@ -27,9 +27,8 @@ int detab(int start, int gap, int *stops, int len)
 		{	int *hibd; //high boundary
 			hibd = fndcrsr(i,stops,len);
 			int gpstp = start + ((i-start)/gap+1)*gap; //gap stop
-			if (i<start) while (i++ < start)
-				putchar(' ');
-			else while(i++ < *(hibd) && i < gpstp) 
+			gpstp = (gpstp > start) ? gpstp : start;
+			for(;i < *(hibd) && i < gpstp;i++) 
 				putchar(' ');
 			if (i>=MXLIN)
 			{	putchar('\n');
