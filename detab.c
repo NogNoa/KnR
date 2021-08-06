@@ -2,16 +2,7 @@
 #include "tabbin.h"
 
 struct tabbin arg_prcs(int argc, char *argv[]);
-
-int *fndcrsr(int i, int *stops, int len) //find cursor
-{
-	int *p;
-	for (p=stops;p+1<stops+len;++p)
-		if (*p <= i && i < *(p+1))
-			break;
-	return p+1;	
-}
-
+int fndstp (int start, int gap, int *stops, int len, int i);
 
 int detab(int start, int gap, int *stops, int len)
 {
@@ -24,11 +15,8 @@ int detab(int start, int gap, int *stops, int len)
 				i=0;
 			}
 		else if (c == '\t')
-		{	int *hibd; //high boundary
-			hibd = fndcrsr(i,stops,len);
-			int gpstp = start + ((i-start)/gap+1)*gap; //gap stop
-			gpstp = (gpstp > start) ? gpstp : start;
-			for(;i < *(hibd) && i < gpstp;i++) 
+		{	int stop = fndstp(start, gap, stops, len, i);
+			for(;i < stop;i++) 
 				putchar(' ');
 			if (i>=MXLIN)
 			{	putchar('\n');

@@ -26,3 +26,21 @@ struct tabbin arg_prcs(int argc, char *argv[])
 		fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
 	return taby;
 }
+
+int *fndcrsr(int i, int *stops, int len) //find cursor
+{
+	int *p;
+	for (p=stops;p+1<stops+len;++p)
+		if (*p <= i && i < *(p+1))
+			break;
+	return p+1;	
+}
+
+int fndstp (int start, int gap, int *stops, int len, int i)
+{ 
+	int gpstp = start + ((i-start)/gap+1)*gap; //gap stop
+	gpstp = (gpstp > start) ? gpstp : start;
+	int *hibd; //high boundary
+	hibd = fndcrsr(i,stops,len);
+	return  (gpstp < *(hibd)) ? gpstp : *(hibd);
+}

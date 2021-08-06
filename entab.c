@@ -12,8 +12,8 @@ int entab(int gap)
 	while ((c = getchar()) != EOF){
 		if (c == ' '){
 			++spc;
-			int rmn;
-			if (spc >= (rmn = (gap - i % gap)))
+			int rmn = (gap - i % gap);
+			if (spc >= rmn)
 			{	putchar('\t');
 				i   += rmn;
 				spc -= rmn;
