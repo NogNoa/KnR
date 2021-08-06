@@ -52,5 +52,3 @@ int main(int argc, char *argv[])
 	}
 	return back;
 }
-
-/* todo: make combined mathod that just create 1 list of stops from both speicel and regular arguments */

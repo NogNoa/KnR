@@ -24,7 +24,11 @@ int entab(int strt, int gap, int *stops, int len)
 		}
 		else
 		{	i += spc;
-			for (;--spc>0;)
+			if (i >= MXLIN)
+			{	putchar('\n');
+				i=spc=0;
+			}
+			else for (;--spc>0;)
 				putchar(' ');
 			putchar(c);
 			++i;

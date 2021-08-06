@@ -44,3 +44,5 @@ int fndstp (int start, int gap, int *stops, int len, int i)
 	hibd = fndcrsr(i,stops,len);
 	return  (gpstp < *(hibd)) ? gpstp : *(hibd);
 }
+
+/* todo load variable into taby only in the end of arg_prcs
