@@ -15,8 +15,8 @@ int detab(int start, int gap, int *stops, int len)
 				i=0;
 			}
 		else if (c == '\t')
-		{	int stop = fndstp(start, gap, stops, len, i);
-			for(;i < stop;i++) 
+		{	int nxtstp = fndstp(start, gap, stops, len, i); //nxtstp
+			for(;i < nxtstp;i++) 
 				putchar(' ');
 			if (i>=MXLIN)
 			{	putchar('\n');
