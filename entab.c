@@ -15,13 +15,9 @@ int entab(int gap)
 			int rmn;
 			if (spc >= (rmn = (gap - i % gap)))
 			{	putchar('\t');
+				i   += rmn;
 				spc -= rmn;
-				i = 0;
 			}
-		}
-		else if (c == '\t')
-		{	putchar('\t');
-			i = 0;
 		}
 		else
 		{	i += spc;
