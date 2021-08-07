@@ -62,3 +62,19 @@ int ptr_KnR_getline(char *s, int n)
 	*s = '\0';
 	return lim-n;
 }
+
+int linearise(void)
+{
+	char line[MAXLINE],*p;
+	int nline,len = 0;
+
+	for (nline=0; (len = KnR_getline(line, MAXLINE)); ++nline)
+	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
+			return -1;
+		strcpy(p,line);
+		lini[nline] = p;
+		if (len>mxlen)
+			mxlen=len;
+	}
+	return nline;
+}
