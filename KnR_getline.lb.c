@@ -67,8 +67,10 @@ int linearise(void)
 {
 	char line[MAXLINE],*p;
 	int nline,len = 0;
+
 	linlen = malloc(MAXLINE);
 	lini = malloc(MAXLINE);
+	mxlen=0;
 
 	for (nline=0; (len = KnR_getline(line, MAXLINE)); ++nline)
 	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)

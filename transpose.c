@@ -31,7 +31,7 @@ void expose(char * lini[],int  nline, int mxlen)
 
 int main()
 {
-	int many_line, mxlen=0;
+	int many_line;
 	//stdin = fopen("transpose.c","r");
 
 	many_line = linearise();
