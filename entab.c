@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	int back;
 	struct tabbin taby;
 
-	stdin = fopen("a.txt","r");
+	//stdin = fopen("a.txt","r");
 
 	if (argc < 2)
 	{	int stops[2] = {0,MXLIN};

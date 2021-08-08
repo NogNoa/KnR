@@ -4,7 +4,7 @@
 #ifndef MAXLINE
 #define MAXLINE 0x400
 #endif
-int mxlen;
+int mxlen, linlen[MAXLINE];
 char * lini[MAXLINE];
 
 int KnR_getline (char line[], int maxline);

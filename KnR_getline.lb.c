@@ -75,6 +75,7 @@ int linearise(void)
 		lini[nline] = p;
 		if (len>mxlen)
 			mxlen=len;
+		linlen[nline]=len;
 	}
 	return nline;
 }
