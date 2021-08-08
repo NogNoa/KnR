@@ -67,6 +67,8 @@ int linearise(void)
 {
 	char line[MAXLINE],*p;
 	int nline,len = 0;
+	linlen = malloc(MAXLINE);
+	lini = malloc(MAXLINE);
 
 	for (nline=0; (len = KnR_getline(line, MAXLINE)); ++nline)
 	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
@@ -77,5 +79,7 @@ int linearise(void)
 			mxlen=len;
 		linlen[nline]=len;
 	}
+	linlen = (int *) realloc(linlen, nline);
+	lini = (char **) realloc(lini, nline);
 	return nline;
 }
