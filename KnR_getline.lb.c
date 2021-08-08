@@ -63,11 +63,6 @@ int ptr_KnR_getline(char *s, int n)
 	return lim-n;
 }
 
-void extend(void * p)
-{	size_t size = sizeof(p)/sizeof(*p);
-	p = realloc(p, size+MAXLINE);
-}
-
 int linearise(void)
 {
 	char line[MAXLINE],*p;
@@ -78,11 +73,11 @@ int linearise(void)
 	mxlen=0;
 
 	for (nline=0; (len = KnR_getline(line, MAXLINE)); ++nline)
-	{	if ((p=malloc(len)) == NULL)
+	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
 			return -1;
 		if (nline % MAXLINE == MAXLINE)
-			{	extend((void*) lini);
-				extend((void*) linlen);
+			{	linlen = (int *) realloc(linlen, (sizeof(linlen)/sizeof(*linlen))+MAXLINE);
+				lini = (char **) realloc(lini, (sizeof(linlen)/sizeof(*linlen))+MAXLINE);
 			}
 		strcpy(p,line);
 		lini[nline] = p;
