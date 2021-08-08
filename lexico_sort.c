@@ -8,7 +8,8 @@ char *lineptr[MAXLINES]; /* pointers to text lines */
 
 int readlines(char *lineptr[], int nlines, char *snglptr);
 void writelines(char *lineptr[], int nlines);
-void qsort(char *lineptr[], int left, int right);
+void KnR_qsort(void *lineptr[], int left, int right,
+	int (*comp)(void *, void *));
 int numcmp(char *s1, char *s2);
 #define MAXLEN 1024 /* max length of any input line */
 
@@ -19,13 +20,14 @@ int main(int argc, char *argv[])
 	int numeric = 0; /* 1 if numeric sort */
 	if (argc > 1 && strcmp(argv[1], "-n") == 0)
 		numeric = 1;
-	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) {
-		qsort((void**) lineptr, 0, nlines-1,
+	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
+	{	KnR_qsort((void**) lineptr, 0, nlines-1,
 		(int (*)(void*,void*))(numeric ? numcmp : strcmp));
 		writelines(lineptr, nlines);
 		return 0;
-	} else {
-		printf("error: input too big and scary to sort\n");
+	} 
+	else 
+	{	printf("error: input too big and scary to sort\n");
 		return 1;
 	}
 }
@@ -57,8 +59,8 @@ int readlines(char *lineptr[], int maxlines,char *p)
 	while ((len = ptr_KnR_getline(line, MAXLEN)) > 0)
 	{	if (nlines >= maxlines || (p+=len) == NULL)
 			return -1;
-		else {
-			if (line[len-1] == '\n')
+		else 
+		{	if (line[len-1] == '\n')
 				line[len-1] =  '\0'; /* delete newline */
 			strcpy(p, line);
 			lineptr[nlines++] = p;
@@ -83,7 +85,7 @@ void swap(char *v[], int i, int j)
 	v[j] = temp;
 }
 
-void qsort(char *v[], int left, int right,
+void KnR_qsort(void *v[], int left, int right,
 	int (*cmp)(void *, void *))
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
@@ -97,6 +99,6 @@ void qsort(char *v[], int left, int right,
 		if (*(cmp)(v[i], v[left]) < 0)
 			swap(v, ++last, i);
 	swap(v, left, last);
-	qsort(v, left, last-1, cmp);
-	qsort(v, last+1, right, cmp);
+	KnR_qsort(v, left, last-1, cmp);
+	KnR_qsort(v, last+1, right, cmp);
 }
