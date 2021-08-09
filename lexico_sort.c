@@ -20,11 +20,14 @@ int main(int argc, char *argv[])
 	char buffer[MAXLEN];
 	_Bool numeric = 0; /* 1 if numeric sort */
 	_Bool reverse = 0; /* 1 if reverse sort */
+	
+	stdin = fopen("a.txt", "r");
+
 	while (--argc > 0 && (*++argv)[0] == '-')
 	{	char c;
 		while ((c = *++argv[0]))
-		{	numeric &= (c == 'n');
-			reverse &= (c == 'r');
+		{	numeric |= (c == 'n');
+			reverse |= (c == 'r');
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
@@ -69,11 +72,11 @@ int readlines(char *lineptr[], int maxlines,char *p)
 	char line[MAXLEN];
 	nlines = 0;
 	while ((len = ptr_KnR_getline(line, MAXLEN)) > 0)
-	{	if (nlines >= maxlines || (p+=len) == NULL)
+	{	if (nlines >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
-		{	if (line[len-1] == '\n')
-				line[len-1] =  '\0'; /* delete newline */
+		{	if (line[len] == '\n')
+				line[len] =  '\0'; /* delete newline */
 			strcpy(p, line);
 			lineptr[nlines++] = p;
 		}
