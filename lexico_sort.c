@@ -9,7 +9,7 @@ char *lineptr[MAXLINES]; /* pointers to text lines */
 int readlines(char *lineptr[], int nlines, char *snglptr);
 void writelines(char *lineptr[], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
-	int (*comp)(void *, void *));
+	int (*comp)(void *, void *), _Bool r);
 int numcmp(char *, char *);
 int astrcmp (char*, char*);
 #define MAXLEN 1024 /* max length of any input line */
@@ -18,12 +18,18 @@ int main(int argc, char *argv[])
 {	/* sort input lines */
 	int nlines; /* number of input lines re'd */
 	char buffer[MAXLEN];
-	int numeric = 0; /* 1 if numeric sort */
-	if (argc > 1 && strcmp(argv[1], "-n") == 0)
-		numeric = 1;
+	_Bool numeric = 0; /* 1 if numeric sort */
+	_Bool reverse = 0; /* 1 if reverse sort */
+	while (--argc > 0 && (*++argv)[0] == '-')
+	{	char c;
+		while ((c = *++argv[0]))
+		{	numeric &= (c == 'n');
+			reverse &= (c == 'r');
+		}
+	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
-		(int (*)(void*,void*))(numeric ? numcmp : astrcmp));
+		(int (*)(void*,void*))(numeric ? numcmp : astrcmp), reverse);
 		writelines(lineptr, nlines);
 		return 0;
 	} 
@@ -92,7 +98,7 @@ void swap(void *v[], int i, int j)
 }
 
 void KnR_qsort(void *v[], int left, int right,
-	int (*cmp)(void *, void *))
+	int (*cmp)(void *, void *), _Bool r)
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
 	
@@ -103,9 +109,9 @@ void KnR_qsort(void *v[], int left, int right,
 	swap(v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
-		if ((*cmp)(v[i], v[left]) < 0)
+		if (((*cmp)(v[i], v[left]) < 0) ^ r)
 			swap(v, ++last, i);
 	swap(v, left, last);
-	KnR_qsort(v, left, last-1, cmp);
-	KnR_qsort(v, last+1, right, cmp);
+	KnR_qsort(v,   left, last-1, cmp, r);
+	KnR_qsort(v, last+1,  right, cmp, r);
 }
