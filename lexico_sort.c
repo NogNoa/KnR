@@ -2,6 +2,7 @@
 // Ritchie, D. and Kernighan, W. (1988) p106
 
 #include "KnR_getline.h"
+#include <ctype.h>
 #define MAXLINES 5120 /* max #lines to be sorted */
 
 char *lineptr[MAXLINES]; /* pointers to text lines */
@@ -12,6 +13,7 @@ void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *), _Bool r);
 int numcmp(char *, char *);
 int astrcmp (char*, char*);
+int uncase_strcmp(char *cs,char *ct);
 #define MAXLEN 1024 /* max length of any input line */
 
 int main(int argc, char *argv[])
@@ -20,6 +22,7 @@ int main(int argc, char *argv[])
 	char buffer[MAXLEN];
 	_Bool numeric = 0; /* 1 if numeric sort */
 	_Bool reverse = 0; /* 1 if reverse sort */
+	_Bool casefld = 0; /* 1 if case insensitive sort */
 	
 	//stdin = fopen("a.txt", "r");
 
@@ -28,11 +31,12 @@ int main(int argc, char *argv[])
 		while ((c = *++argv[0]))
 		{	numeric |= (c == 'n');
 			reverse |= (c == 'r');
+			casefld |= (c == 'f');
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
-		(int (*)(void*,void*))(numeric ? numcmp : astrcmp), reverse);
+		(int (*)(void*,void*))(numeric ? numcmp : (casefld ? uncase_strcmp : astrcmp)), reverse);
 		writelines(lineptr, nlines);
 		return 0;
 	} 
@@ -59,6 +63,17 @@ int numcmp(char *s1, char *s2)
 		return 1;
 	else
 		return 0;
+}
+
+int uncase_strcmp(char *cs,char *ct)
+{ /* compare string cs to string ct, disregarding case; return <0 if
+     cs<ct, 0 if cs==ct, or >0 if cs>ct. */
+	
+	for (;tolower(*cs) == tolower(*ct) && *ct;cs++,ct++)	   {}
+	if (!*cs)
+		return 0;
+	else
+		return tolower(*cs)-tolower(*ct);
 }
 
 #ifndef alloc
