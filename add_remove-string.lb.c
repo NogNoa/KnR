@@ -143,13 +143,17 @@ int strindex_last(char *calls, char *callt)
 	return back;
 }
 
+#ifndef isspace
+	#include <ctype.h>
+#endif
+
 _Bool compare(char s[], char sh[])
 { /* check if two strings are identical */
 	int i,j;
 
-	for(i=0;s[i] == ' '|| s[i] == '\t';i++)
+	for(i=0;isspace(s[i]);i++)
 		{}
-	for(j=0;sh[j] == ' '|| sh[j] == '\t';j++)
+	for(j=0;isspace(sh[j]);j++)
 		{}
 	while(s[i++] == sh[j++])
 		{}
@@ -158,7 +162,7 @@ _Bool compare(char s[], char sh[])
 
 #define swap(t,x,y) \
 	t temp=x;		 \
-	x = y; 			  \
+	x = y; 		  \
 	y= temp;
 #undef swap
 
@@ -176,6 +180,7 @@ char * alt_strcat(char *s, char *t)
 #ifndef strlen
 	#include <string.h>
 #endif
+
 
 size_t strlen(const char *);
 
@@ -216,10 +221,11 @@ int alt_strncmp(char *cs,char *ct,int n)
 { /* compare at most n characters of string cs to string ct; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	
-	for(;*cs == ' ' || *cs == '\t';cs++)  {}
-	for(;*ct == ' ' || *ct == '\t';ct++)  {}
+	for(;isspace(*cs);cs++)  {}
+	for(;isspace(*ct);ct++)  {}
 	for (;0 <= n-- && *cs == *ct && *ct;cs++,ct++)	   {}
 	if (!*cs)
 		return 0;
-	return *cs-*ct;
+	else
+		return *cs-*ct;
 }

@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 	_Bool numeric = 0; /* 1 if numeric sort */
 	_Bool reverse = 0; /* 1 if reverse sort */
 	
-	stdin = fopen("a.txt", "r");
+	//stdin = fopen("a.txt", "r");
 
 	while (--argc > 0 && (*++argv)[0] == '-')
 	{	char c;
