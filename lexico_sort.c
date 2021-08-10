@@ -65,11 +65,16 @@ int numcmp(char *s1, char *s2)
 		return 0;
 }
 
-int uncase_strcmp(char *cs,char *ct)
+int lexcmp(char *cs,char *ct)
 { /* compare string cs to string ct, disregarding case; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	
-	for (;tolower(*cs) == tolower(*ct) && *ct;cs++,ct++)	   {}
+	for (_Bool cont=1 ;cont && *ct;cs++,ct++)
+	{	if (*cs != *ct)
+			cont = 0;
+		if (casefld && tolower(*cs) == tolower(*ct))
+			cont = 1;
+	}
 	if (!*cs)
 		return 0;
 	else
