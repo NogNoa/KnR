@@ -16,9 +16,11 @@ int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct);
 #define MAXLEN 1024 /* max length of any input line */
 
-_Bool numeric = 0; /* 1 if numeric sort */
-_Bool reverse = 0; /* 1 if reverse sort */
-_Bool casefld = 0; /* 1 if case insensitive sort */
+static _Bool numeric = 0; /* 1 if numeric sort */
+static _Bool reverse = 0; /* 1 if reverse sort */
+static _Bool casefld = 0; /* 1 if case insensitive sort */
+static _Bool dircord = 0; /* 1 if directory order sort */
+
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -34,6 +36,7 @@ int main(int argc, char *argv[])
 		{	numeric |= (c == 'n');
 			reverse |= (c == 'r');
 			casefld |= (c == 'f');
+			dircord |= (c == 'd');
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
@@ -76,6 +79,10 @@ int lexcmp(char *cs,char *ct)
 		if (casefld)
 		{	ccs=tolower(ccs);
 			cct=tolower(cct);
+		}
+		if (dircord)
+		{	ccs = (isspace(ccs) || isalnum(ccs)) ? ccs : '!';
+			cct = (isspace(cct) || isalnum(cct)) ? cct : '!';
 		}
 	}
 	return ccs-cct;
