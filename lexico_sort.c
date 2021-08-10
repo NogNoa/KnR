@@ -11,18 +11,20 @@ int readlines(char *lineptr[], int nlines, char *snglptr);
 void writelines(char *lineptr[], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *), _Bool r);
-int numcmp(char *, char *);
-int astrcmp (char*, char*);
-int uncase_strcmp(char *cs,char *ct);
+int numcmp(char *s1, char *s2);
+int astrcmp (char *s1, char *s2);
+int lexcmp(char *cs,char *ct);
 #define MAXLEN 1024 /* max length of any input line */
+
+_Bool numeric = 0; /* 1 if numeric sort */
+_Bool reverse = 0; /* 1 if reverse sort */
+_Bool casefld = 0; /* 1 if case insensitive sort */
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
 	int nlines; /* number of input lines re'd */
 	char buffer[MAXLEN];
-	_Bool numeric = 0; /* 1 if numeric sort */
-	_Bool reverse = 0; /* 1 if reverse sort */
-	_Bool casefld = 0; /* 1 if case insensitive sort */
+
 	
 	//stdin = fopen("a.txt", "r");
 
@@ -36,7 +38,7 @@ int main(int argc, char *argv[])
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
-		(int (*)(void*,void*))(numeric ? numcmp : (casefld ? uncase_strcmp : astrcmp)), reverse);
+		(int (*)(void*,void*))(numeric ? numcmp : lexcmp), reverse);
 		writelines(lineptr, nlines);
 		return 0;
 	} 
@@ -68,17 +70,15 @@ int numcmp(char *s1, char *s2)
 int lexcmp(char *cs,char *ct)
 { /* compare string cs to string ct, disregarding case; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
-	
-	for (_Bool cont=1 ;cont && *ct;cs++,ct++)
-	{	if (*cs != *ct)
-			cont = 0;
-		if (casefld && tolower(*cs) == tolower(*ct))
-			cont = 1;
+	char ccs=1, cct=1;
+	for (;ccs == cct;cs++,ct++)
+	{	ccs=*cs; cct=*ct;
+		if (casefld)
+		{	ccs=tolower(ccs);
+			cct=tolower(cct);
+		}
 	}
-	if (!*cs)
-		return 0;
-	else
-		return tolower(*cs)-tolower(*ct);
+	return ccs-cct;
 }
 
 #ifndef alloc
