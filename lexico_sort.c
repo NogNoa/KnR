@@ -74,7 +74,7 @@ int lexcmp(char *cs,char *ct)
 { /* compare string cs to string ct, disregarding case; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	char ccs=1, cct=1;
-	for (;ccs == cct;cs++,ct++)
+	for (;ccs == cct && cct;cs++,ct++)
 	{	ccs=*cs; cct=*ct;
 		if (casefld)
 		{	ccs=tolower(ccs);
