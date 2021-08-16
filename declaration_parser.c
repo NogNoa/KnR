@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#define MAXTOKEN 100
+#define MAXTOKEN 0200
 enum { NAME, PARENS, BRACKETS };
 void dcl(void);
 void dirdcl(void);
@@ -12,10 +12,10 @@ int tokentype; /* type of last token */
 char token[MAXTOKEN]; /* last token string */
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
-char out[1000];
+char out[02000];
 
-int main() /* convert declaration to words */
-{
+int main() 
+{ /* convert declaration to words */
 	while (gettoken() != EOF) { /* 1st token on line */
 		strcpy(datatype, token); /* is the datatype */
 		out[0] = '\0';
@@ -50,19 +50,21 @@ void dirdcl(void)
 		strcpy(name, token);
 	else
 		printf("error: expected name or (dcl)\n");
-	while ((type=gettoken()) == PARENS || type == BRACKETS){
+	for (_Bool cont=1;cont;type=gettoken()){
 		if (type == PARENS)
 			strcat(out, " function returning");
-		else {
+		else if (type == BRACKETS) {
 			strcat(out, " array");
 			strcat(out, token);
 			strcat(out, " of");
 		}
+		else
+			cont = 0;
 	}
 }
 
-int gettoken(void) /* return next token */
-{
+int gettoken(void) 
+{ /* return next token */
 	int c, getch(void);
 	void ungetch(int);
 	char *p = token;
