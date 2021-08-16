@@ -42,19 +42,19 @@ void dirdcl(void)
 { /* dirdcl: parse a direct declarator */
 	int type;
 
-	if (tokentype == '(') { /* ( dcl ) */
-		dcl();
+	if (tokentype == '(')  /* ( dcl ) */
+	{	dcl();
 		if (tokentype != ')')
 			printf("error: missing )\n");
 	} else if (tokentype == NAME) /* variable name */
 		strcpy(name, token);
 	else
 		printf("error: expected name or (dcl)\n");
-	for (_Bool cont=1;cont;type=gettoken()){
-		if (type == PARENS)
+	for (_Bool cont=1;cont;type=gettoken())
+	{	if (type == PARENS)
 			strcat(out, " function returning");
-		else if (type == BRACKETS) {
-			strcat(out, " array");
+		else if (type == BRACKETS) 
+		{	strcat(out, " array");
 			strcat(out, token);
 			strcat(out, " of");
 		}
@@ -71,21 +71,21 @@ int gettoken(void)
 	
 	while ((c = getch()) == ' ' || c == '\t')
 	;
-	if (c == '(') {
-		if ((c = getch()) == ')') {
-			strcpy(token, "()");
+	if (c == '(') 
+	{	if ((c = getch()) == ')') 
+		{	strcpy(token, "()");
 			return tokentype = PARENS;
-		} else {
-			ungetch(c);
+		} else 
+		{	ungetch(c);
 			return tokentype = '(';
 		}
-	} else if (c == '[') {
-		for (*p++ = c; (*p++ = getch()) != ']'; )
+	} else if (c == '[') 
+	{	for (*p++ = c; (*p++ = getch()) != ']'; )
 			;
 		*p = '\0';
 		return tokentype = BRACKETS;
-	} else if (isalpha(c)) {
-		for (*p++ = c; isalnum(c = getch()); )
+	} else if (isalpha(c)) 
+	{	for (*p++ = c; isalnum(c = getch()); )
 			*p++ = c;
 		*p = '\0';
 		ungetch(c);
