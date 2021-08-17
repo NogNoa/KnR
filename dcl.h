@@ -9,3 +9,4 @@ int gettoken(void);
 
 char token[MAXTOKEN]; /* last token string */
 char out[02000];
+int tokentype; /* type of last token */

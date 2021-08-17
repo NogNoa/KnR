@@ -16,5 +16,8 @@ detab: $(ODIR)/detab.o $(ODIR)/tabbin.lb.o
 entab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o
 	$(COMPILE)
 
-declaration_parser: $(ODIR)/declaration_parser.o $(ODIR)/molon.lb.o dcl.h
+dcl: $(ODIR)/declaration_parser.o $(ODIR)/molon.lb.o dcl.h
+	$(COMPILE)
+
+undcl:  $(ODIR)/undcl.o $(ODIR)/molon.lb.o dcl.h
 	$(COMPILE)
