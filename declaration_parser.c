@@ -16,7 +16,7 @@ int main()
 { /* convert declaration to words */
 	stdin= fopen("b.txt", "r");
 	
-	while (tokentype = gettoken() != EOF) { /* 1st token on line */
+	while ((tokentype = gettoken()) != EOF) { /* 1st token on line */
 		strcpy(datatype, token); /* is the datatype */
 		out[0] = '\0';
 		dcl(); /* parse rest of line */
@@ -31,7 +31,7 @@ void dcl(void)
 { /* dcl: parse a declarator */
 	int ns;
 
-	for (ns = 0; tokentype = gettoken() == '*'; ) /* count *'s */
+	for (ns = 0; (tokentype = gettoken()) == '*'; ) /* count *'s */
 		ns++;
 	dirdcl();
 	while (ns-- > 0)
@@ -48,8 +48,9 @@ void dirdcl(void)
 		strcpy(name, token);
 	else
 		printf("error: expected name or (dcl)\n");
-	for (_Bool cont=1;cont;tokentype=gettoken())
-	{	if (tokentype == PARENS)
+	for (_Bool cont=1;cont;)
+	{	tokentype=gettoken();
+		if (tokentype == PARENS)
 			strcat(out, " function returning");
 		else if (tokentype == BRACKETS) 
 		{	strcat(out, " array");
