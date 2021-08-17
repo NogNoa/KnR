@@ -142,7 +142,7 @@ void afree(char *p) /* free storage pointed to by p */
 
 int gettoken(void) 
 { /* return next token */
-	int getch(void);
+	int type, getch(void);
 	void ungetch(int);
 	char *p = token, c;
 	
@@ -151,22 +151,23 @@ int gettoken(void)
 	if (c == '(') 
 	{	if ((c = getch()) == ')') 
 		{	strcpy(token, "()");
-			return PARENS;
+			type = PARENS;
 		} else 
 		{	ungetch(c);
-			return '(';
+			type = '(';
 		}
 	} else if (c == '[') 
 	{	for (*p++ = c; (*p++ = getch()) != ']'; )
 			;
 		*p = '\0';
-		return BRACKETS;
+		type = BRACKETS;
 	} else if (isalpha(c)) 
 	{	for (*p++ = c; isalnum(c = getch()); )
 			*p++ = c;
 		*p = '\0';
 		ungetch(c);
-		return NAME;
+		type = NAME;
 	} else
-		return c;
+		type = c;
+	return type;
 }

@@ -19,5 +19,5 @@ int main()
 				printf("invalid input at %s\n", token);
 		printf("%s\n",out);
 	}
-	return 0;
+	return out;
 }

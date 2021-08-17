@@ -14,7 +14,7 @@ int tokentype; /* type of last token */
 
 int main() 
 { /* convert declaration to words */
-	stdin= fopen("b.txt", "r");
+	//stdin= fopen("b.txt", "r");
 	
 	while ((tokentype = gettoken()) != EOF) { /* 1st token on line */
 		strcpy(datatype, token); /* is the datatype */
