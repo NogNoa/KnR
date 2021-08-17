@@ -1,18 +1,16 @@
 // Ritchie, D. and Kernighan, W. (1988) p110
 
-#include <stdio.h>
-#include <string.h>
+
 #include <ctype.h>
-#define MAXTOKEN 0200
-enum { NAME, PARENS, BRACKETS };
+#include "dcl.h"
+
 void dcl(void);
 void dirdcl(void);
-int gettoken(void);
+
 int tokentype; /* type of last token */
-char token[MAXTOKEN]; /* last token string */
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
-char out[02000];
+
 
 int main() 
 { /* convert declaration to words */
