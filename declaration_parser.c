@@ -21,7 +21,7 @@ int main()
 		out[0] = '\0';
 		dcl(); /* parse rest of line */
 		if (tokentype != '\n')
-			printf("syntax error %d\n",tokentype);
+			fprintf(stderr,"syntax error %d\n",tokentype);
 		printf("%s: %s %s\n", name, out, datatype);
 	}
 	return 0;
@@ -43,11 +43,11 @@ void dirdcl(void)
 	if (tokentype == '(')  /* ( dcl ) */
 	{	dcl();
 		if (tokentype != ')')
-			printf("error: missing )\n");
+			fprintf(stderr,"error: missing )\n");
 	} else if (tokentype == NAME) /* variable name */
 		strcpy(name, token);
 	else
-		printf("error: expected name or (dcl)\n");
+		fprintf(stderr,"error: expected name or (dcl)\n");
 	for (_Bool cont=1;cont;)
 	{	tokentype=gettoken();
 		if (tokentype == PARENS)

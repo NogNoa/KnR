@@ -16,7 +16,7 @@ int main()
 			{	sprintf(temp, "%s %s", token, out);
 				strcpy(out, temp);
 			} else
-				printf("invalid input at %s\n", token);
+				fprintf(stderr,"invalid input at %s\n", token);
 		printf("%s\n",out);
 	}
 	return out;
