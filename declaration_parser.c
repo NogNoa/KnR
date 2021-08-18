@@ -20,7 +20,7 @@ int main()
 		strcpy(datatype, token); /* is the datatype */
 		out[0] = '\0';
 		dcl(); /* parse rest of line */
-		if (tokentype != '\n')
+		if (tokentype != '\n' && tokentype != EOF)
 			printf("syntax error %d\n",tokentype);
 		printf("%s: %s %s\n", name, out, datatype);
 	}

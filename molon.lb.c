@@ -146,7 +146,7 @@ int gettoken(void)
 	void ungetch(int);
 	char *p = token, c;
 	
-	while ((c = getch()) == ' ' || c == '\t')
+	while (isspace(c = getch()) && c != '\n')
 	;
 	if (c == '(') 
 	{	if ((c = getch()) == ')') 
