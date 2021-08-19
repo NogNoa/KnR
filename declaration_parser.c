@@ -31,7 +31,7 @@ int main()
 	return 0;
 }
 
-void dcl(ns)
+void dcl(int ns)
 { /* dcl: parse a declarator */
 	while ((tokentype = gettoken()) == '*') /* count *'s */
 		ns++;
@@ -53,9 +53,9 @@ void dirdcl(int nom)
 			default  : 							break;
 		}
 	} else if (tokentype == '*')
-		dcl(1);
+	{	dcl(1);
 		return;
-	else
+	} else
 		fprintf(stderr,"error: expected name or (dcl)\n");
 	for (_Bool cont=1;cont;)
 	{	tokentype=gettoken();
