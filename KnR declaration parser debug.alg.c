@@ -13,10 +13,21 @@ typedcl()
 	fprintf(stderr,"error: missing ) at typedcl\n");
 dcl(0)
 	getttoken()
-		tokentype=c='EOF'
+		token=*p="do"
+		tokentype=NAME
 	dirdcl(0)
-		fprintf(stderr,"error: expected name or (dcl)\n");
-printf("daytab:\n")
+		name="do"
+		getttoken()
+			tokentype=c=')'
+fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
+printf("do: char\n")
+typedcl()
+	fprintf(stderr,"error: expected typename\n");
+dcl(0)
+	getttoken()
+	 tokentype=c=EOF
+dirdcl()
+	fprintf(stderr,"error: expected name or (dcl)\n");
 
 input="char **argv\n"
 getttoken()
