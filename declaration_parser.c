@@ -48,15 +48,15 @@ void dirdcl(int nom)
 			fprintf(stderr,"error: missing )\n");
 	} else if (tokentype == NAME) /* variable name */
 	{	switch(nom) 
-		{	case VAR : strcpy(name    , token); break;
-			case TYPE: strcpy(datatype, token); break;
-			default  : 							break;
+		{	case VAR : strcpy(name    , token); break ;
+			case TYPE: strcpy(datatype, token); return;
+			default  : 							break ;
 		}
 	} else if (tokentype == '*')
 	{	dcl(1);
 		return;
-	} else if (tokentype == '\n')
-		return;
+	} /*else if (tokentype == '\n')
+		return;*/
 	else
 		fprintf(stderr,"error: expected name or (dcl)\n");
 	for (_Bool cont=1;cont;)
