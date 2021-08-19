@@ -66,23 +66,20 @@ void dirdcl(void)
 
 void typedcl(void)
 { 
-	static _Bool cont=1;
 	if (tokentype == '(')  /* ( dcl ) */
-	{	while (cont && (tokentype = gettoken()) != ')')
-			typedcl();
-		if (tokentype != ')')
+	{	tokentype = gettoken();
+		typedcl();
+		if ( (tokentype = gettoken()) != ')')
 			fprintf(stderr,"error: missing ) at typedcl\n");
 	} 
 	else if (tokentype == NAME) /* variable name */
-	{	strcpy(datatype, token);
-		cont=0;
-	}
+		strcpy(datatype, token);
 	else if (tokentype == '*')
 		dcl(1);
 	/*else if (tokentype == '\n')
 		return;*/
 	else
-		fprintf(stderr,"error: expected typename\n");
+		fprintf(stderr,"error: expected type name\n");
 }
 
 
