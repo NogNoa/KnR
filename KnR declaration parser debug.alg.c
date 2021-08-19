@@ -1,29 +1,39 @@
-input="(*daytab)[13]" 
+input="int (*daytab)[13]"
 getttoken()
-	*p≔token[o200]
-	c='('
-	tokentype=PARENS
-datatype=token=garbage
+	*p=token[o200]
+	c=d∈alnum
+	token=*p="int"
+	tokentype=NAME
+datatype=token="int"
 out=""
 dcl()
-	gettoken()
-		*p=garbage
-		tokentype=c=^' *^'
-	ns=1
-	gettoken()
-		c=d∈alnum
-		token=*p="daytab"
-		tokentype=NAME
+	getttoken()
+		c='('
+		tokentype='('
 	dirdcl()
-		name = "daytab"
+		dcl()
+			gettoken()
+				*p="int"
+				tokentype=c='*'
+			ns=1
+			gettoken()
+				c=d∈alnum
+				token=*p="daytab"
+				tokentype=NAME
+			dirdcl()
+				name = "daytab"
+				gettoken()
+					tokentype=c=')'
+			out = "pointer to"
+		tokentype == ')'
 		gettoken()
 			c='['
 			token=*p="13"
 			tokentype = BRACKETS;
-		out= " array 13 of"
+		out= " pointer to array 13 of"
 		gettoken()
-			tokentype=c=EOF	
-	out=" array 13 of pointer to" 
-	printf("daytab:  array 13 of pointer to ")
+			tokentype=c='EOF'	
+printf("syntax error\n")
+printf("daytab:  pointer to array 13 of int\n")
 
 
