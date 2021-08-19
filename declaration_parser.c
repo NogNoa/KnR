@@ -4,25 +4,21 @@
 #include <ctype.h>
 #include "dcl.h"
 
-enum { VAR, TYPE};
-
 void dcl(int);
-void dirdcl(int);
+void dirdcl(void);
+void typedcl(void);
 
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
 int tokentype; /* type of last token */
 
-
-
-
-int main() 
+int main(void) 
 { /* convert declaration to words */
 	//stdin= fopen("b.txt", "r");
 	token[0]='\0'; /* making sure not to get garbage */
 	while ((tokentype = gettoken()) != EOF)  /* 1st token on line */
 	{	out[0] = '\0';
-		dirdcl(TYPE); /* is the datatype */
+		typedcl(); /* is the datatype */
 		dcl(0); /* parse rest of line */
 		if (tokentype != '\n' && tokentype != EOF)
 			fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
@@ -35,27 +31,20 @@ void dcl(int ns)
 { /* dcl: parse a declarator */
 	while ((tokentype = gettoken()) == '*') /* count *'s */
 		ns++;
-	dirdcl(VAR);
+	dirdcl();
 	while (ns-- > 0)
 		strcat(out, " pointer to");
 }
 	
-void dirdcl(int nom)
+void dirdcl(void)
 { /* dirdcl: parse a direct declarator */
 	if (tokentype == '(')  /* ( dcl ) */
 	{	dcl(0);
 		if (tokentype != ')')
 			fprintf(stderr,"error: missing )\n");
 	} else if (tokentype == NAME) /* variable name */
-	{	switch(nom) 
-		{	case VAR : strcpy(name    , token); break ;
-			case TYPE: strcpy(datatype, token); return;
-			default  : 							break ;
-		}
-	} else if (tokentype == '*')
-	{	dcl(1);
-		return;
-	} /*else if (tokentype == '\n')
+		strcpy(name, token);
+	/*else if (tokentype == '\n')
 		return;*/
 	else
 		fprintf(stderr,"error: expected name or (dcl)\n");
@@ -72,6 +61,26 @@ void dirdcl(int nom)
 			cont = 0;
 	}
 }
+
+void typedcl(void)
+{
+	{ /* dirdcl: parse a direct declarator */
+	if (tokentype == '(')  /* ( dcl ) */
+	{	dcl(0);
+		if (tokentype != ')')
+			fprintf(stderr,"error: missing ) at typedcl\n");
+	} 
+	else if (tokentype == NAME) /* variable name */
+		strcpy(datatype, token);
+	else if (tokentype == '*')
+		dcl(1);
+	/*else if (tokentype == '\n')
+		return;*/
+	else
+		fprintf(stderr,"error: expected typename\n");
+	}
+}
+
 
 
 /* type |  *      (    | name   |    )    | () []

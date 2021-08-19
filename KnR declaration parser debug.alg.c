@@ -20,6 +20,12 @@ dcl(0)
 		fprintf(stderr,"error: expected name or (dcl)\n");
 printf("daytab:\n")
 
-input="char **argv"
+input="char **argv\n"
 getttoken()
-	*p=
+	token=*p="char"
+out=""
+dirdcl(1)
+	datatype="char"
+	getttoken()
+		tokentype=c=*
+dcl(0)
