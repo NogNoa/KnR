@@ -20,6 +20,8 @@ int main(void)
 	{	out[0] = '\0';
 		typedcl(); /* is the datatype */
 		dcl(0); /* parse rest of line */
+		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
+			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
 		if (tokentype != '\n' && tokentype != EOF)
 			fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
 		printf("%s: %s %s\n", name, out, datatype);
@@ -66,7 +68,7 @@ void typedcl(void)
 { 
 	static _Bool cont=1;
 	if (tokentype == '(')  /* ( dcl ) */
-	{	while ((tokentype = gettoken()) != ')' && cont)
+	{	while (cont && (tokentype = gettoken()) != ')')
 			typedcl();
 		if (tokentype != ')')
 			fprintf(stderr,"error: missing ) at typedcl\n");

@@ -8,24 +8,27 @@ typedcl()
 		tokentype = NAME
 	typedcl()
 		datatype = "char"
-	getttoken()
-		tokentype=c='*'
+		cont = 0;
 	fprintf(stderr,"error: missing ) at typedcl\n");
 dcl(0)
-	getttoken()
+	gettoken()
+		tokentype=c='*'
+	gettoken()
 		token=*p="do"
 		tokentype=NAME
-	dirdcl(0)
+	dirdcl()
 		name="do"
-		getttoken()
+		gettoken()
 			tokentype=c=')'
+	out = " pointer to"
 fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
-printf("do: char\n")
+printf("do: pointer to char\n")
+out=""
+getttoken()
+	tokentype=c=EOF
 typedcl()
 	fprintf(stderr,"error: expected typename\n");
 dcl(0)
-	getttoken()
-	 tokentype=c=EOF
 dirdcl()
 	fprintf(stderr,"error: expected name or (dcl)\n");
 
