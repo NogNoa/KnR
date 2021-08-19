@@ -21,11 +21,11 @@ int main()
 	//stdin= fopen("b.txt", "r");
 	token[0]='\0'; /* making sure not to get garbage */
 	while ((tokentype = gettoken()) != EOF)  /* 1st token on line */
-	{	dirdcl(TYPE); /* is the datatype */
-		out[0] = '\0';
+	{	out[0] = '\0';
+		dirdcl(TYPE); /* is the datatype */
 		dcl(0); /* parse rest of line */
 		if (tokentype != '\n' && tokentype != EOF)
-			fprintf(stderr,"syntax error %d\n",tokentype);
+			fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
 		printf("%s: %s %s\n", name, out, datatype);
 	}
 	return 0;
@@ -55,7 +55,9 @@ void dirdcl(int nom)
 	} else if (tokentype == '*')
 	{	dcl(1);
 		return;
-	} else
+	} else if (tokentype == '\n')
+		return;
+	else
 		fprintf(stderr,"error: expected name or (dcl)\n");
 	for (_Bool cont=1;cont;)
 	{	tokentype=gettoken();

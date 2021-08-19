@@ -2,16 +2,22 @@ input="*daytab"
 getttoken()
 	*p=token[o200]
 	tokentype=c=*
-datatype=token=""
-out=""
-dcl()
+dirdcl(1)
+	dcl(1)
+		getttoken()
+			token=*p="daytab"
+			tokentype=NAME
+		dirdcl(0)
+			name="daytab"
+			gettoken()
+				tokentype=c='EOF'	
+		out = " pointer to"
+out = "\0pointer to" = ""
+dcl(0)
 	getttoken()
-		token=*p='daytab'
-		tokentype=NAME
-	dirdcl()
-		name = 'daytab'
-		gettoken()
-			tokentype=c='EOF'	
+		tokentype=c='EOF'
+	dirdcl(0)
+		fprintf(stderr,"error: expected name or (dcl)\n");
 printf("daytab:\n")
 
 
