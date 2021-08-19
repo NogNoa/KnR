@@ -1,18 +1,16 @@
-input="*daytab"
+input="(char *do)"
 getttoken()
 	*p=token[o200]
-	tokentype=c=*
-dirdcl(1)
-	dcl(1)
-		getttoken()
-			token=*p="daytab"
-			tokentype=NAME
-		dirdcl(0)
-			name="daytab"
-			gettoken()
-				tokentype=c='EOF'	
-		out = " pointer to"
-out = "\0pointer to" = ""
+	tokentype=c='('
+typedcl()
+	getttoken()
+		token="char"
+		tokentype = NAME
+	typedcl()
+		datatype = "char"
+	getttoken()
+		tokentype=c='*'
+	fprintf(stderr,"error: missing ) at typedcl\n");
 dcl(0)
 	getttoken()
 		tokentype=c='EOF'

@@ -66,7 +66,8 @@ void typedcl(void)
 {
 	{ /* dirdcl: parse a direct declarator */
 	if (tokentype == '(')  /* ( dcl ) */
-	{	dcl(0);
+	{	while ((tokentype = gettoken()) == NAME)
+			typedcl();
 		if (tokentype != ')')
 			fprintf(stderr,"error: missing ) at typedcl\n");
 	} 
