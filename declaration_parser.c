@@ -15,9 +15,9 @@ int tokentype; /* type of last token */
 int main() 
 { /* convert declaration to words */
 	//stdin= fopen("b.txt", "r");
-	
-	while ((tokentype = gettoken()) != EOF) { /* 1st token on line */
-		strcpy(datatype, token); /* is the datatype */
+	token[0]='\0'; /* making sure not to get garbage */
+	while ((tokentype = gettoken()) != EOF)  /* 1st token on line */
+	{	strcpy(datatype, token); /* is the datatype */
 		out[0] = '\0';
 		dcl(); /* parse rest of line */
 		if (tokentype != '\n' && tokentype != EOF)
@@ -61,3 +61,8 @@ void dirdcl(void)
 			cont = 0;
 	}
 }
+
+
+/* type |  *      (    | name   |    )    | () []
+   main | dcl<->dirdcl | dirdcl | dirdcl  | dirdcl 
+*/
