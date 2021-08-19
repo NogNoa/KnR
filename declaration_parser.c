@@ -24,7 +24,7 @@ int main(void)
 			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
 		if (tokentype != '\n' && tokentype != EOF)
 			fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
-		printf("%s: %s %s\n", name, out, datatype);
+		printf("%s: %s %s\n\n", name, out, datatype);
 	}
 	return 0;
 }
@@ -46,8 +46,8 @@ void dirdcl(void)
 			fprintf(stderr,"error: missing )\n");
 	} else if (tokentype == NAME) /* variable name */
 		strcpy(name, token);
-	/*else if (tokentype == '\n')
-		return;*/
+	else if (tokentype == '\n')
+		return;
 	else
 		fprintf(stderr,"error: expected name or (dcl)\n");
 	for (_Bool cont=1;cont;)
@@ -70,7 +70,9 @@ void typedcl(void)
 	{	tokentype = gettoken();
 		typedcl();
 		if ( (tokentype = gettoken()) != ')')
-			fprintf(stderr,"error: missing ) at typedcl\n");
+		{	fprintf(stderr,"error: missing ) at typedcl\n");
+			typedcl();
+		}
 	} 
 	else if (tokentype == NAME) /* variable name */
 		strcpy(datatype, token);
