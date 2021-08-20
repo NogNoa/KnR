@@ -20,10 +20,12 @@ int main(void)
 	{	out[0] = '\0';
 		datatype[0] = '\0'; /* forget datatype */
 		typedcl(); /* fetch the datatype */
-		while (tokentype != '\n')
-		{	dcl(); /* parse rest of line */
-			for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
-				fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
+		dcl(); /* parse rest of line */
+		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
+			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
+		if (tokentype != '\n' && tokentype != EOF)
+		{	fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
+			dcl();
 		}
 		printf("%s: %s %s\n\n", name, out, datatype);
 	}
