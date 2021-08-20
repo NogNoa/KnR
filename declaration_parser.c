@@ -4,9 +4,10 @@
 #include <ctype.h>
 #include "dcl.h"
 
-void dcl(int);
+void dcl(void);
 void dirdcl(void);
 void typedcl(void);
+int ns=0;
 
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
@@ -19,17 +20,17 @@ int main(void)
 	while ((tokentype = gettoken()) != EOF)  /* 1st token on line */
 	{	out[0] = '\0';
 		typedcl(); /* is the datatype */
-		dcl(0); /* parse rest of line */
+		dcl(); /* parse rest of line */
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
 			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
 		if (tokentype != '\n' && tokentype != EOF)
 			fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
-		printf("%s: %s %s\n", name, out, datatype);
+		printf("%s: %s %s\n\n", name, out, datatype);
 	}
 	return 0;
 }
 
-void dcl(int ns)
+void dcl(void)
 { /* dcl: parse a declarator */
 	while ((tokentype = gettoken()) == '*') /* count *'s */
 		ns++;
@@ -41,7 +42,7 @@ void dcl(int ns)
 void dirdcl(void)
 { /* dirdcl: parse a direct declarator */
 	if (tokentype == '(')  /* ( dcl ) */
-	{	dcl(0);
+	{	dcl();
 		if (tokentype != ')')
 			fprintf(stderr,"error: missing )\n");
 	} else if (tokentype == NAME) /* variable name */
@@ -69,13 +70,13 @@ void typedcl(void)
 	if (tokentype == '(')  /* ( dcl ) */
 	{	tokentype = gettoken();
 		typedcl();
-		if ( (tokentype = gettoken()) != ')')
-			fprintf(stderr,"error: missing ) at typedcl\n");
+		/*if ( (tokentype = gettoken()) != ')')
+			fprintf(stderr,"error: missing ) at typedcl\n"); */
 	} 
 	else if (tokentype == NAME) /* variable name */
 		strcpy(datatype, token);
 	else if (tokentype == '*')
-		dcl(1);
+		ns=1;
 	/*else if (tokentype == '\n')
 		return;*/
 	else
