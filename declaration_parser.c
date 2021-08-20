@@ -19,8 +19,8 @@ int main(void)
 	while ((tokentype = gettoken()) != EOF)  /* 1st token on line */
 	{	out[0] = '\0';
 		datatype[0] = '\0'; /* forget datatype */
-		typedcl(); /* fetch the datatype */
-		dcl(); /* parse rest of line */
+		name[0] = '\0'; /*forget variable name */
+		typedcl(); 
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
 			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
 		if (tokentype != '\n' && tokentype != EOF)
@@ -78,11 +78,14 @@ void typedcl(void)
 			ungettoken(tokentype);
 		}
 	} 
-	else if (tokentype == NAME) /* variable name */
-		strcpy(datatype, token);
 	else 
-	{	fprintf(stderr,"error: expected type name\n");
-		ungettoken(tokentype);
+	{	if (tokentype == NAME) /* variable name */
+			strcpy(datatype, token);
+		else 
+		{	fprintf(stderr,"error: expected type name\n");
+			ungettoken(tokentype);
+		}
+		dcl(); /* parse rest of line */
 	}
 }
 
