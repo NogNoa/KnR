@@ -1,36 +1,69 @@
-input="(char *do)"
+input="( )"
 getttoken()
 	*p=token[o200]
 	tokentype=c='('
 typedcl()
 	getttoken()
-		token="char"
-		tokentype = NAME
+		tokentype=c= ")"
 	typedcl()
-		datatype = "char"
-		cont = 0;
+		fprintf(stderr,"error: expected typename\n");
+		ungettoken(')')
+		dcl()
+			getttoken()
+				tokentype=c= ")"
+			dirdcl()
+				fprintf(stderr,"error: expected name or (dcl)\n");
+				ungettoken(')')
+				gettoken()
+					tokentype=c=')'
+	gettoken()
+		tokentype=c='\n'
+print(":")
+
+input="("
+getttoken()
+	*p=token[o200]
+	tokentype=c='('
+typedcl()
+	getttoken()
+		tokentype=c= "\n"
+	typedcl()
+		fprintf(stderr,"error: expected typename\n");
+		ungettoken('\n')
+		dcl()
+			getttoken()
+				tokentype=c= '\n'
+			dirdcl()
 	fprintf(stderr,"error: missing ) at typedcl\n");
-dcl(0)
-	gettoken()
-		tokentype=c='*'
-	gettoken()
-		token=*p="do"
-		tokentype=NAME
-	dirdcl()
-		name="do"
+	ungettoken('\n');
+print(":")
+
+input="( ( ) )"
+getttoken()
+	*p=token[o200]
+	tokentype=c='('
+typedcl()
+	getttoken()
+		tokentype=c= "("
+	typedcl()
+		getttoken()
+			tokentype=c= ")"
+		typedcl()
+			fprintf(stderr,"error: expected typename\n");
+			ungettoken(')')
+			dcl()
+				getttoken()
+					tokentype=c= ")"
+				dirdcl()
+					fprintf(stderr,"error: expected name or (dcl)\n");
+					ungettoken(')')
+					gettoken()
+						tokentype=c=')'
 		gettoken()
 			tokentype=c=')'
-	out = " pointer to"
-fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
-printf("do: pointer to char\n")
-out=""
-getttoken()
-	tokentype=c=EOF
-typedcl()
-	fprintf(stderr,"error: expected typename\n");
-dcl(0)
-dirdcl()
-	fprintf(stderr,"error: expected name or (dcl)\n");
+	gettoken()
+		tokentype=c="\n"
+print(":")
 
 input="char **argv\n"
 getttoken()

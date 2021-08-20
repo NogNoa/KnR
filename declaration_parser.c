@@ -53,7 +53,9 @@ void dirdcl(void)
 	else if (tokentype == '\n')
 		return;
 	else
-		fprintf(stderr,"error: expected name or (dcl)\n");
+	{	fprintf(stderr,"error: expected name or (dcl)\n");
+		ungettoken(tokentype);
+	}
 	for (_Bool cont=1;cont;)
 	{	tokentype=gettoken();
 		if (tokentype == PARENS)
@@ -73,14 +75,20 @@ void typedcl(void)
 	if (tokentype == '(')  /* ( dcl ) */
 	{	tokentype = gettoken();
 		typedcl();
-		if ( (tokentype = gettoken()) != ')')
+		if (tokentype != ')')
 		{	fprintf(stderr,"error: missing ) at typedcl\n");
 			ungettoken(tokentype);
 		}
+		else
+			tokentype=gettoken();
 	} 
 	else 
 	{	if (tokentype == NAME) /* variable name */
 			strcpy(datatype, token);
+		/*else if (tokentype == ')')
+		{	fprintf(stderr,"error: looks like those brackets were empty\n");
+			return; //just a short circuit
+		}*/
 		else 
 		{	fprintf(stderr,"error: expected type name\n");
 			ungettoken(tokentype);
