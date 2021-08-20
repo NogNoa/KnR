@@ -24,9 +24,7 @@ int main(void)
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
 			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
 		if (tokentype != '\n' && tokentype != EOF)
-		{	fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
-			dcl();
-		}
+			fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
 		printf("%s: %s %s\n\n", name, out, datatype);
 	}
 	return 0;
@@ -47,7 +45,9 @@ void dirdcl(void)
 	if (tokentype == '(')  /* ( dcl ) */
 	{	dcl();
 		if (tokentype != ')')
-			fprintf(stderr,"error: missing )\n");
+		{	fprintf(stderr,"error: missing )\n");
+			ungettoken(tokentype);
+		}
 	} else if (tokentype == NAME) /* variable name */
 		strcpy(name, token);
 	else if (tokentype == '\n')
