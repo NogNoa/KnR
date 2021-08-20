@@ -139,21 +139,14 @@ void afree(char *p) /* free storage pointed to by p */
 }
 
 #include "dcl.h"
-static char tokenbuf[0x10][MAXTOKEN];
-static int tokenpnt = 0;
 
 int gettoken(void) 
 { /* return next token */
 	int type, getch(void);
 	void ungetch(int);
 	char *p = token, c;
-	
-	if (tokenpnt <=0)
-		while (isspace(c = getch()) && c != '\n')
-			;
-	else
-		c = *tokenbuf[--tokenpnt];
-	
+	while (isspace(c = getch()) && c != '\n')
+		;
 	if (c == '(') 
 	{	if ((c = getch()) == ')') 
 		{	strcpy(token, "()");
@@ -176,4 +169,16 @@ int gettoken(void)
 	} else
 		type = c;
 	return type;
+}
+
+void ungettoken(int tokentype)
+{	
+	if (tokentype < 3) //tokentype is either NAME, PARENS, BRACKETS
+	{	int len;
+		len = strlen(token);
+		while (len-->0)
+			ungetch(token[len]);
+	}
+	else
+		ungetch(tokentype);
 }

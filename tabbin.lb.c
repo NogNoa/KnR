@@ -9,21 +9,22 @@ int cmp(const void *a, const void *b)
 
 struct tabbin arg_prcs(int argc, char *argv[])
 {
-	struct tabbin taby;
-	taby.stops = malloc(argc+1);
-	taby.n=0,taby.m=0;
-	taby.stops[0]=0; taby.stops[argc+1]=MXLIN;
+	int *stops = malloc(argc+1);
+	int n=0,m=0;
+	stops[0]=0; stops[argc+1]=MXLIN;
 	for (int i=1;i<argc;i++)
 	{	if (*argv[i] == '+')
-			taby.n=atoi(argv[i]+1);
+			n=atoi(argv[i]+1);
 		else if (*argv[i] == '-')
-			taby.m=atoi(argv[i]+1);
+			m=atoi(argv[i]+1);
 		else
-			taby.stops[i] = atoi(argv[i]);
+			stops[i] = atoi(argv[i]);
 	}
-	qsort(taby.stops,argc+1,sizeof(int),cmp);
-	if (0< taby.stops[0] || taby.stops[argc] > MXLIN)
+	qsort(stops,argc+1,sizeof(int),cmp);
+	if (0< stops[0] || stops[argc] > MXLIN)
 		fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
+	struct tabbin taby; 
+	taby.stops=stops; taby.n=n; taby.m=m;
 	return taby;
 }
 
