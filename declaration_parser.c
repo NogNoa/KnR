@@ -71,14 +71,16 @@ void typedcl(void)
 	if (tokentype == '(')  /* ( dcl ) */
 	{	tokentype = gettoken();
 		typedcl();
-		/*if ( (tokentype = gettoken()) != ')')
-			fprintf(stderr,"error: missing ) at typedcl\n"); */
+		if ( (tokentype = gettoken()) != ')')
+		{	fprintf(stderr,"error: missing ) at typedcl\n");
+			ungettoken(0);
+		}
 	} 
 	else if (tokentype == NAME) /* variable name */
 		strcpy(datatype, token);
 	else 
 	{	if (tokentype == '*')
-			ns=1;
+			ungettoken(1);
 		fprintf(stderr,"error: expected type name\n");
 	}
 }

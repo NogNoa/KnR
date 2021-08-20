@@ -171,3 +171,11 @@ int gettoken(void)
 		type = c;
 	return type;
 }
+
+void ungettoken(int len)
+{
+	if (len == 0)
+		len = strlen(token);
+	while (len-->0)
+		ungetch(token[len]);
+}
