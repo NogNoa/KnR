@@ -16,10 +16,11 @@ int tokentype; /* type of last token */
 int main(void) 
 { /* convert declaration to words */
 	//stdin= fopen("b.txt", "r");
-	token[0]='\0'; /* making sure not to get garbage */
+	token[0] = '\0'; /* making sure not to get garbage */
 	while ((tokentype = gettoken()) != EOF)  /* 1st token on line */
 	{	out[0] = '\0';
-		typedcl(); /* is the datatype */
+		datatype[0] = '\0'; /* forget datatype */
+		typedcl(); /* fetch the datatype */
 		dcl(); /* parse rest of line */
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
 			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
@@ -75,12 +76,11 @@ void typedcl(void)
 	} 
 	else if (tokentype == NAME) /* variable name */
 		strcpy(datatype, token);
-	else if (tokentype == '*')
-		ns=1;
-	/*else if (tokentype == '\n')
-		return;*/
-	else
+	else 
+	{	if (tokentype == '*')
+			ns=1;
 		fprintf(stderr,"error: expected type name\n");
+	}
 }
 
 
