@@ -76,9 +76,7 @@ void typedcl(void)
 	{	tokentype = gettoken();
 		typedcl();
 		if (tokentype != ')')
-		{	fprintf(stderr,"error: missing ) at typedcl\n");
-			ungettoken(tokentype);
-		}
+			fprintf(stderr,"error: missing ) at typedcl\n");
 		else
 			tokentype=gettoken();
 	} 
