@@ -172,10 +172,14 @@ int gettoken(void)
 	return type;
 }
 
-void ungettoken(int len)
-{
-	if (len == 0)
+void ungettoken(int tokentype)
+{	
+	if (tokentype == NAME || tokentype == PARENS || tokentype == BRACKETS)
+	{	int len;
 		len = strlen(token);
-	while (len-->0)
-		ungetch(token[len]);
+		while (len-->0)
+			ungetch(token[len]);
+	}
+	else
+		ungetch(tokentype);
 }
