@@ -7,7 +7,6 @@
 void dcl(void);
 void dirdcl(void);
 void typedcl(void);
-int ns=0;
 
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
@@ -33,6 +32,7 @@ int main(void)
 
 void dcl(void)
 { /* dcl: parse a declarator */
+	int ns=0;
 	while ((tokentype = gettoken()) == '*') /* count *'s */
 		ns++;
 	dirdcl();
@@ -79,9 +79,8 @@ void typedcl(void)
 	else if (tokentype == NAME) /* variable name */
 		strcpy(datatype, token);
 	else 
-	{	if (tokentype == '*')
-			ungettoken(tokentype);
-		fprintf(stderr,"error: expected type name\n");
+	{	fprintf(stderr,"error: expected type name\n");
+		ungettoken(tokentype);
 	}
 }
 

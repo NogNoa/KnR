@@ -147,7 +147,7 @@ int gettoken(void)
 	char *p = token, c;
 	
 	while (isspace(c = getch()) && c != '\n')
-	;
+		;
 	if (c == '(') 
 	{	if ((c = getch()) == ')') 
 		{	strcpy(token, "()");
@@ -174,7 +174,7 @@ int gettoken(void)
 
 void ungettoken(int tokentype)
 {	
-	if (tokentype == NAME || tokentype == PARENS || tokentype == BRACKETS)
+	if (tokentype < 3) //tokentype is either NAME, PARENS, BRACKETS
 	{	int len;
 		len = strlen(token);
 		while (len-->0)
