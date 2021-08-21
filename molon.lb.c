@@ -173,12 +173,11 @@ int gettoken(void)
 
 void ungettoken(int tokentype)
 {	
-	if (tokentype < 3) //tokentype is either NAME, PARENS, BRACKETS
-	{	int len;
-		len = strlen(token);
-		while (len-->0)
-			ungetch(token[len]);
-	}
-	else
-		ungetch(tokentype);
+	ungetch(tokentype);
 }
+
+/*if tokentype that is either NAME, PARENS, BRACKETS it pushed back on the stack 
+than with gettoken it will be pulled again as the type, 
+and the token is supposed to still be there since the stack is very shallow
+(only used for one token + a charecter after reading a new string token)
+*/
