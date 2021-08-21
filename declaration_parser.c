@@ -48,15 +48,12 @@ void dcl(void)
 		strcat(out, " pointer to");
 }
 	
-_Bool writename(void)
+void writename(void)
 {
 	if (!named)
 	{	strcpy(name, token);
 		named=1;
-		return 0;
 	}
-	else
-		return 1;
 }
 
 void dirdcl(void)
@@ -68,8 +65,7 @@ void dirdcl(void)
 			ungettoken(tokentype);
 		}
 	} else if (tokentype == NAME) /* variable name */
-	{	if (writename())
-			return;
+	{	writename();
 	} else if (tokentype == '\n')
 		return;
 	else
