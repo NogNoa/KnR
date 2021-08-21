@@ -11,6 +11,7 @@ void typedcl(void);
 char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
 int tokentype; /* type of last token */
+_Bool linebreak; /* notice an empty line */
 
 int main(void) 
 { /* convert declaration to words */
@@ -20,13 +21,15 @@ int main(void)
 	{	out[0] = '\0';
 		datatype[0] = '\0'; /* forget datatype */
 		name[0] = '\0'; /*forget variable name */
+		linebreak = 0;
 		typedcl(); 
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
 			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
 		if (tokentype != '\n' && tokentype != EOF)
 		{	fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
 		}
-		printf("%s: %s %s\n\n", name, out, datatype);
+		if (!linebreak)
+			printf("%s: %s %s\n\n", name, out, datatype);
 	}
 	return 0;
 }
@@ -77,23 +80,25 @@ void typedcl(void)
 	{	tokentype = gettoken();
 		typedcl();
 		if (tokentype != ')')
-			fprintf(stderr,"error: missing ) at typedcl\n");
-		else
-			dcl();
-	} 
-	else 
-	{	if (tokentype == NAME) /* variable name */
-			strcpy(datatype, token);
-		/*else if (tokentype == ')')
-		{	fprintf(stderr,"error: looks like those brackets were empty\n");
-			return; //just a short circuit
-		}*/
-		else 
-		{	fprintf(stderr,"error: expected type name\n");
-			ungettoken(tokentype);
+		{	fprintf(stderr,"error: missing ) at typedcl\n");
+			return;
 		}
-		dcl(); /* parse rest of line */
+	} 
+	else if (tokentype == NAME) /* variable name */
+		strcpy(datatype, token);
+	/*else if (tokentype == ')')
+	{	fprintf(stderr,"error: looks like those brackets were empty\n");
+		return; //just a short circuit
+	}*/
+	else if (tokentype == '\n')
+	{	linebreak = 1;
+		return;
 	}
+	else 
+	{	fprintf(stderr,"error: expected type name\n");
+		ungettoken(tokentype);
+	}
+	dcl(); /* parse rest of line */
 }
 
 
