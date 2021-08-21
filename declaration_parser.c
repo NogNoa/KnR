@@ -12,6 +12,8 @@ char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
 int tokentype; /* type of last token */
 _Bool linebreak; /* notice an empty line */
+_Bool typed; /* notice we got the var type */
+_Bool named; /* notice we got the var name */
 
 int main(void) 
 { /* convert declaration to words */
@@ -53,7 +55,9 @@ void dirdcl(void)
 			ungettoken(tokentype);
 		}
 	} else if (tokentype == NAME) /* variable name */
-		strcpy(name, token);
+	{	strcpy(name, token);
+		named=1;
+	}
 	else if (tokentype == '\n')
 		return;
 	else
@@ -85,7 +89,9 @@ void typedcl(void)
 		}
 	} 
 	else if (tokentype == NAME) /* variable name */
-		strcpy(datatype, token);
+	{	strcpy(datatype, token);
+		typed=1;
+	}
 	/*else if (tokentype == ')')
 	{	fprintf(stderr,"error: looks like those brackets were empty\n");
 		return; //just a short circuit
