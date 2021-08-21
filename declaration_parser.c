@@ -24,6 +24,8 @@ int main(void)
 		datatype[0] = '\0'; /* forget datatype */
 		name[0] = '\0'; /*forget variable name */
 		linebreak = 0;
+		typed=0;
+		named=0;
 		typedcl(); 
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
 			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
@@ -46,6 +48,17 @@ void dcl(void)
 		strcat(out, " pointer to");
 }
 	
+_Bool writename(void)
+{
+	if (!named)
+	{	strcpy(name, token);
+		named=1;
+		return 0;
+	}
+	else
+		return 1;
+}
+
 void dirdcl(void)
 { /* dirdcl: parse a direct declarator */
 	if (tokentype == '(')  /* ( dcl ) */
@@ -55,10 +68,9 @@ void dirdcl(void)
 			ungettoken(tokentype);
 		}
 	} else if (tokentype == NAME) /* variable name */
-	{	strcpy(name, token);
-		named=1;
-	}
-	else if (tokentype == '\n')
+	{	if (writename())
+			return;
+	} else if (tokentype == '\n')
 		return;
 	else
 	{	fprintf(stderr,"error: expected name or (dcl)\n");
@@ -78,6 +90,22 @@ void dirdcl(void)
 	}
 }
 
+void typewrite(void)
+{
+	if (!*datatype)
+		strcpy(datatype, token);
+	else
+	{	strcat(datatype, " ");
+		strcat(datatype, token);
+	}
+	if (!strcmp(token, "const") || !strcmp(token,"volatile") || !strcmp(token,"restrict")|| !strcmp(token,"_atomic"))
+	{	tokentype = gettoken();
+		typedcl();
+	}
+	else
+		typed = 1;
+}
+
 void typedcl(void)
 { 
 	if (tokentype == '(')  /* ( dcl ) */
@@ -89,9 +117,7 @@ void typedcl(void)
 		}
 	} 
 	else if (tokentype == NAME) /* variable name */
-	{	strcpy(datatype, token);
-		typed=1;
-	}
+		typewrite();
 	/*else if (tokentype == ')')
 	{	fprintf(stderr,"error: looks like those brackets were empty\n");
 		return; //just a short circuit
@@ -106,6 +132,7 @@ void typedcl(void)
 	}
 	dcl(); /* parse rest of line */
 }
+
 
 
 
