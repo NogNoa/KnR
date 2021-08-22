@@ -52,12 +52,12 @@ void argwrite(void)
 	while ((tokentype=gettoken()) != ')')
 	{
 		if (tokentype == NAME)
-		{	strcat(temp, " ");
-			strcat(temp, token);
+		{	strcat(var, " ");
+			strcat(var, token);
 		} else if (tokentype == '*')
-		{	strcat(var, " pointer to");
-			strcat(var, temp);
-			temp[0] = '\0';
+		{	strcpy(temp, " pointer to");
+			strcat(temp, var);
+			strcpy(var, temp);
 	    } else if (tokentype == ',')
 		{	strcat(out, var);
 			strcat(out, ",");
@@ -72,8 +72,7 @@ void argwrite(void)
 			fprintf(stderr," in arguments\n");
 		}
 	}
-	strcat(temp, var);
-	strcat(out, temp);
+	strcat(out, var);
 	strcat(out, " and returning");
 }
 
