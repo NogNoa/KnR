@@ -50,7 +50,7 @@ void dcl(void)
 	
 void writename(void)
 {
-	if (!named)
+	if (!*name)
 	{	strcpy(name, token);
 		named=1;
 	}
@@ -94,8 +94,9 @@ void typewrite(void)
 	{	strcat(datatype, " ");
 		strcat(datatype, token);
 	}
-	if (!strcmp(token, "const") || !strcmp(token,"volatile") || !strcmp(token,"restrict")|| !strcmp(token,"_atomic"))
-	{	tokentype = gettoken();
+	if (!strcmp(token, "const") || !strcmp(token,"volatile") || !strcmp(token,"restrict")|| !strcmp(token,"atomic"))
+	{	//_atomic with an underscore is not purely alphanumeric and doesn't worth the effort for us 
+		tokentype = gettoken();
 		typedcl();
 	}
 	else
