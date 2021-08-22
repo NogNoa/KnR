@@ -12,8 +12,6 @@ char name[MAXTOKEN]; /* identifier name */
 char datatype[MAXTOKEN]; /* data type = char, int, etc. */
 int tokentype; /* type of last token */
 _Bool linebreak; /* notice an empty line */
-_Bool typed; /* notice we got the var type */
-_Bool named; /* notice we got the var name */
 
 int main(void) 
 { /* convert declaration to words */
@@ -24,8 +22,6 @@ int main(void)
 		datatype[0] = '\0'; /* forget datatype */
 		name[0] = '\0'; /*forget variable name */
 		linebreak = 0;
-		typed=0;
-		named=0;
 		typedcl(); 
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
 			fprintf(stderr, "error- Found a dangling %c. Have you lost it?\n", tokentype);
@@ -47,28 +43,18 @@ void dcl(void)
 	while (ns-- > 0)
 		strcat(out, " pointer to");
 }
-	
-void writename(void)
-{
-	if (!*name)
-	{	strcpy(name, token);
-		named=1;
-	}
-}
 
 void argwrite(void)
 {
 	strcat(out, " function taking ");
 	while ((tokentype=gettoken()) != ')')
 	{	if (tokentype == NAME)
-			strcat(out, token);
-		else if (tokentype == ',')
+		{	strcat(out, token);
+			strcat(out, " ");
+	    } else if (tokentype == ',')
 			strcat(out, ",");
 		else 
-		{	fprintf(stderr,"error- unrecognised token in arguments\n");
-			strcat(out,"\b");
-		}
-		strcat(out, " ");
+			fprintf(stderr,"error- unrecognised token in arguments\n");
 	}
 	strcat(out, "and returning");
 }
@@ -81,9 +67,9 @@ void dirdcl(void)
 		{	fprintf(stderr,"error- missing )\n");
 			ungettoken(tokentype);
 		}
-	} else if (tokentype == NAME) /* variable name */
-	{	writename();
-	} else if (tokentype == '\n')
+	} else if (tokentype == NAME && !*name) /* variable name */
+		strcpy(name, token);
+	else if (tokentype == '\n')
 		return;
 	else
 	{	fprintf(stderr,"error- expected name or (dcl)\n");
@@ -118,8 +104,6 @@ void typewrite(void)
 		tokentype = gettoken();
 		typedcl();
 	}
-	else
-		typed = 1;
 }
 
 void typedcl(void)
