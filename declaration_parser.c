@@ -53,12 +53,12 @@ void argwrite(void)
 	{
 		if (tokentype == NAME)
 		{	strcpy(post, ante);
-			strcat(ante, " ");
+			strcpy(ante, " ");
 			strcat(ante, token);
 			strcat(ante, post);
 		} else if (tokentype == '*')
 		{	strcpy(post, ante);
-			strcat(ante, " pointer to");
+			strcpy(ante, " pointer to");
 			strcat(ante, post);
 	    } else if (tokentype == ',')
 		{	strcat(out, ante);
