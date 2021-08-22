@@ -46,17 +46,23 @@ void dcl(void)
 
 void argwrite(void)
 {
-	strcat(out, " function taking ");
+	strcat(out, " function taking");
 	while ((tokentype=gettoken()) != ')')
 	{	if (tokentype == NAME)
-		{	strcat(out, token);
-			strcat(out, " ");
+		{	strcat(out, " ");
+			strcat(out, token);
 	    } else if (tokentype == ',')
 			strcat(out, ",");
 		else 
-			fprintf(stderr,"error- unrecognised token in arguments\n");
+		{	fprintf(stderr,"error- unrecognised token ");
+			if (tokentype < 3)
+				fprintf(stderr,"\"%s\"",token);
+			else
+				fprintf(stderr,"\'%c\'",tokentype);
+			fprintf(stderr," in arguments\n");
+		}
 	}
-	strcat(out, "and returning");
+	strcat(out, " and returning");
 }
 
 void dirdcl(void)
@@ -111,6 +117,8 @@ void typedcl(void)
 	if (tokentype == '(')  /* ( dcl ) */
 	{	tokentype = gettoken();
 		typedcl();
+		for (;tokentype == NAME; tokentype = gettoken())
+			fprintf(stderr,"error- dangling word \"%s\"\n", token);
 		if (tokentype != ')')
 		{	fprintf(stderr,"error- missing ) at typedcl\n");
 			return;
