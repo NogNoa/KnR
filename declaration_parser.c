@@ -108,7 +108,10 @@ void typewrite(void)
 	if (!strcmp(token, "const") || !strcmp(token,"volatile") || !strcmp(token,"restrict")|| !strcmp(token,"atomic"))
 	{	//_atomic with an underscore is not purely alphanumeric and doesn't worth the effort for us 
 		tokentype = gettoken();
-		typedcl();
+		if (tokentype == NAME) /* variable name */
+			typewrite();
+		else
+			ungettoken(tokentype);
 	}
 }
 
