@@ -28,7 +28,7 @@ int main(void)
 		named=0;
 		typedcl(); 
 		for (;tokentype == ')' || tokentype == ']'; tokentype=gettoken())
-			fprintf(stderr, "error: Found a dangling %c. Have you lost it?\n", tokentype);
+			fprintf(stderr, "error- Found a dangling %c. Have you lost it?\n", tokentype);
 		if (tokentype != '\n' && tokentype != EOF)
 		{	fprintf(stderr,"syntax error %d %c\n", tokentype, tokentype);
 		}
@@ -56,12 +56,29 @@ void writename(void)
 	}
 }
 
+void argwrite(void)
+{
+	strcat(out, " function taking ");
+	while ((tokentype=gettoken()) != ')')
+	{	if (tokentype == NAME)
+			strcat(out, token);
+		else if (tokentype == ',')
+			strcat(out, ",");
+		else 
+		{	fprintf(stderr,"error- unrecognised token in arguments\n");
+			strcat(out,"\b");
+		}
+		strcat(out, " ");
+	}
+	strcat(out, "and returning");
+}
+
 void dirdcl(void)
 { /* dirdcl: parse a direct declarator */
 	if (tokentype == '(')  /* ( dcl ) */
 	{	dcl();
 		if (tokentype != ')')
-		{	fprintf(stderr,"error: missing )\n");
+		{	fprintf(stderr,"error- missing )\n");
 			ungettoken(tokentype);
 		}
 	} else if (tokentype == NAME) /* variable name */
@@ -69,7 +86,7 @@ void dirdcl(void)
 	} else if (tokentype == '\n')
 		return;
 	else
-	{	fprintf(stderr,"error: expected name or (dcl)\n");
+	{	fprintf(stderr,"error- expected name or (dcl)\n");
 		ungettoken(tokentype);
 	}
 	for (_Bool cont=1;cont;)
@@ -81,6 +98,8 @@ void dirdcl(void)
 			strcat(out, token);
 			strcat(out, " of");
 		}
+		else if (tokentype == '(')
+			argwrite();
 		else
 			cont = 0;
 	}
@@ -109,7 +128,7 @@ void typedcl(void)
 	{	tokentype = gettoken();
 		typedcl();
 		if (tokentype != ')')
-		{	fprintf(stderr,"error: missing ) at typedcl\n");
+		{	fprintf(stderr,"error- missing ) at typedcl\n");
 			return;
 		}
 	} 
@@ -124,7 +143,7 @@ void typedcl(void)
 		return;
 	}
 	else 
-	{	fprintf(stderr,"error: expected type name\n");
+	{	fprintf(stderr,"error- expected type name\n");
 		ungettoken(tokentype);
 	}
 	dcl(); /* parse rest of line */
