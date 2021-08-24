@@ -46,22 +46,24 @@ void dcl(void)
 
 void argwrite(void)
 {
-	char var[MAXTOKEN], temp[MAXTOKEN];
+	char ante[MAXTOKEN], post[MAXTOKEN];
 	strcat(out, " function taking");
-	var[0]= temp[0] = '\0';
+	ante[0]= post[0] = '\0';
 	while ((tokentype=gettoken()) != ')')
 	{
 		if (tokentype == NAME)
-		{	strcat(var, " ");
-			strcat(var, token);
+		{	strcpy(post, ante);
+			strcpy(ante, " ");
+			strcat(ante, token);
+			strcat(ante, post);
 		} else if (tokentype == '*')
-		{	strcpy(temp, " pointer to");
-			strcat(temp, var);
-			strcpy(var, temp);
+		{	strcpy(post, ante);
+			strcpy(ante, " pointer to");
+			strcat(ante, post);
 	    } else if (tokentype == ',')
-		{	strcat(out, var);
+		{	strcat(out, ante);
 			strcat(out, ",");
-			var[0]='\0';
+			ante[0]='\0';
 		}
 		else 
 		{	fprintf(stderr,"error- unrecognised token ");
@@ -72,7 +74,7 @@ void argwrite(void)
 			fprintf(stderr," in arguments\n");
 		}
 	}
-	strcat(out, var);
+	strcat(out, ante);
 	strcat(out, " and returning");
 }
 
