@@ -46,20 +46,17 @@ void dcl(void)
 
 void argwrite(void)
 {
-	char ante[MAXTOKEN], post[MAXTOKEN];
+	char ante[MAXTOKEN], post[MAXTOKEN], *temp;
 	strcat(out, " function taking");
 	ante[0]= post[0] = '\0';
 	while ((tokentype=gettoken()) != ')')
 	{
 		if (tokentype == NAME)
-		{	strcpy(post, ante);
-			strcpy(ante, " ");
-			strcat(ante, token);
-			strcat(ante, post);
+		{	sprintf(post, " %s%s", token, ante);
+			strcpy(ante, post);
 		} else if (tokentype == '*')
-		{	strcpy(post, ante);
-			strcpy(ante, " pointer to");
-			strcat(ante, post);
+		{	sprintf(post, " pointer to%s",ante);
+			strcpy(ante, post);
 	    } else if (tokentype == ',')
 		{	strcat(out, ante);
 			strcat(out, ",");
