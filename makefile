@@ -7,7 +7,7 @@ OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
 OBJPILE = $(CC) $(CFLAGS) -c -o $@     $<
 COMPILE = $(CC) $(CFLAGS)    -o $@.elf $^ 
 
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: %.c
 	 $(OBJPILE)
 
 detab: $(ODIR)/detab.o $(ODIR)/tabbin.lb.o
@@ -21,3 +21,12 @@ dcl: $(ODIR)/declaration_parser.o $(ODIR)/molon.lb.o dcl.h
 
 undcl:  $(ODIR)/undcl.o $(ODIR)/molon.lb.o dcl.h
 	$(COMPILE)
+
+.PHONY: check	
+.PHONY: check++
+
+check: 
+	$(CC) $(CFLAGS) -o out.o *.c
+
+check++: %.c
+	g++ $(CFLAGS) -c -o out.o $<

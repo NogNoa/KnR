@@ -46,7 +46,7 @@ void dcl(void)
 
 void argwrite(void)
 {
-	char ante[MAXTOKEN], post[MAXTOKEN], *temp;
+	char ante[MAXTOKEN], post[MAXTOKEN];
 	strcat(out, " function taking");
 	ante[0]= post[0] = '\0';
 	while ((tokentype=gettoken()) != ')')
