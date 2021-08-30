@@ -63,12 +63,11 @@ void argwrite(void)
 			ante[0]='\0';
 		}
 		else 
-		{	fprintf(stderr,"error- unrecognised token ");
-			if (tokentype < 3)
-				fprintf(stderr,"\"%s\"",token);
+		{	if (tokentype < 3)
+				sprintf(post,"\"%s\"",token);
 			else
-				fprintf(stderr,"\'%c\'",tokentype);
-			fprintf(stderr," in arguments\n");
+				sprintf(post,"\'%c\'",tokentype);
+			fprintf(stderr,"error- unexpected token %s in arguments\n",post);
 		}
 	}
 	strcat(out, ante);
