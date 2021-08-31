@@ -45,7 +45,7 @@ struct key {
 
 static const int NKEYS = sizeof(keytab)/sizeof(struct key);
 
-int getword(char *, int); /* in molon.lb.c */
+int ig_getword(char *, int); /* in molon.lb.c */
 int binsearch(char *, struct key *, int);
 
 int main()
@@ -53,7 +53,7 @@ int main()
 	int n;
 	char word[MAXWORD];
 	
-	while (getword(word, MAXWORD) != EOF)
+	while (ig_getword(word, MAXWORD) != EOF)
 		if (isalpha(word[0]))
 			if ((n = binsearch(word, keytab, NKEYS)) >= 0)
 				keytab[n].count++;

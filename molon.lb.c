@@ -198,11 +198,56 @@ int getword(char *word, int lim)
 		*w++ = c;
 	if (isalpha(c)) {
 		for ( ; --lim > 0; w++)
-			if (!isalnum(*w = getch())) {
+			if (!isalnum(*w = getch()) && *w != '_') {
 				ungetch(*w);
 				break;
 			}
+	}
+	*w = '\0';
+	return c;
+}
+
+//original
+
+int ig_getword(char *word, int lim)
+{ /* ig_getword: get next word or character from input 
+	 ignores preprocessor strings constants and comments*/
+	int getch(void);
+	void ungetch(int);
+	char *w = word, c, g;
+
+	while (isspace(c = getch()))
+		;
+	for (_Bool cont=1;cont;)
+	{	if (c == '/')
+		{	if ((c = getch()) == '/')
+				while ((c = getch()) != '\n')
+					;
+			else if (c == '*')
+				while (!((c = getch()) == '*' && (c = getch()) == '/'))
+					;	
 		}
+		else if (c == '#')
+			while ((c = getch()) != '\n')
+				;
+		else if (c == '\"')
+			while ((c = getch()) != '\"')
+				;
+		else
+		{	cont = 0;
+			ungetch(c);
+		}
+		c = getch();
+	}
+	if (c != EOF)
+		*w++ = c;
+	if (isalpha(c)) 
+	{	for ( ; --lim > 0; w++)
+			if (!isalnum(*w = getch()) && *w != '_') 
+			{	ungetch(*w);
+				break;
+			}
+	}
 	*w = '\0';
 	return c;
 }
