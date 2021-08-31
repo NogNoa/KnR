@@ -196,10 +196,10 @@ int getword(char *word, int lim)
 		;
 	if (c != EOF)
 		*w++ = c;
-	if (isalpha(c)) {
-		for ( ; --lim > 0; w++)
-			if (!isalnum(*w = getch()) && *w != '_') {
-				ungetch(*w);
+	if (isalpha(c)) 
+	{	for ( ; --lim > 0; w++)
+			if (!isalnum(*w = getch()) && *w != '_') 
+			{	ungetch(*w);
 				break;
 			}
 	}
@@ -221,17 +221,17 @@ int ig_getword(char *word, int lim)
 	for (_Bool cont=1;cont;)
 	{	if (c == '/')
 		{	if ((c = getch()) == '/')
-				while ((c = getch()) != '\n')
+				while ((c = getch()) != '\n' && c != EOF)
 					;
 			else if (c == '*')
-				while (!((c = getch()) == '*' && (c = getch()) == '/'))
+				while (!((c = getch()) == '*' && (c = getch()) == '/') && c != EOF)
 					;	
 		}
 		else if (c == '#')
-			while ((c = getch()) != '\n')
+			while ((c = getch()) != '\n' && c != EOF)
 				;
 		else if (c == '\"')
-			while ((c = getch()) != '\"')
+			while ((c = getch()) != '\"' && c != EOF)
 				;
 		else
 		{	cont = 0;
