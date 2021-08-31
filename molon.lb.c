@@ -140,6 +140,8 @@ void afree(char *p) /* free storage pointed to by p */
 
 #include "dcl.h"
 
+// Ritchie, D. and Kernighan, W. (1988) p111
+
 int gettoken(void) 
 { /* return next token */
 	int type, getch(void);
@@ -181,3 +183,28 @@ than with gettoken it will be pulled again as the type,
 and the token is supposed to still be there since the stack is very shallow
 (only used for one token + a charecter after reading a new string token)
 */
+
+// Ritchie, D. and Kernighan, W. (1988) p121
+
+int getword(char *word, int lim)
+{ /* getword: get next word or character from input */
+	int c, getch(void);
+	void ungetch(int);
+	char *w = word;
+	
+	while (isspace(c = getch()))
+		;
+	if (c != EOF)
+		*w++ = c;
+	if (!isalpha(c)) {
+		*w = '\0';
+		return c;
+	}
+	for ( ; --lim > 0; w++)
+		if (!isalnum(*w = getch())) {
+			ungetch(*w);
+			break;
+		}
+	*w = '\0';
+	return word[0];
+}

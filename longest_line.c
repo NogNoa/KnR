@@ -35,12 +35,12 @@ int main()
 
     while ((len = KnR_getline(line, MAXLINE)) > 0)
     {
-        if (len == MAXLINE-1 && line[MAXLINE-2] != '\n')
+        if (/*len == MAXLINE-1 && */ line[len-1] != '\n')
         {   
-            line[MAXLINE-2] = '\n';
+            line[len-1] = '\n';
             do {
             	len += (dumlen = KnR_getline(dummy, MAXLINE));
-            } while(dummy[dumlen-1] != '\n');
+            } while(dumlen>0 && dummy[dumlen-1] != '\n');
         }
         if (len > max) {
             max = len;
