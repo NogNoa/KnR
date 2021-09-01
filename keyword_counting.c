@@ -5,7 +5,7 @@
 #include <string.h>
 #define MAXWORD 100
 
-struct key {
+static struct key {
 	char *word;
 	int count;
 } keytab[] = {
@@ -46,40 +46,40 @@ struct key {
 static const int NKEYS = sizeof(keytab)/sizeof(struct key);
 
 int ig_getword(char *, int); /* in molon.lb.c */
-int binsearch(char *, struct key *, int);
+struct key *binsearch(char *, struct key *, int);
 
 int main()
 { /* count C keywords */
-	int n;
 	char word[MAXWORD];
+	struct key *pk;
+
+	stdin=fopen("keyword_counting.c", "r");
 	
 	while (ig_getword(word, MAXWORD) != EOF)
 		if (isalpha(word[0]))
-			if ((n = binsearch(word, keytab, NKEYS)) >= 0)
-				keytab[n].count++;
-	for (n = 0; n < NKEYS; n++)
-		if (keytab[n].count > 0)
-			printf("%4d %s\n",
-			keytab[n].count, keytab[n].word);
+			if ((pk = binsearch(word, keytab, NKEYS)) != NULL)
+				pk->count++;
+	for (pk = keytab; pk - keytab < NKEYS; pk++)
+		if (pk->count > 0)
+			printf("%4d %s\n", pk->count, pk->word);
 	return 0;
 }
 
-int binsearch(char *word, struct key tab[], int n)
+struct key *
+binsearch(char *word, struct key tab[], int n)
 { /* binsearch: find word in tab[0]...tab[n-1] */
 	int cond;
-	int low, high, mid;
+	struct key *low = &tab[0], *high=&tab[n], *mid;
 	
-	low = 0;
-	high = n - 1;
-	while (low <= high) {
-		mid = (low+high) / 2;
-		if ((cond = strcmp(word, tab[mid].word)) < 0)
-			high = mid - 1;
+	while (low < high) {
+		mid = low + (high-low) / 2;
+		if ((cond = strcmp(word, mid->word)) < 0)
+			high = mid;
 		else if (cond > 0)
 			low = mid + 1;
 		else
 			return mid;
 	}
-	return -1;
+	return NULL;
 }
 
