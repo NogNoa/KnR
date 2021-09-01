@@ -1,9 +1,5 @@
 #include "tabbin.h"
 
-struct tabbin arg_prcs(int argc, char *argv[]);
-
-int fndstp (int start, int gap, int *stops, int len, int i);
-
 /* tab-stops of 4-spaces each. */
 
 int entab(int strt, int gap, int *stops, int len)

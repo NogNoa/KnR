@@ -2,7 +2,7 @@
 
 #include "tabbin.h"
 
-int cmp(const void *a, const void *b)
+static int cmp(const void *a, const void *b)
 {
 	return ( *(int*)a - *(int*)b );
 }
@@ -23,8 +23,7 @@ struct tabbin arg_prcs(int argc, char *argv[])
 	qsort(stops,argc+1,sizeof(int),cmp);
 	if (0< stops[0] || stops[argc] > MXLIN)
 		fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
-	struct tabbin taby; 
-	taby.stops=stops; taby.n=n; taby.m=m;
+	struct tabbin taby={n,m,stops};
 	return taby;
 }
 
@@ -46,4 +45,3 @@ int fndstp (int start, int gap, int *stops, int len, int i)
 	return  (gpstp < *(hibd)) ? gpstp : *(hibd);
 }
 
-/* todo load variable into taby only in the end of arg_prcs */

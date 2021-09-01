@@ -6,8 +6,8 @@
 	#include <ctype.h>
 #endif
 
-int getch(void);
-void ungetch(int);
+static int getch(void);
+static void ungetch(int);
 
 int getint(int *pn)
 {   /* getint: get next integer from input into *pn */
@@ -88,15 +88,15 @@ int getfloat(double *pn)
 
 #include <string.h> /* for strlen() */
 #define BUFSIZE 100
-char buf[BUFSIZE]; /* buffer for ungetch */
-int bufp = 0; /* next free position in buf */
+static char buf[BUFSIZE]; /* buffer for ungetch */
+static int bufp = 0; /* next free position in buf */
 
-int getch(void) 
+static int getch(void) 
 {	/* get a (possibly pushed-back) character */
 	return (bufp > 0) ? buf[--bufp] : getchar();
 }
 
-void ungetch(int c) 
+static void ungetch(int c) 
 {	/* push character back on input */
 	if (bufp >= BUFSIZE)
 		printf("ungetch: too many characters\n");
@@ -212,8 +212,6 @@ int getword(char *word, int lim)
 int ig_getword(char *word, int lim)
 { /* ig_getword: get next word or character from input 
 	 ignores preprocessor strings constants and comments*/
-	int getch(void);
-	void ungetch(int);
 	char *w = word, c, g;
 
 	while (isspace(c = getch()))

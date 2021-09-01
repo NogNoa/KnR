@@ -1,9 +1,6 @@
 #include <ctype.h>
 #include "tabbin.h"
 
-struct tabbin arg_prcs(int argc, char *argv[]);
-int fndstp (int start, int gap, int *stops, int len, int i);
-
 int detab(int start, int gap, int *stops, int len)
 {
 	int i=0;
