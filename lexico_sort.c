@@ -4,17 +4,9 @@
 #include "KnR_getline.h"
 #include <ctype.h>
 #define MAXLINES 5120 /* max #lines to be sorted */
+#define MAXLEN 1024 /* max length of any input line */
 
 char *lineptr[MAXLINES]; /* pointers to text lines */
-
-int readlines(char *lineptr[], int nlines, char *snglptr);
-void writelines(char *lineptr[], int nlines);
-void KnR_qsort(void *lineptr[], int left, int right,
-	int (*comp)(void *, void *));
-int numcmp(char *s1, char *s2);
-int astrcmp (char *s1, char *s2);
-int lexcmp(char *cs,char *ct);
-#define MAXLEN 1024 /* max length of any input line */
 
 static struct state{
 _Bool numeric; /* 1 if numeric sort */
@@ -22,6 +14,14 @@ _Bool reverse; /* 1 if reverse sort */
 _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
 } linstt ={0,0,0,0};
+
+int readlines(char *lineptr[], int nlines, char *snglptr);
+void writelines(char *lineptr[], int nlines);
+void KnR_qsort(void *lineptr[], int left, int right,
+	int (*comp)(void *, void *, void *));
+int numcmp(char *s1, char *s2, void *);
+int astrcmp (char *s1, char *s2);
+int lexcmp(char *cs,char *ct, struct state *stt);
 
 
 int main(int argc, char *argv[])
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
-		(int (*)(void*,void*))(linstt.numeric ? numcmp : lexcmp));
+		(int (*)(void*,void*, void*))(linstt.numeric ? numcmp : lexcmp));
 		writelines(lineptr, nlines);
 		return 0;
 	} 
@@ -58,7 +58,7 @@ int astrcmp (char* s1, char* s2)
 	return strcmp(s1, s2);
 }
 
-int numcmp(char *s1, char *s2)
+int numcmp(char *s1, char *s2, void* p)
 {	/* numcmp: compare s1 and s2 numerically */
 	double v1, v2;
 
@@ -72,17 +72,17 @@ int numcmp(char *s1, char *s2)
 		return 0;
 }
 
-int lexcmp(char *cs,char *ct)
+int lexcmp(char *cs,char *ct, struct state *stt)
 { /* compare string cs to string ct, disregarding case; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	char ccs=1, cct=1;
 	for (;ccs == cct && cct;cs++,ct++)
 	{	ccs=*cs; cct=*ct;
-		if (linstt.casefld)
+		if (stt->casefld)
 		{	ccs=tolower(ccs);
 			cct=tolower(cct);
 		}
-		if (linstt.dircord)
+		if (stt->dircord)
 		{	ccs = (isspace(ccs) || isalnum(ccs)) ? ccs : '!';
 			cct = (isspace(cct) || isalnum(cct)) ? cct : '!';
 		}
@@ -130,9 +130,10 @@ void swap(void *v[], int i, int j)
 }
 
 void KnR_qsort(void *v[], int left, int right,
-	int (*cmp)(void *, void *))
+	int (*cmp)(void *, void *, void *))
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
+	struct state *stt=&linstt;
 	
 	void swap(void *v[], int i, int j);
 
@@ -141,7 +142,7 @@ void KnR_qsort(void *v[], int left, int right,
 	swap(v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
-		if (((*cmp)(v[i], v[left]) < 0) ^ linstt.reverse)
+		if (((*cmp)(v[i], v[left], stt) < 0) ^ linstt.reverse)
 			swap(v, ++last, i);
 	swap(v, left, last);
 	KnR_qsort(v,   left, last-1, cmp);
