@@ -16,10 +16,12 @@ int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct);
 #define MAXLEN 1024 /* max length of any input line */
 
-static _Bool numeric = 0; /* 1 if numeric sort */
-static _Bool reverse = 0; /* 1 if reverse sort */
-static _Bool casefld = 0; /* 1 if case insensitive sort */
-static _Bool dircord = 0; /* 1 if directory order sort */
+static struct state{
+_Bool numeric; /* 1 if numeric sort */
+_Bool reverse; /* 1 if reverse sort */
+_Bool casefld; /* 1 if case insensitive sort */
+_Bool dircord; /* 1 if directory order sort */
+} linstt ={0,0,0,0};
 
 
 int main(int argc, char *argv[])
@@ -33,15 +35,15 @@ int main(int argc, char *argv[])
 	while (--argc > 0 && (*++argv)[0] == '-')
 	{	char c;
 		while ((c = *++argv[0]))
-		{	numeric |= (c == 'n');
-			reverse |= (c == 'r');
-			casefld |= (c == 'f');
-			dircord |= (c == 'd');
+		{	linstt.numeric |= (c == 'n');
+			linstt.reverse |= (c == 'r');
+			linstt.casefld |= (c == 'f');
+			linstt.dircord |= (c == 'd');
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
-		(int (*)(void*,void*))(numeric ? numcmp : lexcmp));
+		(int (*)(void*,void*))(linstt.numeric ? numcmp : lexcmp));
 		writelines(lineptr, nlines);
 		return 0;
 	} 
@@ -76,11 +78,11 @@ int lexcmp(char *cs,char *ct)
 	char ccs=1, cct=1;
 	for (;ccs == cct && cct;cs++,ct++)
 	{	ccs=*cs; cct=*ct;
-		if (casefld)
+		if (linstt.casefld)
 		{	ccs=tolower(ccs);
 			cct=tolower(cct);
 		}
-		if (dircord)
+		if (linstt.dircord)
 		{	ccs = (isspace(ccs) || isalnum(ccs)) ? ccs : '!';
 			cct = (isspace(cct) || isalnum(cct)) ? cct : '!';
 		}
@@ -139,7 +141,7 @@ void KnR_qsort(void *v[], int left, int right,
 	swap(v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
-		if (((*cmp)(v[i], v[left]) < 0) ^ reverse)
+		if (((*cmp)(v[i], v[left]) < 0) ^ linstt.reverse)
 			swap(v, ++last, i);
 	swap(v, left, last);
 	KnR_qsort(v,   left, last-1, cmp);

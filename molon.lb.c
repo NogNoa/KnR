@@ -212,11 +212,11 @@ int getword(char *word, int lim)
 int ig_getword(char *word, int lim)
 { /* ig_getword: get next word or character from input 
 	 ignores preprocessor strings constants and comments*/
-	char *w = word, c, g;
+	char *w = word, c;
 
 	while (isspace(c = getch()))
 		;
-	for (_Bool cont=1;cont;)
+	for (_Bool cont=1;cont;c = getch())
 	{	if (c == '/')
 		{	if ((c = getch()) == '/')
 				while ((c = getch()) != '\n' && c != EOF)
@@ -232,10 +232,7 @@ int ig_getword(char *word, int lim)
 			while ((c = getch()) != '\"' && c != EOF)
 				;
 		else
-		{	cont = 0;
-			ungetch(c);
-		}
-		c = getch();
+			cont = 0;
 	}
 	if (c != EOF)
 		*w++ = c;
