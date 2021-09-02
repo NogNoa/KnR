@@ -51,11 +51,13 @@ void argwrite(void)
 	ante[0]= post[0] = '\0';
 	while ((tokentype=gettoken()) != ')')
 	{
+		if (strlen(ante)+11 >= MAXTOKEN || strlen(ante)+strlen(token) + 1 >= MAXTOKEN)
+			break;
 		if (tokentype == NAME)
-		{	sprintf(post, " %s%s", token, ante);
+		{	sprintf(post, " %s%s", token, ante); // token+1
 			strcpy(ante, post);
 		} else if (tokentype == '*')
-		{	sprintf(post, " pointer to%s",ante);
+		{	sprintf(post, " pointer to%s",ante); //11
 			strcpy(ante, post);
 	    } else if (tokentype == ',')
 		{	strcat(out, ante);
