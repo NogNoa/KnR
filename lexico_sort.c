@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	int nlines; /* number of input lines re'd */
 	char buffer[MAXLEN];
 
-	//stdin = fopen("a.txt", "r");
+	stdin = fopen("a.txt", "r");
 
 	int nfield = argc-1;
 	char dlimit = '\t';
@@ -39,14 +39,16 @@ int main(int argc, char *argv[])
 	}
 	struct state stti[nfield];
 
-	for (argv+=argc-1;--nfield > 0 && *argv[0] == '-';--argv)
+	for (argv+=argc-1;--nfield >= 0 && *argv[0] == '-';--argv)
 	{	char c;
-		struct state stt=stti[nfield];
+	
+		struct state *stt=&stti[nfield];
+		*stt=(struct state) {0,0,0,0};
 		while ((c = *++(argv[0])))
-		{	stt.numeric |= (c == 'n');
-			stt.reverse |= (c == 'r');
-			stt.casefld |= (c == 'f');
-			stt.dircord |= (c == 'd');
+		{	stt->numeric |= (c == 'n');
+			stt->reverse |= (c == 'r');
+			stt->casefld |= (c == 'f');
+			stt->dircord |= (c == 'd');
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
