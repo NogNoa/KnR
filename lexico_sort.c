@@ -29,16 +29,24 @@ int main(int argc, char *argv[])
 	int nlines; /* number of input lines re'd */
 	char buffer[MAXLEN];
 
-	
 	//stdin = fopen("a.txt", "r");
 
-	while (--argc > 0 && (*++argv)[0] == '-')
+	int nfield = argc-1;
+	char dlimit = '\t';
+	if (argv[1][0] == '-' && argv[1][1] == 's')
+	{	nfield--;
+		dlimit = argv[1][2];
+	}
+	struct state stti[nfield];
+
+	for (argv+=argc-1;--nfield > 0 && *argv[0] == '-';--argv)
 	{	char c;
-		while ((c = *++argv[0]))
-		{	linstt.numeric |= (c == 'n');
-			linstt.reverse |= (c == 'r');
-			linstt.casefld |= (c == 'f');
-			linstt.dircord |= (c == 'd');
+		struct state stt=stti[nfield];
+		while ((c = *++(argv[0])))
+		{	stt.numeric |= (c == 'n');
+			stt.reverse |= (c == 'r');
+			stt.casefld |= (c == 'f');
+			stt.dircord |= (c == 'd');
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
@@ -148,3 +156,13 @@ void KnR_qsort(void *v[], int left, int right,
 	KnR_qsort(v,   left, last-1, cmp);
 	KnR_qsort(v, last+1,  right, cmp);
 }
+
+
+/*
+todo: take argument for delimiter
+make state for each field
+seperate each line to fields
+sort by fields
+take different arguments for each field
+*/
+
