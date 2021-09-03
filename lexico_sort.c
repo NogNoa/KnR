@@ -31,10 +31,10 @@ int main(int argc, char *argv[])
 
 	stdin = fopen("a.txt", "r");
 
-	int nfield = argc-1;
+	int nfield=1;
 	char dlimit = '\t';
 	if (argv[1][0] == '-' && argv[1][1] == 's')
-	{	nfield--;
+	{	nfield = argc-2;
 		dlimit = argv[1][2];
 	}
 	struct state stti[nfield];
