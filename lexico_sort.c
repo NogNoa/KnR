@@ -7,6 +7,7 @@
 #define MAXLEN 1024 /* max length of any input line */
 
 char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
+char dlimit = '\t';
 
 static struct state{
 _Bool numeric; /* 1 if numeric sort */
@@ -15,14 +16,14 @@ _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
 } linstt ={0,0,0,0};
 
-int readlines(char *lineptr[][], int nlines, int nfield, char *snglptr);
+int readlines(char *lineptr[][512], int nlines, int nfield, char *snglptr);
 void writelines(char *lineptr[], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
 int numcmp(char *s1, char *s2, void *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
-
+void fieldseperate(char *fieldptr[], int nfield, char *p);
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -31,15 +32,14 @@ int main(int argc, char *argv[])
 
 	stdin = fopen("a.txt", "r");
 
-	int nfield=1;
-	char dlimit = '\t';
+	int nfield=1, nf;
 	if (argv[1][0] == '-' && argv[1][1] == 's')
 	{	nfield = argc-2;
 		dlimit = argv[1][2];
 	}
 	struct state stti[nfield];
 
-	for (argv+=argc-1, int nf=nfield;--nf >= 0 && *argv[0] == '-';--argv)
+	for (argv+=argc-1, nf=nfield;--nf >= 0 && *argv[0] == '-';--argv)
 	{	char c;
 	
 		struct state *stt=&stti[nf];
@@ -99,13 +99,13 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 	}
 	return ccs-cct;
 }
-
+/*
 #ifndef alloc
 	#include "molon.lb.c"
 #endif
+*/
 
-
-int readlines(char *lineptr[][], int maxlines, int nfield, char *p)
+int readlines(char lineptr[][512], int maxlines, int nfield, char *p)
 {	/* readlines: read input lines */
 	int len, nlines;
 	char line[MAXLEN];
@@ -116,13 +116,19 @@ int readlines(char *lineptr[][], int maxlines, int nfield, char *p)
 		else 
 		{	if (line[len] == '\n')
 				line[len] =  '\0'; /* delete newline */
-			
 			strcpy(p, line);
 			lineptr[nlines++] = p;
+			fieldseperate(char *lineptr[nlines][], int nfield, char *p);
 		}
 	}
 	return nlines;
 }
+
+void fieldseperate(char *fieldptr[], int nfield, char *p)
+{
+	;
+}
+
 
 void writelines(char *lineptr[], int nlines)
 { /* writelines: write output lines */

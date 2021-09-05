@@ -54,7 +54,7 @@ int ptr_KnR_getline(char *s, int n)
 	char c;
 	int lim=n;
 
-	for (; 0 < n-1 && (c=getchar()) !=EOF && c!='\n'; n--)
+	for (; n > 1 && (c=getchar()) !=EOF && c!='\n'; n--)
 		*s++ = c;
 	if (c== '\n') {
 		*s++ = c;
