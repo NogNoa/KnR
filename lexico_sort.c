@@ -17,7 +17,7 @@ _Bool dircord; /* 1 if directory order sort */
 } linstt ={0,0,0,0};
 
 int readlines(char *lineptr[][512], int nlines, int nfield, char *snglptr);
-void writelines(char *lineptr[], int nlines);
+void writelines(char *lineptr[][512], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
 int numcmp(char *s1, char *s2, void *);
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES, nfield, buffer)) >= 0) 
-	{	KnR_qsort((void**) lineptr, 0, nlines-1,
+	{	KnR_qsort((void**) *lineptr, 0, nlines-1,
 		(int (*)(void*,void*, void*))(stti[0].numeric ? numcmp : lexcmp), stti);
 		writelines(lineptr, nlines);
 		return 0;
@@ -105,23 +105,23 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 #endif
 */
 
-int readlines(char lineptr[][512], int maxlines, int nfield, char *p)
+int readlines(char *lineptr[][512], int maxlines, int nfield, char *p)
 {	/* readlines: read input lines */
-	int len, nlines;
+	int len, nline;
 	char line[MAXLEN];
-	nlines = 0;
+	nline = 0;
 	while ((len = ptr_KnR_getline(line, MAXLEN)) > 0)
-	{	if (nlines >= maxlines || (p+=len+1) == NULL)
+	{	if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
 		{	if (line[len] == '\n')
 				line[len] =  '\0'; /* delete newline */
 			strcpy(p, line);
-			lineptr[nlines++] = p;
-			fieldseperate(char *lineptr[nlines][], int nfield, char *p);
+			*lineptr[nline++] = p;
+			fieldseperate(lineptr[nline], nfield, p);
 		}
 	}
-	return nlines;
+	return nline;
 }
 
 void fieldseperate(char *fieldptr[], int nfield, char *p)
@@ -130,7 +130,7 @@ void fieldseperate(char *fieldptr[], int nfield, char *p)
 }
 
 
-void writelines(char *lineptr[], int nlines)
+void writelines(char *lineptr[][512], int nlines)
 { /* writelines: write output lines */
 	int i;
 	for (i = 0; i < nlines; i++)
