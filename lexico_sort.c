@@ -6,7 +6,7 @@
 #define MAXLINES 5120 /* max #lines to be sorted */
 #define MAXLEN 1024 /* max length of any input line */
 
-char *lineptr[MAXLINES]; /* pointers to text lines */
+char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
 
 static struct state{
 _Bool numeric; /* 1 if numeric sort */
@@ -15,7 +15,7 @@ _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
 } linstt ={0,0,0,0};
 
-int readlines(char *lineptr[], int nlines, char *snglptr);
+int readlines(char *lineptr[][], int nlines, int nfield, char *snglptr);
 void writelines(char *lineptr[], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
@@ -39,10 +39,10 @@ int main(int argc, char *argv[])
 	}
 	struct state stti[nfield];
 
-	for (argv+=argc-1;--nfield >= 0 && *argv[0] == '-';--argv)
+	for (argv+=argc-1, int nf=nfield;--nf >= 0 && *argv[0] == '-';--argv)
 	{	char c;
 	
-		struct state *stt=&stti[nfield];
+		struct state *stt=&stti[nf];
 		*stt=(struct state) {0,0,0,0};
 		while ((c = *++(argv[0])))
 		{	stt->numeric |= (c == 'n');
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 			stt->dircord |= (c == 'd');
 		}
 	}
-	if ((nlines = readlines(lineptr, MAXLINES,buffer)) >= 0) 
+	if ((nlines = readlines(lineptr, MAXLINES, nfield, buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
 		(int (*)(void*,void*, void*))(stti[0].numeric ? numcmp : lexcmp), stti);
 		writelines(lineptr, nlines);
@@ -105,7 +105,7 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 #endif
 
 
-int readlines(char *lineptr[], int maxlines,char *p)
+int readlines(char *lineptr[][], int maxlines, int nfield, char *p)
 {	/* readlines: read input lines */
 	int len, nlines;
 	char line[MAXLEN];
@@ -116,6 +116,7 @@ int readlines(char *lineptr[], int maxlines,char *p)
 		else 
 		{	if (line[len] == '\n')
 				line[len] =  '\0'; /* delete newline */
+			
 			strcpy(p, line);
 			lineptr[nlines++] = p;
 		}
