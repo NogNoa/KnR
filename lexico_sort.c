@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	int nlines; /* number of input lines re'd */
 	char buffer[MAXLEN];
 
-	stdin = fopen("a.txt", "r");
+	stdin = fopen("Filters.csv", "r");
 
 	int nfield=1, nf;
 	if (argv[1][0] == '-' && argv[1][1] == 's')
@@ -126,7 +126,16 @@ int readlines(char *lineptr[][512], int maxlines, int nfield, char *p)
 
 void fieldseperate(char *fieldptr[], int nfield, char *p)
 {
-	;
+	char *txt=*fieldptr;
+	int ifield=1;
+
+	for(char *pc=txt;*pc != '\0' && ifield < nfield;)
+	{	if (*pc == dlimit)
+		{	*pc = '\0';
+			fieldptr[ifield++] = pc+1;
+		}
+		pc++;
+	}
 }
 
 
@@ -134,7 +143,7 @@ void writelines(char *lineptr[][512], int nlines)
 { /* writelines: write output lines */
 	int i;
 	for (i = 0; i < nlines; i++)
-	printf("%s\n", lineptr[i]);
+	printf("%s\n", *lineptr[i]);
 }
 
 void swap(void *v[], int i, int j)
