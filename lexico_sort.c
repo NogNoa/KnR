@@ -117,25 +117,24 @@ int readlines(char *lineptr[][512], int maxlines, int nfield, char *p)
 		{	if (line[len] == '\n')
 				line[len] =  '\0'; /* delete newline */
 			strcpy(p, line);
-			*lineptr[nline++] = p;
-			fieldseperate(lineptr[nline], nfield, p);
+			*lineptr[nline] = p;
+			fieldseperate(lineptr[nline++], nfield, p);
 		}
+		for (int i=0;lineptr[nline-1]+i != NULL;i++)
+			printf("%s",lineptr[nline][i]);
+		putchar('\n');
 	}
 	return nline;
 }
 
 void fieldseperate(char *fieldptr[], int nfield, char *p)
-{
-	char *txt=*fieldptr;
+{	
 	int ifield=1;
-
-	for(char *pc=txt;*pc != '\0' && ifield < nfield;)
-	{	if (*pc == dlimit)
+	for(char *pc=*fieldptr;*pc != '\0' && ifield < nfield;pc++)
+		if (*pc == dlimit)
 		{	*pc = '\0';
 			fieldptr[ifield++] = pc+1;
 		}
-		pc++;
-	}
 }
 
 
