@@ -16,14 +16,14 @@ _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
 } linstt ={0,0,0,0};
 
-int readlines(char *lineptr[][512], int nlines, int nfield, char *snglptr);
+int readlines(char *lineptr[][512], int nlines, char *snglptr);
 void writelines(char *lineptr[][512], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
 int numcmp(char *s1, char *s2, void *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
-void fieldseperate(char *fieldptr[], int nfield, char *p);
+void fieldseperate(char *fieldptr[], char *p);
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 			stt->dircord |= (c == 'd');
 		}
 	}
-	if ((nlines = readlines(lineptr, MAXLINES, nfield, buffer)) >= 0) 
+	if ((nlines = readlines(lineptr, MAXLINES, buffer)) >= 0) 
 	{	KnR_qsort((void**) *lineptr, 0, nlines-1,
 		(int (*)(void*,void*, void*))(stti[0].numeric ? numcmp : lexcmp), stti);
 		writelines(lineptr, nlines);
@@ -105,7 +105,7 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 #endif
 */
 
-int readlines(char *lineptr[][512], int maxlines, int nfield, char *p)
+int readlines(char *lineptr[][512], int maxlines, char *p)
 {	/* readlines: read input lines */
 	int len, nline;
 	char line[MAXLEN];
@@ -118,7 +118,7 @@ int readlines(char *lineptr[][512], int maxlines, int nfield, char *p)
 				line[len] =  '\0'; /* delete newline */
 			strcpy(p, line);
 			*lineptr[nline] = p;
-			fieldseperate(lineptr[nline++], nfield, p);
+			fieldseperate(lineptr[nline++], p);
 		}
 		for (int i=0;lineptr[nline-1]+i != NULL;i++)
 			printf("%s",lineptr[nline][i]);
@@ -127,10 +127,10 @@ int readlines(char *lineptr[][512], int maxlines, int nfield, char *p)
 	return nline;
 }
 
-void fieldseperate(char *fieldptr[], int nfield, char *p)
+void fieldseperate(char *fieldptr[], char *p)
 {	
 	int ifield=1;
-	for(char *pc=*fieldptr;*pc != '\0' && ifield < nfield;pc++)
+	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
 		if (*pc == dlimit)
 		{	*pc = '\0';
 			fieldptr[ifield++] = pc+1;

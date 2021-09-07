@@ -46,4 +46,5 @@ readlines(linptr,MAXLINE, nfield=2, buffer)
 		fieldptr = {"Name","",...}[512]
 		(fielptr[ifield++] = "") := pc+1 =  "Case,Whole Word,Path,Diacritics,Regex,Search,Macro,Key\0" 
 		fieldptr = {"Name","Case,Whole Word,Path,Diacritics,Regex,Search,Macro,Key\0",...}[512]
-		pc++ = fieldptr[1]
+		pc++ := fieldptr[1]
+		
