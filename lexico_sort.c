@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
 	stdin = fopen("Filters.csv", "r");
 
-	int nf;
+	int nf=nfield;
 	char dlimit = '\0';
 
 	if (argv[1][0] == '-' && argv[1][1] == 's')
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 	}
 	struct state stti[nfield];
 
-	for (argv+=argc-1, nf=nfield;--nf >= 0 && *argv[0] == '-';--argv)
+	for (argv+=argc-1;nf >= 0 && *argv[0] == '-';--argv, --nf)
 	{	char c;
 	
 		struct state *stt=&stti[nf];
@@ -111,9 +111,9 @@ int fieldcmp (char fp1[], char fp2[], struct state stti[])
 	int (*cmp)(void*,void*, void*);
 	int back = 0;
 	for (int i=0;back == 0 && fp1 && fp2;fp1++, fp2++)
-	{	struct state stt = stti[i];
-		cmp = (stt.numeric ? numcmp : lexcmp);
-		back = cmp(fp1, fp2, &stt)^ stt.reverse;
+	{	struct state *stt = stti + i;
+		cmp = ((stt->numeric) ? numcmp : lexcmp);
+		back = cmp(fp1, fp2, &stt)^ stt->reverse;
 		if (i < nfield-1)
 			i++;
 	}
@@ -165,8 +165,8 @@ void fieldseperate(char *fieldptr[], char dlimit)
 void writelines(char *lineptr[][512], int nlines, char dlimit)
 { /* writelines: write output lines */
 	for (int l = 0; l < nlines; l++)
-	{	for (int f=0;lineptr[l-1][f] != NULL;f++)
-			printf("%s%c",lineptr[l-1][f],dlimit);
+	{	for (int f=0;lineptr[l][f] != NULL;f++)
+			printf("%s%c",lineptr[l][f],dlimit);
 		putchar('\n');
 	}
 }
