@@ -7,7 +7,7 @@
 #define MAXLEN 1024 /* max length of any input line */
 
 char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
-
+int nfield=1;
 
 static struct state{
 _Bool numeric; /* 1 if numeric sort */
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
 	stdin = fopen("Filters.csv", "r");
 
-	int nfield=1, nf;
+	int nf;
 	char dlimit = '\0';
 
 	if (argv[1][0] == '-' && argv[1][1] == 's')
@@ -108,7 +108,14 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 
 int fieldcmp (char *fp1[], char *fp2[], struct state stti[])
 {
-	int (*comp)(void*,void*, void*);
+	int (*cmp)(void*,void*, void*);
+	for (int i=0;i<nfield && fp2;fp1++, fp2++, i++)
+		cmp = (stti[i].numeric ? numcmp : lexcmp)
+	{	int back = cmp(fp1, fp2, stati[i])
+		if (back == 0)
+			break
+	}
+	return back;
 	/*(stti[0].numeric ? numcmp : lexcmp)*/
 }
 
