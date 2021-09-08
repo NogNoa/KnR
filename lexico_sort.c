@@ -99,11 +99,6 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 	}
 	return ccs-cct;
 }
-/*
-#ifndef alloc
-	#include "molon.lb.c"
-#endif
-*/
 
 int readlines(char *lineptr[][512], int maxlines, char *p)
 {	/* readlines: read input lines */
@@ -114,14 +109,16 @@ int readlines(char *lineptr[][512], int maxlines, char *p)
 	{	if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
-		{	if (line[len] == '\n')
+		{	if (line[len-1] == '\r')
+				line[len-1] = '\0';
+			else if (line[len] == '\n')
 				line[len] =  '\0'; /* delete newline */
 			strcpy(p, line);
 			*lineptr[nline] = p;
 			fieldseperate(lineptr[nline++], p);
 		}
-		for (int i=0;lineptr[nline-1]+i != NULL;i++)
-			printf("%s",lineptr[nline][i]);
+		for (int i=0;lineptr[nline-1][i] != NULL;i++)
+			printf("%s%c",lineptr[nline-1][i],dlimit);
 		putchar('\n');
 	}
 	return nline;
@@ -176,10 +173,10 @@ void KnR_qsort(void *v[], int left, int right,
 
 
 /*
-todo: take argument for delimiter
-make state for each field
-seperate each line to fields
-sort by fields
-take different arguments for each field
+todo:  v	take argument for delimiter
+	  v	make state for each field
+	  v	seperate each line to fields
+	  	sort by fields
+	  	take different arguments for each field
 */
 
