@@ -17,7 +17,7 @@ _Bool dircord; /* 1 if directory order sort */
 } linstt ={0,0,0,0};
 
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
-void writelines(char *lineptr[][512], int nlines);
+void writelines(char *lineptr[][512], int nlines, char dlimit);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
 void KnR_fqsort(void *lineptr[], int left, int right,
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	if ((nlines = readlines(lineptr, MAXLINES, dlimit, buffer)) >= 0) 
 	{	KnR_qsort((void**) *lineptr, 0, nlines-1,
 		(int (*)(void*, void*, void *))fieldcmp, stti);
-		writelines(lineptr, nlines);
+		writelines(lineptr, nlines, dlimit);
 		return 0;
 	} 
 	else 
@@ -111,8 +111,11 @@ int fieldcmp (char *fp1[], char *fp2[], struct state stti[])
 	int (*cmp)(void*,void*, void*);
 	int back = 0;
 	for (int i=0;back == 0 && fp2;fp1++, fp2++)
-	{	cmp = (stti[i].numeric ? numcmp : lexcmp);
-		back = cmp(fp1, fp2, &stti[i]);
+	{	struct state stt = stti[i];
+		cmp = (stt.numeric ? numcmp : lexcmp);
+		back = cmp(fp1, fp2, &stt);
+		if (stt.reverse)
+			back = -back;
 		if (i < nfield-1)
 			i++;
 	}
@@ -137,9 +140,6 @@ int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
 			*lineptr[nline] = p;
 			fieldseperate(lineptr[nline],dlimit);
 		}
-		for (int i=0;lineptr[nline-1][i] != NULL;i++)
-			printf("%s%c",lineptr[nline-1][i],dlimit);
-		putchar('\n');
 	}
 	return nline;
 }
@@ -158,11 +158,13 @@ void fieldseperate(char *fieldptr[], char dlimit)
 }
 
 
-void writelines(char *lineptr[][512], int nlines)
+void writelines(char *lineptr[][512], int nlines, char dlimit)
 { /* writelines: write output lines */
-	int i;
-	for (i = 0; i < nlines; i++)
-	printf("%s\n", *lineptr[i]);
+	for (int l = 0; l < nlines; l++)
+	{	for (int f=0;lineptr[l-1][f] != NULL;f++)
+			printf("%s%c",lineptr[l-1][f],dlimit);
+		putchar('\n');
+	}
 }
 
 void swap(void *v[], int i, int j)
@@ -178,7 +180,6 @@ void KnR_qsort(void *v[], int left, int right,
 	int (*cmp)(void *, void *, void *),struct state stti[])
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
-	struct state *stt=stti;
 	
 	void swap(void *v[], int i, int j);
 
@@ -187,7 +188,7 @@ void KnR_qsort(void *v[], int left, int right,
 	swap(v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
-		if (((*cmp)(v[i], v[left], stt) < 0) ^ linstt.reverse)
+		if ((fieldcmp(v[i], v[left], stti) < 0))
 			swap(v, ++last, i);
 	swap(v, left, last);
 	KnR_qsort(v,   left, last-1, cmp, stti);
