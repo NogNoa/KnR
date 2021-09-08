@@ -21,7 +21,7 @@ void writelines(char *lineptr[][512], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
 void KnR_fqsort(void *lineptr[], int left, int right,
-	int (*comp)(void **, void **, void *), struct state []);
+	struct state []);
 int numcmp(char *s1, char *s2, void *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
@@ -36,11 +36,12 @@ int main(int argc, char *argv[])
 	stdin = fopen("Filters.csv", "r");
 
 	int nfield=1, nf;
-	char dlimit = '\t';
+	char dlimit = '\0';
 
 	if (argv[1][0] == '-' && argv[1][1] == 's')
 	{	nfield = argc-2;
 		dlimit = argv[1][2];
+		dlimit = (dlimit == '\\') ? ((argv[1][3] == 't') ? '\t' : (argv[1][3])) : dlimit;
 	}
 	struct state stti[nfield];
 
@@ -107,7 +108,8 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 
 int fieldcmp (char *fp1[], char *fp2[], struct state stti[])
 {
-	;
+	int (*comp)(void*,void*, void*);
+	/*(stti[0].numeric ? numcmp : lexcmp)*/
 }
 
 int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
@@ -184,8 +186,8 @@ void KnR_qsort(void *v[], int left, int right,
 	KnR_qsort(v, last+1,  right, cmp, stti);
 }
 
-void KnR_fqsort(void *lineptr[], int left, int right,
-	int (*comp)(void **, void **, void *), struct state stti[])
+void KnR_fqsort(void *v[], int left, int right,
+	struct state stti[])
 {
 	;
 }
