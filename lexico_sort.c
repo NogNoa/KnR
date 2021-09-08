@@ -18,10 +18,7 @@ _Bool dircord; /* 1 if directory order sort */
 
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
-void KnR_qsort(char *lineptr[], int left, int right,
-	int (*comp)(void *, void *, void *), struct state []);
-void KnR_fqsort(void *lineptr[], int left, int right,
-	struct state []);
+void KnR_qsort(char *lineptr[], int left, int right, struct state []);
 int numcmp(char *s1, char *s2, void *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
@@ -58,8 +55,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES, dlimit, buffer)) >= 0) 
-	{	KnR_qsort((char **) lineptr, 0, nlines-1,
-		(int (*)(void*, void*, void *))fieldcmp, stti);
+	{	KnR_qsort((char **) lineptr, 0, nlines-1, stti);
 		writelines(lineptr, nlines, dlimit);
 		return 0;
 	} 
@@ -181,7 +177,7 @@ void swap(char **v, int i, int j)
 }
 
 void KnR_qsort(char *v[], int left, int right,
-	int (*cmp)(void *, void *, void *),struct state stti[])
+	struct state stti[])
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
 	
@@ -195,14 +191,8 @@ void KnR_qsort(char *v[], int left, int right,
 		if ((fieldcmp(v[i], v[left], stti) < 0))
 			swap(v, ++last, i);
 	swap(v, left, last);
-	KnR_qsort(v,   left, last-1, cmp, stti);
-	KnR_qsort(v, last+1,  right, cmp, stti);
-}
-
-void KnR_fqsort(void *v[], int left, int right,
-	struct state stti[])
-{
-	;
+	KnR_qsort(v,   left, last-1, stti);
+	KnR_qsort(v, last+1,  right, stti);
 }
 
 /*
