@@ -7,7 +7,7 @@
 #define MAXLEN 1024 /* max length of any input line */
 
 char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
-char dlimit = '\t';
+
 
 static struct state{
 _Bool numeric; /* 1 if numeric sort */
@@ -16,14 +16,17 @@ _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
 } linstt ={0,0,0,0};
 
-int readlines(char *lineptr[][512], int nlines, char *snglptr);
+int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
 void writelines(char *lineptr[][512], int nlines);
 void KnR_qsort(void *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
+void KnR_fqsort(void *lineptr[], int left, int right,
+	int (*comp)(void **, void **, void *), struct state []);
 int numcmp(char *s1, char *s2, void *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
-void fieldseperate(char *fieldptr[], char *p);
+void fieldseperate(char *fieldptr[], char dlimit);
+int fieldcmp (char *fp1[], char *fp2[], struct state stti[]);
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -33,6 +36,8 @@ int main(int argc, char *argv[])
 	stdin = fopen("Filters.csv", "r");
 
 	int nfield=1, nf;
+	char dlimit = '\t';
+
 	if (argv[1][0] == '-' && argv[1][1] == 's')
 	{	nfield = argc-2;
 		dlimit = argv[1][2];
@@ -51,9 +56,9 @@ int main(int argc, char *argv[])
 			stt->dircord |= (c == 'd');
 		}
 	}
-	if ((nlines = readlines(lineptr, MAXLINES, buffer)) >= 0) 
+	if ((nlines = readlines(lineptr, MAXLINES, dlimit, buffer)) >= 0) 
 	{	KnR_qsort((void**) *lineptr, 0, nlines-1,
-		(int (*)(void*,void*, void*))(stti[0].numeric ? numcmp : lexcmp), stti);
+		(int (*)(void*, void*, void *))fieldcmp, stti);
 		writelines(lineptr, nlines);
 		return 0;
 	} 
@@ -100,12 +105,17 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 	return ccs-cct;
 }
 
-int readlines(char *lineptr[][512], int maxlines, char *p)
+int fieldcmp (char *fp1[], char *fp2[], struct state stti[])
+{
+	;
+}
+
+int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
 {	/* readlines: read input lines */
 	int len, nline;
 	char line[MAXLEN];
-	nline = 0;
-	while ((len = ptr_KnR_getline(line, MAXLEN)) > 0)
+	
+	for (nline = 0; (len = ptr_KnR_getline(line, MAXLEN)) > 0;nline++)
 	{	if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
@@ -115,7 +125,7 @@ int readlines(char *lineptr[][512], int maxlines, char *p)
 				line[len] =  '\0'; /* delete newline */
 			strcpy(p, line);
 			*lineptr[nline] = p;
-			fieldseperate(lineptr[nline++], p);
+			fieldseperate(lineptr[nline],dlimit);
 		}
 		for (int i=0;lineptr[nline-1][i] != NULL;i++)
 			printf("%s%c",lineptr[nline-1][i],dlimit);
@@ -124,8 +134,11 @@ int readlines(char *lineptr[][512], int maxlines, char *p)
 	return nline;
 }
 
-void fieldseperate(char *fieldptr[], char *p)
-{	
+void fieldseperate(char *fieldptr[], char dlimit)
+{	/* Takes fieldptr,a line of fields , the whole text of the line is in 
+	the first field. The function seperate the text to the fields by 
+	terminating each of them at each instance of the delimiter, 
+	and referancing the next field to the next character */
 	int ifield=1;
 	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
 		if (*pc == dlimit)
@@ -171,6 +184,11 @@ void KnR_qsort(void *v[], int left, int right,
 	KnR_qsort(v, last+1,  right, cmp, stti);
 }
 
+void KnR_fqsort(void *lineptr[], int left, int right,
+	int (*comp)(void **, void **, void *), struct state stti[])
+{
+	;
+}
 
 /*
 todo:  v	take argument for delimiter
