@@ -18,7 +18,7 @@ _Bool dircord; /* 1 if directory order sort */
 
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
-void KnR_qsort(void *lineptr[], int left, int right,
+void KnR_qsort(char *lineptr[], int left, int right,
 	int (*comp)(void *, void *, void *), struct state []);
 void KnR_fqsort(void *lineptr[], int left, int right,
 	struct state []);
@@ -26,7 +26,7 @@ int numcmp(char *s1, char *s2, void *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
 void fieldseperate(char *fieldptr[], char dlimit);
-int fieldcmp (char *fp1[], char *fp2[], struct state stti[]);
+int fieldcmp (char fp1[], char fp2[], struct state stti[]);
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES, dlimit, buffer)) >= 0) 
-	{	KnR_qsort((void**) *lineptr, 0, nlines-1,
+	{	KnR_qsort((char **) lineptr, 0, nlines-1,
 		(int (*)(void*, void*, void *))fieldcmp, stti);
 		writelines(lineptr, nlines, dlimit);
 		return 0;
@@ -106,19 +106,23 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 	return ccs-cct;
 }
 
-int fieldcmp (char *fp1[], char *fp2[], struct state stti[])
+int fieldcmp (char fp1[], char fp2[], struct state stti[])
 {
 	int (*cmp)(void*,void*, void*);
 	int back = 0;
-	for (int i=0;back == 0 && fp2;fp1++, fp2++)
+	for (int i=0;back == 0 && fp1 && fp2;fp1++, fp2++)
 	{	struct state stt = stti[i];
 		cmp = (stt.numeric ? numcmp : lexcmp);
-		back = cmp(fp1, fp2, &stt);
-		if (stt.reverse)
-			back = -back;
+		back = cmp(fp1, fp2, &stt)^ stt.reverse;
 		if (i < nfield-1)
 			i++;
 	}
+	if (!(fp1 && fp2))
+		if (fp1)
+			back=1;
+		else
+			back=-1;
+
 	return back;
 	/*(stti[0].numeric ? numcmp : lexcmp)*/
 }
@@ -167,7 +171,7 @@ void writelines(char *lineptr[][512], int nlines, char dlimit)
 	}
 }
 
-void swap(void *v[], int i, int j)
+void swap(char **v, int i, int j)
 { /* swap: interchange v[i] and v[j] */
 	char *temp;
 
@@ -176,15 +180,15 @@ void swap(void *v[], int i, int j)
 	v[j] = temp;
 }
 
-void KnR_qsort(void *v[], int left, int right,
+void KnR_qsort(char *v[], int left, int right,
 	int (*cmp)(void *, void *, void *),struct state stti[])
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
 	
-	void swap(void *v[], int i, int j);
+	void swap(char **v, int i, int j);
 
 	if (left >= right) /* do nothing if array contains */
-		return; 	  /* fewer than two elements      */
+		return;	  /* fewer than two elements      */
 	swap(v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
@@ -205,7 +209,9 @@ void KnR_fqsort(void *v[], int left, int right,
 todo:  v	take argument for delimiter
 	  v	make state for each field
 	  v	seperate each line to fields
-	  	sort by fields
-	  	take different arguments for each field
+	  v	sort by fields
+	  v	take different arguments for each field
+problem: I'm only switching field 0 of each line since I'm useing pointers
 */
+
 
