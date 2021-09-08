@@ -109,11 +109,12 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 int fieldcmp (char *fp1[], char *fp2[], struct state stti[])
 {
 	int (*cmp)(void*,void*, void*);
-	for (int i=0;i<nfield && fp2;fp1++, fp2++, i++)
-		cmp = (stti[i].numeric ? numcmp : lexcmp)
-	{	int back = cmp(fp1, fp2, stati[i])
-		if (back == 0)
-			break
+	int back = 0;
+	for (int i=0;back == 0 && fp2;fp1++, fp2++)
+	{	cmp = (stti[i].numeric ? numcmp : lexcmp);
+		back = cmp(fp1, fp2, &stti[i]);
+		if (i < nfield-1)
+			i++;
 	}
 	return back;
 	/*(stti[0].numeric ? numcmp : lexcmp)*/
