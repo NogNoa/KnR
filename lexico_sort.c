@@ -14,12 +14,12 @@ _Bool numeric; /* 1 if numeric sort */
 _Bool reverse; /* 1 if reverse sort */
 _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
-} linstt ={0,0,0,0};
+}
 
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
 void KnR_qsort(char *lineptr[], int left, int right, struct state []);
-int numcmp(char *s1, char *s2, void *);
+int numcmp(char *s1, char *s2, struct state *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
 void fieldseperate(char *fieldptr[], char dlimit);
@@ -70,7 +70,7 @@ int astrcmp (char* s1, char* s2)
 	return strcmp(s1, s2);
 }
 
-int numcmp(char *s1, char *s2, void* p)
+int numcmp(char *s1, char *s2, struct state * p)
 {	/* numcmp: compare s1 and s2 numerically */
 	double v1, v2;
 
@@ -104,12 +104,12 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 
 int fieldcmp (char fp1[], char fp2[], struct state stti[])
 {
-	int (*cmp)(void*,void*, void*);
+	int (*cmp)(char*,char*, struct state *);
 	int back = 0;
 	for (int i=0;back == 0 && fp1 && fp2;fp1++, fp2++)
 	{	struct state *stt = stti + i;
 		cmp = ((stt->numeric) ? numcmp : lexcmp);
-		back = cmp(fp1, fp2, &stt)^ stt->reverse;
+		back = cmp(fp1, fp2, stt)^ stt->reverse;
 		if (i < nfield-1)
 			i++;
 	}
