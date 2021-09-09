@@ -144,6 +144,7 @@ void writelines(char *lineptr[][512], int nlines, char dlimit)
 	}
 }
 
+
 void swap(void *v[], int i, int j)
 { /* swap: interchange v[i] and v[j] */
 	char *temp;
@@ -152,6 +153,12 @@ void swap(void *v[], int i, int j)
 	v[i] = v[j];
 	v[j] = temp;
 }
+
+void swaplines(void *v[], int linei, int linej)
+	while (*++(v[linei]) && *++(v[linej]))
+	{	
+
+	}
 
 void KnR_qsort(void *v[], int left, int right,
 	int (*cmp)(void *, void *, void *))
