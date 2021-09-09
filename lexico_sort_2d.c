@@ -14,15 +14,16 @@ _Bool numeric; /* 1 if numeric sort */
 _Bool reverse; /* 1 if reverse sort */
 _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
-} linstt ={0,0,0,0};
+} linstt ={0,0,0,0}, fieldstt={0,0,0,0};
 
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
+void fieldseperate(char *fieldptr[], char dlimit);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
+void set_state(char *arg, struct state *stt)
 void KnR_qsort(void *lineptr[], int left, int right, int (*cmp)(void *, void *, void *));
 int numcmp(char *s1, char *s2, struct state *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state *stt);
-void fieldseperate(char *fieldptr[], char dlimit);
 int fieldcmp (char fp1[], char fp2[], struct state stti[]);
 
 int main(int argc, char *argv[])
@@ -31,17 +32,12 @@ int main(int argc, char *argv[])
 	char buffer[MAXLEN];
 
 	//stdin = fopen("a.txt", "r");
-	char dlimit = '\0';
+	char dlimit = ' ';
 
-	while (--argc > 0 && (*++argv)[0] == '-')
-	{	char c;
-		while ((c = *++argv[0]))
-		{	linstt.numeric |= (c == 'n');
-			linstt.reverse |= (c == 'r');
-			linstt.casefld |= (c == 'f');
-			linstt.dircord |= (c == 'd');
-		}
-	}
+	if (argc > 2)
+		set_state(arg[2], fieldstt)
+	if (argc > 1 && (arg=argv[1])[0] == '-')
+		set_state(arg[1], linstt)
 	if ((nlines = readlines(lineptr, MAXLINES,dlimit,buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
 		(int (*)(void*,void*,void*))(linstt.numeric ? numcmp : lexcmp));
@@ -51,6 +47,19 @@ int main(int argc, char *argv[])
 	else 
 	{	printf("error: input too big and scary to sort\n");
 		return 1;
+	}
+}
+
+void set_state(char *arg, struct state *stt)
+{
+	if (*arg == '-')
+	{	char c;
+		while ((c = *++arg ))
+		{	stt.numeric |= (c == 'n');
+			stt.reverse |= (c == 'r');
+			stt.casefld |= (c == 'f');
+			stt.dircord |= (c == 'd');
+		}
 	}
 }
 
