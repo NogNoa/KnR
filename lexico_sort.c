@@ -6,15 +6,15 @@
 #define MAXLINES 5120 /* max #lines to be sorted */
 #define MAXLEN 1024 /* max length of any input line */
 
-char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
-int nfield=1;
+static char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
+static int nfield=1;
 
 static struct state{
 _Bool numeric; /* 1 if numeric sort */
 _Bool reverse; /* 1 if reverse sort */
 _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
-}
+};
 
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
@@ -160,9 +160,9 @@ void fieldseperate(char *fieldptr[], char dlimit)
 
 void writelines(char *lineptr[][512], int nlines, char dlimit)
 { /* writelines: write output lines */
-	for (int l = 0; l < nlines; l++)
-	{	for (int f=0;lineptr[l][f] != NULL;f++)
-			printf("%s%c",lineptr[l][f],dlimit);
+	for (int l = 0; l+1 < nlines; l++)
+	{	for (int f=0;lineptr[l][f] != 0 ;)
+			printf("%s%c",lineptr[l][f++],dlimit);
 		putchar('\n');
 	}
 }
