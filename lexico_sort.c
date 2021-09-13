@@ -3,6 +3,7 @@
 
 #include "KnR_getline.h"
 #include <ctype.h>
+#include <assert.h>
 #define MAXLINES 5120 /* max #lines to be sorted */
 #define MAXLEN 1024 /* max length of any input line */
 
@@ -69,7 +70,7 @@ int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
 {	/* readlines: read input lines */
 	int len, nline;
 	char line[MAXLEN];
-	
+	p=malloc(MAXLEN);
 	for (nline = 0; (len = ptr_KnR_getline(line, MAXLEN)) > 0;nline++)
 	{	if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
@@ -92,6 +93,7 @@ void fieldseperate(char *fieldptr[], char dlimit)
 	terminating each of them at each instance of the delimiter, 
 	and referancing the next field to the next character */
 	int ifield=1;
+	assert(*fieldptr != NULL);
 	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
 		if (*pc == dlimit)
 		{	*pc = '\0';
