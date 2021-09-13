@@ -7,6 +7,10 @@
 #define MAXLINES 5120 /* max #lines to be sorted */
 #define MAXLEN 1024 /* max length of any input line */
 
+typedef char* field;
+typedef field* line;
+typedef line* page;
+
 static char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
 static int nfield=1;
 
@@ -19,12 +23,12 @@ _Bool dircord; /* 1 if directory order sort */
 
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
-void KnR_qsort(char *lineptr[], int left, int right, struct state []);
+void KnR_qsort(char*** lineptr, int left, int right, struct state []);
 int numcmp(char *s1, char *s2, struct state *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
-void fieldseperate(char *fieldptr[], char dlimit);
-int fieldcmp (char fp1[], char fp2[], struct state stti[]);
+void fieldseperate(char** fieldptr, char dlimit);
+int fieldcmp (char** fp1, char** fp2, struct state stti[]);
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -56,7 +60,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES, dlimit, buffer)) >= 0) 
-	{	KnR_qsort((char **) lineptr, 0, nlines-1, stti);
+	{	KnR_qsort((char ***) lineptr, 0, nlines-1, stti);
 		writelines(lineptr, nlines, dlimit);
 		return 0;
 	} 
@@ -87,7 +91,7 @@ int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
 	return nline;
 }
 
-void fieldseperate(char *fieldptr[], char dlimit)
+void fieldseperate(line fieldptr, char dlimit)
 {	/* Takes fieldptr,a line of fields , the whole text of the line is in 
 	the first field. The function seperate the text to the fields by 
 	terminating each of them at each instance of the delimiter, 
@@ -110,13 +114,13 @@ void writelines(char *lineptr[][512], int nlines, char dlimit)
 	}
 }
 
-
-int astrcmp (char* s1, char* s2)
+/*
+int astrcmp (field s1, field s2)
 {
 	return strcmp(s1, s2);
-}
+}*/
 
-int numcmp(char *s1, char *s2, struct state * p)
+int numcmp(field s1, field s2, struct state * p)
 {	/* numcmp: compare s1 and s2 numerically */
 	double v1, v2;
 
@@ -130,7 +134,7 @@ int numcmp(char *s1, char *s2, struct state * p)
 		return 0;
 }
 
-int lexcmp(char *cs,char *ct, struct state *stt)
+int lexcmp(field cs,field ct, struct state *stt)
 { /* compare string cs to string ct, disregarding case; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	char ccs=1, cct=1;
@@ -148,21 +152,21 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 	return ccs-cct;
 }
 
-int fieldcmp (char fp1[], char fp2[], struct state stti[])
+int fieldcmp (line fp1, line fp2, struct state stti[])
 {
-	int (*cmp)(char*,char*, struct state *);
+	int (*cmp)(field, field, struct state *);
 	int back = 0;
-	for (int i=0;back == 0 && fp1 && fp2;fp1++, fp2++)
+	for (int i=0;back == 0 && fp1 != NULL && fp2 != NULL;fp1++, fp2++)
 	{	struct state *stt = stti + i;
 		cmp = ((stt->numeric) ? numcmp : lexcmp);
-		back = cmp(fp1, fp2, stt)^ stt->reverse;
+		back = cmp(*fp1, *fp2, stt)^ stt->reverse;
 		if (i < nfield-1)
 			i++;
 	}
-	if (!(fp1 && fp2))
-		if (fp1)
+	if (fp1 == NULL || fp2 == NULL)
+		if (fp1 == NULL)
 			back=1;
-		else
+		else // (fp2 == NULL)
 			back=-1;
 
 	return back;
@@ -170,21 +174,21 @@ int fieldcmp (char fp1[], char fp2[], struct state stti[])
 }
 
 
-void swap(char **v, int i, int j)
+void swap(page v, int i, int j)
 { /* swap: interchange v[i] and v[j] */
-	char *temp;
+	line temp;
 
 	temp = v[i];
 	v[i] = v[j];
 	v[j] = temp;
 }
 
-void KnR_qsort(char *v[], int left, int right,
+void KnR_qsort(page v, int left, int right,
 	struct state stti[])
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
 	
-	void swap(char **v, int i, int j);
+	void swap(page v, int i, int j);
 
 	if (left >= right) /* do nothing if array contains */
 		return;	  /* fewer than two elements      */
