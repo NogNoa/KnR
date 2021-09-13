@@ -36,16 +36,17 @@ int main(int argc, char *argv[])
 {
 	int back;
 	struct tabbin taby;
+	
 	//stdin = fopen("detab.c", "r");
 	
 	if (argc < 2)
 	{	/* tab-stops of 4-spaces each. */
-		int stops[2]={0,MXLIN};
-		back = detab(0,4,stops,2);
+		int stops[2] = {0,MXLIN};
+		back = detab(0, 4, stops, 2);
 	}
 	else 
 	{	taby = arg_prcs(argc, argv);
-		back = detab(taby.m,taby.n,taby.stops, argc+1);
+		back = detab(taby.m, taby.n, taby.stops, argc+1);
 	}
 	return back;
 }

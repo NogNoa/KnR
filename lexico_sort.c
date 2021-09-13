@@ -65,6 +65,50 @@ int main(int argc, char *argv[])
 	}
 }
 
+int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
+{	/* readlines: read input lines */
+	int len, nline;
+	char line[MAXLEN];
+	
+	for (nline = 0; (len = ptr_KnR_getline(line, MAXLEN)) > 0;nline++)
+	{	if (nline >= maxlines || (p+=len+1) == NULL)
+			return -1;
+		else 
+		{	if (line[len-1] == '\r')
+				line[len-1] = '\0';
+			else if (line[len] == '\n')
+				line[len] =  '\0'; /* delete newline */
+			strcpy(p, line);
+			*lineptr[nline] = p;
+			fieldseperate(lineptr[nline],dlimit);
+		}
+	}
+	return nline;
+}
+
+void fieldseperate(char *fieldptr[], char dlimit)
+{	/* Takes fieldptr,a line of fields , the whole text of the line is in 
+	the first field. The function seperate the text to the fields by 
+	terminating each of them at each instance of the delimiter, 
+	and referancing the next field to the next character */
+	int ifield=1;
+	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
+		if (*pc == dlimit)
+		{	*pc = '\0';
+			fieldptr[ifield++] = pc+1;
+		}
+}
+
+void writelines(char *lineptr[][512], int nlines, char dlimit)
+{ /* writelines: write output lines */
+	for (int l = 0; l+1 < nlines; l++)
+	{	for (int f=0;lineptr[l][f] != 0 ;)
+			printf("%s%c",lineptr[l][f++],dlimit);
+		putchar('\n');
+	}
+}
+
+
 int astrcmp (char* s1, char* s2)
 {
 	return strcmp(s1, s2);
@@ -123,49 +167,6 @@ int fieldcmp (char fp1[], char fp2[], struct state stti[])
 	/*(stti[0].numeric ? numcmp : lexcmp)*/
 }
 
-int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
-{	/* readlines: read input lines */
-	int len, nline;
-	char line[MAXLEN];
-	
-	for (nline = 0; (len = ptr_KnR_getline(line, MAXLEN)) > 0;nline++)
-	{	if (nline >= maxlines || (p+=len+1) == NULL)
-			return -1;
-		else 
-		{	if (line[len-1] == '\r')
-				line[len-1] = '\0';
-			else if (line[len] == '\n')
-				line[len] =  '\0'; /* delete newline */
-			strcpy(p, line);
-			*lineptr[nline] = p;
-			fieldseperate(lineptr[nline],dlimit);
-		}
-	}
-	return nline;
-}
-
-void fieldseperate(char *fieldptr[], char dlimit)
-{	/* Takes fieldptr,a line of fields , the whole text of the line is in 
-	the first field. The function seperate the text to the fields by 
-	terminating each of them at each instance of the delimiter, 
-	and referancing the next field to the next character */
-	int ifield=1;
-	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
-		if (*pc == dlimit)
-		{	*pc = '\0';
-			fieldptr[ifield++] = pc+1;
-		}
-}
-
-
-void writelines(char *lineptr[][512], int nlines, char dlimit)
-{ /* writelines: write output lines */
-	for (int l = 0; l+1 < nlines; l++)
-	{	for (int f=0;lineptr[l][f] != 0 ;)
-			printf("%s%c",lineptr[l][f++],dlimit);
-		putchar('\n');
-	}
-}
 
 void swap(char **v, int i, int j)
 { /* swap: interchange v[i] and v[j] */
