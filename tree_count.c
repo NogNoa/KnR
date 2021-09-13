@@ -16,7 +16,7 @@ struct tnode *addtree(struct tnode *, char *);
 void treeprint(struct tnode *);
 int getword(char *, int); //from molon.lb.c
 
-main()
+int main()
 { /* word frequency count */
 	struct tnode *root;
 	char word[MAXWORD];
@@ -30,15 +30,15 @@ main()
 }
 
 struct tnode *talloc(void);
-char *strdup(char *);
+char *KnR_strdup(char *);
 
-struct treenode *addtree(struct tnode *p, char *w)
+struct tnode *addtree(struct tnode *p, char *w)
 {  /* addtree: add a node with w, at or below p */
 	int cond;
 	
 	if (p == NULL) { /* a new word has arrived */
 		p = talloc(); /* make a new node */
-		p->word = strdup(w);
+		p->word = KnR_strdup(w);
 		p->count = 1;
 		p->left = p->right = NULL;
 	} else if ((cond = strcmp(w, p->word)) == 0)
@@ -67,7 +67,7 @@ struct tnode *talloc(void)
 	return (struct tnode *) malloc(sizeof(struct tnode));
 }
 
-char *strdup(char *s) 
+char *KnR_strdup(char *s) 
 {  /* make a duplicate of s */
 	char *p;
 	
