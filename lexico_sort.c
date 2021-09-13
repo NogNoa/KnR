@@ -21,7 +21,7 @@ _Bool casefld; /* 1 if case insensitive sort */
 _Bool dircord; /* 1 if directory order sort */
 };
 
-int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
+int readlines(char *lineptr[][512], int nlines, char dlimit);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
 void KnR_qsort(char*** lineptr, int left, int right, struct state []);
 int numcmp(char *s1, char *s2, struct state *);
@@ -33,12 +33,10 @@ int fieldcmp (char** fp1, char** fp2, struct state stti[]);
 int main(int argc, char *argv[])
 {	/* sort input lines */
 	int nlines; /* number of input lines re'd */
-	char buffer[MAXLEN];
+	char dlimit = '\0';
 
 	stdin = fopen("Filters.csv", "r");
 
-	int nf=nfield;
-	char dlimit = '\0';
 
 	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 's')
 	{	nfield = argc-2;
@@ -46,8 +44,9 @@ int main(int argc, char *argv[])
 		dlimit = (dlimit == '\\') ? ((argv[1][3] == 't') ? '\t' : (argv[1][3])) : dlimit;
 	}
 	struct state stti[nfield];
+	int nf=nfield;
 
-	for (argv+=argc-1;nf >= 0 && *argv[0] == '-';--argv, --nf)
+	for (argv+=argc-1;--nf >= 0 && *argv[0] == '-';--argv)
 	{	char c;
 	
 		struct state *stt=&stti[nf];
@@ -59,7 +58,7 @@ int main(int argc, char *argv[])
 			stt->dircord |= (c == 'd');
 		}
 	}
-	if ((nlines = readlines(lineptr, MAXLINES, dlimit, buffer)) >= 0) 
+	if ((nlines = readlines(lineptr, MAXLINES, dlimit)) >= 0) 
 	{	KnR_qsort((char ***) lineptr, 0, nlines-1, stti);
 		writelines(lineptr, nlines, dlimit);
 		return 0;
@@ -70,13 +69,14 @@ int main(int argc, char *argv[])
 	}
 }
 
-int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
+int readlines(char *lineptr[][512], int maxlines, char dlimit)
 {	/* readlines: read input lines */
 	int len, nline;
 	char line[MAXLEN];
-	p=malloc(MAXLEN);
+	
 	for (nline = 0; (len = ptr_KnR_getline(line, MAXLEN)) > 0;nline++)
-	{	if (nline >= maxlines || (p+=len+1) == NULL)
+	{	char *p=malloc(MAXLEN);
+		if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
 		{	if (line[len-1] == '\r')
