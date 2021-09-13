@@ -43,7 +43,8 @@ int main(int argc, char *argv[])
 	//stdin = fopen("a.txt","r");
 
 	if (argc < 2)
-	{	int stops[2] = {0,MXLIN};
+	{	/* tab-stops of 4-spaces each. */
+		int stops[2] = {0,MXLIN};
 		back = entab(0, 4, stops, 2);
 	}
 	else

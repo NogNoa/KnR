@@ -23,7 +23,7 @@ struct tabbin arg_prcs(int argc, char *argv[])
 	qsort(stops,argc+1,sizeof(int),cmp);
 	if (0< stops[0] || stops[argc] > MXLIN)
 		fprintf(stderr,"ERROR: Please enter tabstops between 0 and %d\n",MXLIN);
-	struct tabbin taby={n,m,stops};
+	struct tabbin taby={.n=n, .m=m, .stops=stops};
 	return taby;
 }
 
