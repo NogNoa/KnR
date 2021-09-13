@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	int nf=nfield;
 	char dlimit = '\0';
 
-	if (argv[1][0] == '-' && argv[1][1] == 's')
+	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 's')
 	{	nfield = argc-2;
 		dlimit = argv[1][2];
 		dlimit = (dlimit == '\\') ? ((argv[1][3] == 't') ? '\t' : (argv[1][3])) : dlimit;
