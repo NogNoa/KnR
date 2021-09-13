@@ -5,6 +5,8 @@
 int main(int argc, char *argv[])
 {
     int stops[1000]={0};
+    char a = '  ';
+
     for (int i=1;i<argc;i++)
         stops[i-1] = atoi(argv[i]);
     for (int i=0;stops[i];i++)
