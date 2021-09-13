@@ -28,7 +28,7 @@ int numcmp(char *s1, char *s2, struct state *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
 void fieldseperate(char** fieldptr, char dlimit);
-int fieldcmp (char** fp1, char** fp2, struct state stti[]);
+int fieldcmp (char (*fp1)[MAXLEN/2], char (*fp2)[MAXLEN/2], struct state stti[]);
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -152,7 +152,7 @@ int lexcmp(field cs,field ct, struct state *stt)
 	return ccs-cct;
 }
 
-int fieldcmp (line fp1, line fp2, struct state stti[])
+int fieldcmp (char (*fp1)[MAXLEN/2], char (*fp2)[MAXLEN/2], struct state stti[])
 {
 	int (*cmp)(field, field, struct state *);
 	int back = 0;
@@ -164,11 +164,11 @@ int fieldcmp (line fp1, line fp2, struct state stti[])
 			i++;
 	}
 	if (fp1 == NULL || fp2 == NULL)
-		if (fp1 == NULL)
+	{	if (fp1 == NULL)
 			back=1;
 		else // (fp2 == NULL)
 			back=-1;
-
+	}
 	return back;
 	/*(stti[0].numeric ? numcmp : lexcmp)*/
 }
@@ -195,7 +195,7 @@ void KnR_qsort(page v, int left, int right,
 	swap(v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
-		if ((fieldcmp(v[i], v[left], stti) < 0))
+		if ((fieldcmp((char (*)[MAXLEN/2])v[i], (char (*)[MAXLEN/2])v[left], stti) < 0))
 			swap(v, ++last, i);
 	swap(v, left, last);
 	KnR_qsort(v,   left, last-1, stti);
