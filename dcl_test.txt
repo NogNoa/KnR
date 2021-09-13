@@ -5,6 +5,9 @@ void (*comp2)()
 char (*(*x())[])()
 char (*(*x[3])())[5]
 ()
+( )
+(( ))
+(( )g)   
 
 char (*(*do()[]))()
 (*(*done())[])()
@@ -19,6 +22,11 @@ char *(*()[])()
 (char) *daytab5
 (char)(*daytab6)
 (char daytab7())
+
+const int **c
+str int **c
+int **c str
+int *c *
 
 (char daytab8 do)
 (char daytab9(do))
