@@ -22,7 +22,6 @@ void writelines(char *lineptr[][512], int nlines, char dlimit);
 void set_state(char *arg, struct state *stt)
 void KnR_qsort(void *lineptr[], int left, int right, int (*cmp)(void *, void *, void *));
 int numcmp(char *s1, char *s2, struct state *);
-int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state *stt);
 int fieldcmp (char fp1[], char fp2[], struct state stti[]);
 
@@ -63,42 +62,6 @@ void set_state(char *arg, struct state *stt)
 	}
 }
 
-int astrcmp (char* s1, char* s2)
-{
-	return strcmp(s1, s2);
-}
-
-int numcmp(char *s1, char *s2, struct state *p)
-{	/* numcmp: compare s1 and s2 numerically */
-	double v1, v2;
-
-	v1 = atof(s1);
-	v2 = atof(s2);
-	if (v1 < v2)
-		return -1;
-	else if (v1 > v2)
-		return 1;
-	else
-		return 0;
-}
-
-int lexcmp(char *cs,char *ct, struct state *stt)
-{ /* compare string cs to string ct, disregarding case; return <0 if
-     cs<ct, 0 if cs==ct, or >0 if cs>ct. */
-	char ccs=1, cct=1;
-	for (;ccs == cct && cct;cs++,ct++)
-	{	ccs=*cs; cct=*ct;
-		if (stt->casefld)
-		{	ccs=tolower(ccs);
-			cct=tolower(cct);
-		}
-		if (stt->dircord)
-		{	ccs = (isspace(ccs) || isalnum(ccs)) ? ccs : '!';
-			cct = (isspace(cct) || isalnum(cct)) ? cct : '!';
-		}
-	}
-	return ccs-cct;
-}
 
 int readlines(char *lineptr[][512], int maxlines, char dlimit, char *p)
 {	/* readlines: read input lines */
@@ -134,7 +97,6 @@ void fieldseperate(char *fieldptr[], char dlimit)
 		}
 }
 
-
 void writelines(char *lineptr[][512], int nlines, char dlimit)
 { /* writelines: write output lines */
 	for (int l = 0; l < nlines; l++)
@@ -142,6 +104,39 @@ void writelines(char *lineptr[][512], int nlines, char dlimit)
 			printf("%s%c",lineptr[l][f],dlimit);
 		putchar('\n');
 	}
+}
+
+
+int numcmp(char *s1, char *s2, struct state *p)
+{	/* numcmp: compare s1 and s2 numerically */
+	double v1, v2;
+
+	v1 = atof(s1);
+	v2 = atof(s2);
+	if (v1 < v2)
+		return -1;
+	else if (v1 > v2)
+		return 1;
+	else
+		return 0;
+}
+
+int lexcmp(char *cs,char *ct, struct state *stt)
+{ /* compare string cs to string ct, disregarding case; return <0 if
+     cs<ct, 0 if cs==ct, or >0 if cs>ct. */
+	char ccs=1, cct=1;
+	for (;ccs == cct && cct;cs++,ct++)
+	{	ccs=*cs; cct=*ct;
+		if (stt->casefld)
+		{	ccs=tolower(ccs);
+			cct=tolower(cct);
+		}
+		if (stt->dircord)
+		{	ccs = (isspace(ccs) || isalnum(ccs)) ? ccs : '!';
+			cct = (isspace(cct) || isalnum(cct)) ? cct : '!';
+		}
+	}
+	return ccs-cct;
 }
 
 
