@@ -8,7 +8,7 @@
 #define MAXLEN 1024 /* max length of any input line */
 
 typedef char* field;
-typedef char (*line)[MAXLEN/2] ;
+typedef char *line[MAXLEN/2] ;
 typedef char *(*page)[MAXLEN/2];
 
 static char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
@@ -27,8 +27,8 @@ void KnR_qsort(char*** lineptr, int left, int right, struct state []);
 int numcmp(char *s1, char *s2, struct state *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
-void fieldseperate(char** fieldptr, char dlimit);
-int fieldcmp (char (*fp1)[MAXLEN/2], char (*fp2)[MAXLEN/2], struct state stti[]);
+void fieldseperate(line fieldptr, char dlimit);
+int fieldcmp (char *fp1[MAXLEN/2], char *fp2[MAXLEN/2], struct state stti[]);
 
 int main(int argc, char *argv[])
 {	/* sort input lines */
@@ -91,7 +91,7 @@ int readlines(page lineptr, int maxlines, char dlimit)
 	return nline;
 }
 
-void fieldseperate(char** fieldptr, char dlimit)
+void fieldseperate(line fieldptr, char dlimit)
 {	/* Takes fieldptr,a line of fields , the whole text of the line is in 
 	the first field. The function seperate the text to the fields by 
 	terminating each of them at each instance of the delimiter, 
@@ -108,9 +108,9 @@ void fieldseperate(char** fieldptr, char dlimit)
 void writelines(char *lineptr[][512], int nlines, char dlimit)
 { /* writelines: write output lines */
 	for (int l = 0; l+1 < nlines; l++)
-	{	for (int f=0;lineptr[l][f] != 0 ;)
+	{	for (int f=0;lineptr[l][f] != NULL ;)
 			printf("%s%c",lineptr[l][f++],dlimit);
-		putchar('\n');
+		printf("\b \n"); //remove last dlimit
 	}
 }
 
@@ -156,7 +156,7 @@ int fieldcmp (line fp1, line fp2, struct state stti[])
 {
 	int (*cmp)(field, field, struct state *);
 	int back = 0;
-	for (int i=0;back == 0 && fp1 != NULL && fp2 != NULL;fp1++, fp2++)
+	for (int i=0;back == 0 && *fp1 != NULL && *fp2 != NULL;fp1++, fp2++)
 	{	struct state *stt = stti + i;
 		cmp = ((stt->numeric) ? numcmp : lexcmp);
 		back = cmp(*fp1, *fp2, stt)^ stt->reverse;
@@ -195,7 +195,7 @@ void KnR_qsort(char*** v, int left, int right,
 	swap(v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
-		if ((fieldcmp((line)v[i], (line)v[left], stti) < 0))
+		if (fieldcmp( ((page) v)[i], ((page) v)[left], stti ) < 0)
 			swap(v, ++last, i);
 	swap(v, left, last);
 	KnR_qsort(v,   left, last-1, stti);
@@ -208,7 +208,7 @@ todo:  v	take argument for delimiter
 	  v	seperate each line to fields
 	  v	sort by fields
 	  v	take different arguments for each field
-problem: I'm only switching field 0 of each line since I'm useing pointers
+problem: the field comparison is not comparing the right fields
 */
 
 
