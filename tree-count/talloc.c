@@ -1,4 +1,8 @@
 #include <stdlib.h>
+#include <string.h>
+
+#include "tree_count.h"
+
 
 struct tnode *talloc(void)
 {  /* talloc: make a tnode */

@@ -1,5 +1,10 @@
+#include <stddef.h>
+
+#include "tree_count.h"
+
 struct tnode *talloc(void);
 char *KnR_strdup(char *);
+
 
 struct tnode *addtree(struct tnode *p, char *w)
 {  /* addtree: add a node with w, at or below p */
