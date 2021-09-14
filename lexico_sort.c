@@ -114,12 +114,6 @@ void writelines(char *lineptr[][512], int nlines, char dlimit)
 	}
 }
 
-/*
-int astrcmp (field s1, field s2)
-{
-	return strcmp(s1, s2);
-}*/
-
 int numcmp(field s1, field s2, struct state * p)
 {	/* numcmp: compare s1 and s2 numerically */
 	double v1, v2;
@@ -174,9 +168,9 @@ int fieldcmp (line fp1, line fp2, struct state stti[])
 }
 
 
-void swap(char*** v, int i, int j)
+void swap(void** v, int i, int j)
 { /* swap: interchange v[i] and v[j] */
-	char** temp;
+	void* temp;
 
 	temp = v[i];
 	v[i] = v[j];
@@ -188,7 +182,7 @@ void KnR_qsort(char*** v, int left, int right,
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
 	
-	void swap(char*** v, int i, int j);
+	void swap(void** v, int i, int j);
 
 	if (left >= right) /* do nothing if array contains */
 		return;	  /* fewer than two elements      */
@@ -208,7 +202,7 @@ todo:  v	take argument for delimiter
 	  v	seperate each line to fields
 	  v	sort by fields
 	  v	take different arguments for each field
-problem: the field comparison is not comparing the right fields
+problem: the field swap is not swaping the right fields
 */
 
 
