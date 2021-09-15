@@ -10,10 +10,16 @@ char *KnR_strdup(char *);
 char ig_getword(char *, int); //from molon.lb.c
 _Bool iskeyword(char*);
 
-int main()
+int main(int argc, char** argv)
 { /* word frequency count */
+	int h_len;
+	if (argc>1)
+	{	if((h_len=atoi(argv[1])) > 0)
+			;
+		else
+			h_len=6;
+	}
 	struct htnode *root;
-	int h_len=6;
 	char word[MAXWORD];
 	char head[h_len];
 
