@@ -25,21 +25,23 @@ struct tnode *addtree(struct tnode *p, char *w)
 	return p;
 }
 
-struct htnode *haddtree(struct htnode *p, char *head, int h_len)
+struct htnode *haddtree(struct htnode *p, char* word, char *head, int h_len)
 {  /* haddtree: add a node with w[0,h_len], at or below p */
 	int cond;
 
-	if (p == NULL) { 
-		p = htalloc(); 
+	if (p == NULL)  
+	{	p = htalloc(); 
 		p->head = KnR_strdup(head);
 		p->count = 1;
 		p->left = p->right = NULL;
+		p->headroot = addtree(p->headroot,word);
 	} else if ((cond = strcmp(head, p->head)) == 0)
-		p->count++; 
-	else if (cond < 0)
-		p->left = haddtree(p->left, head, h_len);
+	{	p->count++; 
+		p->headroot = addtree(p->headroot,word);
+	} else if (cond < 0)
+		p->left = haddtree(p->left, word, head, h_len);
 	else 
-		p->right = haddtree(p->right, head, h_len);
+		p->right = haddtree(p->right, word, head, h_len);
 	return p;
 }
 
