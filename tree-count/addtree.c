@@ -48,18 +48,29 @@ struct htnode *haddtree(struct htnode *p, char* word, char *head, int h_len)
 
 void treeprint(struct tnode *p)
 {  /* treeprint: in-order print of tree p */
-	if (p != NULL) {
-		treeprint(p->left);
+	if (p != NULL) 
+	{	treeprint(p->left);
 		printf("%4d %s\n", p->count, p->word);
 		treeprint(p->right);
 	}
 }
 
+void tree_line_print(struct tnode *p)
+{  /* treeprint: in-order print of tree p */
+	if (p != NULL) 
+	{	tree_line_print(p->left);
+		printf("%s ", p->word);
+		tree_line_print(p->right);
+	}
+}
+
 void htreeprint(struct htnode *p)
 {  /* treeprint: in-order print of tree p */
-	if (p != NULL) {
-		htreeprint(p->left);
-		printf("%4d %s\n", p->count, p->head);
+	if (p != NULL) 
+	{	htreeprint(p->left);
+		printf("%4d %s: ", p->count, p->head);
+		tree_line_print(p->headroot);
+		putchar('\n');
 		htreeprint(p->right);
 	}
 }
