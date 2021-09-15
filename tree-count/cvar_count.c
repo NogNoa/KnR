@@ -13,15 +13,14 @@ _Bool iskeyword(char*);
 int main()
 { /* word frequency count */
 	struct htnode *root;
-	char word[MAXWORD];
-	
 	int h_len=6;
+	char word[MAXWORD];
+	char head[h_len];
 
 	root = NULL;
 	while (ig_getword(word, MAXWORD) != EOF)
 		if (isalpha(word[0]) && !iskeyword(word))
-		{	char *head = KnR_strdup(word);
-			head[h_len]='\0';
+		{	strncpy(head, word, h_len);
 			root = haddtree(root, head, h_len);
 		}
 	htreeprint(root);
@@ -31,6 +30,7 @@ int main()
 static char* keywords[] = {
 	"auto",
 	"break",
+	"Bool",
 	"case",
 	"char",
 	"const",
@@ -56,6 +56,7 @@ static char* keywords[] = {
 	"sizeof",
 	"do",
 	"if",
+	"main",
 	"static",
 	"unsigned",
 	"void",
