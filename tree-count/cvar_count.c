@@ -4,7 +4,8 @@
 #define MAXWORD 0200
 
 struct tnode *addtree(struct tnode *, char *);
-void treeprint(struct tnode *);
+struct htnode *haddtree(struct htnode *, char *, int);
+void htreeprint(struct htnode *);
 char ig_getword(char *, int); //from molon.lb.c
 _Bool iskeyword(char*);
 
@@ -17,8 +18,8 @@ int main()
 	root = NULL;
 	while (ig_getword(word, MAXWORD) != EOF)
 		if (isalpha(word[0]) && !iskeyword(word))
-			root = addtree(root, word);
-	treeprint(root);
+			root = haddtree(root, word, 6);
+	htreeprint(root);
 	return 0;
 }
 
@@ -68,7 +69,7 @@ _Bool iskeyword(char* word)
 
 /* is cword? (starting with alpha or _ continue with them or number) (n-mind getword already does this, and cwords can't start with _)
 v is keyword? 
- tree where words are identical if 6 chars are identical
+v tree where words are identical if 6 chars are identical
  another tree inside each node not using the count
- use ig_getword
+v use ig_getword
 */

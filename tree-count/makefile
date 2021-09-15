@@ -14,6 +14,7 @@ tree_count: $(ODIR)/tree_count.o $(ODIR)/addtree.o $(ODIR)/talloc.o ../$(ODIR)/m
 	$(COMPILE)
 
 cvar: $(ODIR)/cvar_count.o $(ODIR)/addtree.o $(ODIR)/talloc.o ../$(ODIR)/molon.lb.o
+	$(COMPILE)
 
 .PHONY: check	
 .PHONY: check++
