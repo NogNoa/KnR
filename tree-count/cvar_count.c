@@ -6,19 +6,24 @@
 struct tnode *addtree(struct tnode *p, char *);
 struct htnode *haddtree(struct htnode *, char *, int);
 void htreeprint(struct htnode *);
+char *KnR_strdup(char *);
 char ig_getword(char *, int); //from molon.lb.c
 _Bool iskeyword(char*);
-
 
 int main()
 { /* word frequency count */
 	struct htnode *root;
 	char word[MAXWORD];
 	
+	int h_len=6;
+
 	root = NULL;
 	while (ig_getword(word, MAXWORD) != EOF)
 		if (isalpha(word[0]) && !iskeyword(word))
-			root = haddtree(root, word, 6);
+		{	char *head = KnR_strdup(word);
+			head[h_len]='\0';
+			root = haddtree(root, head, h_len);
+		}
 	htreeprint(root);
 	return 0;
 }
