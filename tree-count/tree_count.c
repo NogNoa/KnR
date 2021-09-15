@@ -1,7 +1,6 @@
 // Ritchie, D. and Kernighan, W. (1988) p125
 
 #include <ctype.h>
-
 #include "tree_count.h"
 
 #define MAXWORD 100

@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 struct tnode { /* the tree node: */
 	char *word; /* points to the text */
