@@ -59,7 +59,7 @@ _Bool iskeyword(char* word)
 
 /* is cword? (starting with alpha or _ continue with them or number) (n-mind getword already does this, and cwords can't start with _)
 v is keyword? 
- tree where words are identical if 6 chars are identical
- another tree inside each node not using the count
- use ig_getword
+ create a regular word tree
+ generate from that tree a tree that count only the wordhead and point the first word with that head
+  use ig_getword
 */

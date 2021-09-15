@@ -9,8 +9,8 @@ struct tnode { /* the tree node: */
 	struct tnode *right; /* right child */
 };
 
-struct htnode {// node of a wordhead tree
+struct wordhead {// starting charecters of words
 	char *head; // the string that make the wordhead
 	int count; 
-	char tnode *headroot; // the first word in the tree that has this head
+	char tnode *headroot; // the root of a tree of only the words starting with this head
 }
