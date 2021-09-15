@@ -10,6 +10,9 @@ COMPILE = $(CC) $(CFLAGS)    -o $@.elf $^
 $(ODIR)/%.o: %.c $(DEPS)
 	 $(OBJPILE)
 
+../$(ODIR)/molon.lb.o: ../molon.lb.c
+	 $(OBJPILE)
+
 tree_count: $(ODIR)/tree_count.o $(ODIR)/addtree.o $(ODIR)/talloc.o ../$(ODIR)/molon.lb.o
 	$(COMPILE)
 

@@ -3,7 +3,7 @@
 
 #define MAXWORD 0200
 
-struct tnode *addtree(struct tnode *, char *);
+struct tnode *addtree(struct tnode *p, char *);
 struct htnode *haddtree(struct htnode *, char *, int);
 void htreeprint(struct htnode *);
 char ig_getword(char *, int); //from molon.lb.c

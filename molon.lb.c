@@ -216,7 +216,7 @@ char ig_getword(char *word, int lim)
 
 	while (isspace(c = getch()))
 		;
-	for (_Bool cont=1;cont;c = getch())
+	for (;"ever";c = getch())
 	{	if (c == '/')
 		{	if ((c = getch()) == '/')
 				while ((c = getch()) != '\n' && c != EOF)
@@ -232,7 +232,8 @@ char ig_getword(char *word, int lim)
 			while ((c = getch()) != '\"' && c != EOF)
 				;
 		else
-			cont = 0;
+		{	break;
+		}
 	}
 	if (c != EOF)
 		*w++ = c;
