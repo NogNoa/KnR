@@ -1,17 +1,26 @@
+#include <ctype.h>
+#include "tree_count.h"
+
+#define MAXWORD 0200
+
+struct tnode *addtree(struct tnode *, char *);
+void treeprint(struct tnode *);
+char ig_getword(char *, int); //from molon.lb.c
+_Bool iskeyword(char*);
+
+
 int main()
 { /* word frequency count */
-	struct tnode *root;
+	struct htnode *root;
 	char word[MAXWORD];
 	
 	root = NULL;
-	while (getword(word, MAXWORD) != EOF)
-		if (isalpha(word[0]))
+	while (ig_getword(word, MAXWORD) != EOF)
+		if (isalpha(word[0]) && !iskeyword(word))
 			root = addtree(root, word);
 	treeprint(root);
 	return 0;
 }
-
-#include <string.h>
 
 static char* keywords[] = {
 	"auto",
@@ -52,9 +61,9 @@ _Bool iskeyword(char* word)
 {
 	for(int k=0;k<(sizeof keywords / sizeof *keywords);k++)
 	{	if (strcmp(word, keywords[k]) == 0)
-			return 1
+			return 1;
 	}
-	return 0
+	return 0;
 }
 
 /* is cword? (starting with alpha or _ continue with them or number) (n-mind getword already does this, and cwords can't start with _)

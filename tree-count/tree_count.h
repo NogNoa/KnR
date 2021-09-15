@@ -15,4 +15,4 @@ struct htnode {// node of a wordhead tree
 	struct tnode *headroot; // the root of a tree of only the words starting with this head
 	struct htnode *left;
 	struct htnode *right;
-}
+};

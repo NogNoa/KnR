@@ -209,7 +209,7 @@ int getword(char *word, int lim)
 
 //original
 
-int ig_getword(char *word, int lim)
+char ig_getword(char *word, int lim)
 { /* ig_getword: get next word or character from input 
 	 ignores preprocessor, strings constants and comments*/
 	char *w = word, c;
