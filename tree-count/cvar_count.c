@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 			h_len=6;
 	}
 	char word[MAXWORD];
-	char head[h_len];
+	char head[h_len+1];
 	const int size_keywords = sizeof keywords / sizeof *keywords;
 	struct htnode *root;
 

@@ -34,7 +34,7 @@ void htreeprint(struct htnode *p)
 }
 
 void int_line_print(int *n)
-{	for(;n;n++)
+{	for(;*n;n++)
 		printf("%d ",*n);
 	putchar('\n');
 }
@@ -42,8 +42,10 @@ void int_line_print(int *n)
 void crtreeprint(struct tnode *p)
 {  /* treeprint: in-order print of tree p */
 	if (p != NULL) 
-	{	treeprint(p->left);
-		printf("%4d %s\n", p->count, p->word);
-		treeprint(p->right);
+	{	crtreeprint(p->left);
+		printf("%s: ", p->word);
+		int_line_print(p->pagi);
+		crtreeprint(p->right);
 	}
 }
+
