@@ -19,6 +19,9 @@ tree_count: $(ODIR)/tree_count.o $(OBJ) ../$(ODIR)/molon.lb.o
 cvar: $(ODIR)/cvar_count.o $(OBJ) ../$(ODIR)/molon.lb.o
 	$(COMPILE)
 
+cross: $(ODIR)/cross_count.o $(OBJ) ../$(ODIR)/molon.lb.o
+	$(COMPILE)
+
 .PHONY: check	
 .PHONY: check++
 

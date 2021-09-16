@@ -5,6 +5,7 @@
 struct tnode { /* the tree node: */
 	char *word; /* points to the text */
 	int count; /* number of occurrences */
+	int *pagi; /* list of pages */
 	struct tnode *left; /* left child */
 	struct tnode *right; /* right child */
 };
