@@ -6,9 +6,9 @@
 struct htnode *haddtree(struct htnode *, char *, char*, int);
 void htreeprint(struct htnode *);
 char ig_getword(char *, int); //from molon.lb.c
-_Bool shouldignore(char* word, char* ignore_me[], int);
+_Bool shouldignore(char* word, const char* ignore_me[], int);
 
-static char* keywords[] = {
+static const char* keywords[] = {
 	"auto",
 	"break",
 	"Bool",
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	}
 	char word[MAXWORD];
 	char head[h_len];
-	int size_keywords = sizeof keywords / sizeof *keywords;
+	const int size_keywords = sizeof keywords / sizeof *keywords;
 	struct htnode *root;
 
 	root = NULL;

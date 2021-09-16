@@ -247,3 +247,24 @@ char ig_getword(char *word, int lim)
 	*w = '\0';
 	return c;
 }
+
+int lngetword(char *word, int lim)
+{ /* getword: get next word or character from input */
+	int c, getch(void);
+	void ungetch(int);
+	char *w = word;
+	
+	while (isspace(c = getch()) && !(c == '\n'))
+		;
+	if (c != EOF)
+		*w++ = c;
+	if (isalpha(c)) 
+	{	for ( ; --lim > 0; w++)
+			if (!isalnum(*w = getch()) && *w != '_') 
+			{	ungetch(*w);
+				break;
+			}
+	}
+	*w = '\0';
+	return c;
+}
