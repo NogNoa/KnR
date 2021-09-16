@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAXLIST 01000 //0d512
+
 struct tnode { /* the tree node: */
 	char *word; /* points to the text */
 	int count; /* number of occurrences */
-	int *pagi; /* list of pages */
+	int pagi[MAXLIST]; /* list of pages */
+	int bookmark; /* current place int pagi[] */
 	struct tnode *left; /* left child */
 	struct tnode *right; /* right child */
 };

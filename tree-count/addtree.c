@@ -50,7 +50,7 @@ struct htnode *haddtree(struct htnode *p, char* word, char *head, int h_len)
 }
 
 int *lalloc(void);
-void lappend(int* pagi,int iline);
+void lappend(int*, int, int);
 
 struct tnode *craddtree(struct tnode *p, char *w, int iline)
 {  /* addtree: add a node with w, at or below p */
@@ -61,11 +61,12 @@ struct tnode *craddtree(struct tnode *p, char *w, int iline)
 		p->word = KnR_strdup(w);
 		p->count = 1;
 		p->left = p->right = NULL;
-		p->pagi = lalloc();
-		lappend(p->pagi,iline);
+		//p->pagi = lalloc();
+		p->bookmark = 0;
+		lappend(p->pagi,iline, p->bookmark);
 	} else if ((cond = strcmp(w, p->word)) == 0)
 	{	p->count++; /* repeated word */
-		lappend(p->pagi,iline);
+		lappend(p->pagi,iline, p->bookmark);
 	} else if (cond < 0) /* less than into left subtree */
 		p->left = addtree(p->left, w);
 	else /* greater than into right subtree */
@@ -73,9 +74,12 @@ struct tnode *craddtree(struct tnode *p, char *w, int iline)
 	return p;
 }
 
-void lappend(int* pagi,int iline)
+void lappend(int pagi[],int iline, int bookmark)
 {
-	;
+	if (bookmark > MAXLIST)
+		return;
+	else if (bookmark == 0 || pagi[bookmark-1] != iline)
+		pagi[bookmark++] = iline;
 }
 
 _Bool shouldignore(char* word, char* ignore_me[], int ig_size)
