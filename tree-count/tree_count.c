@@ -6,7 +6,7 @@
 #define MAXWORD 100
 
 struct tnode *addtree(struct tnode *, char *);
-void treeprint(struct tnode *);
+void reverse_treeprint(struct tnode *);
 int getword(char *, int); //from molon.lb.c
 
 
@@ -19,7 +19,7 @@ int main()
 	while (getword(word, MAXWORD) != EOF)
 		if (isalpha(word[0]))
 			root = addtree(root, word);
-	treeprint(root);
+	reverse_treeprint(root);
 	return 0;
 }
 
