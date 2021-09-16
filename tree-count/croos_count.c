@@ -1,0 +1,26 @@
+
+
+static char* banal[] = {
+	"and",
+	"the",
+	"of",
+	"a",
+	"an",
+	"to",
+	"in",
+	"that",
+	"this",
+	"have",
+	"has",
+	"had",
+	"not",
+	"for",
+	"on",
+	"with",
+	"as",
+	"do",
+	"at",
+	"but",
+	"by",
+	"from",
+}

@@ -45,6 +45,14 @@ struct htnode *haddtree(struct htnode *p, char* word, char *head, int h_len)
 	return p;
 }
 
+_Bool shouldignore(char* word, char* ignore_me[], int ig_size)
+{
+	for(int k=0;k<ig_size;k++)
+	{	if (strcmp(word, ignore_me[k]) == 0)
+			return 1;
+	}
+	return 0;
+}
 
 void treeprint(struct tnode *p)
 {  /* treeprint: in-order print of tree p */

@@ -3,35 +3,10 @@
 
 #define MAXWORD 0200
 
-struct tnode *addtree(struct tnode *p, char *);
 struct htnode *haddtree(struct htnode *, char *, char*, int);
 void htreeprint(struct htnode *);
-char *KnR_strdup(char *);
 char ig_getword(char *, int); //from molon.lb.c
-_Bool iskeyword(char*);
-
-int main(int argc, char** argv)
-{ /* word frequency count */
-	int h_len;
-	if (argc>1)
-	{	if((h_len=atoi(argv[1])) > 0)
-			;
-		else
-			h_len=6;
-	}
-	struct htnode *root;
-	char word[MAXWORD];
-	char head[h_len];
-
-	root = NULL;
-	while (ig_getword(word, MAXWORD) != EOF)
-		if (isalpha(word[0]) && !iskeyword(word))
-		{	strncpy(head, word, h_len);
-			root = haddtree(root, word, head, h_len);
-		}
-	htreeprint(root);
-	return 0;
-}
+_Bool shouldignore(char* word, char* ignore_me[], int);
 
 static char* keywords[] = {
 	"auto",
@@ -70,16 +45,32 @@ static char* keywords[] = {
 	"while",
 };
 
-_Bool iskeyword(char* word)
-{
-	for(int k=0;k<(sizeof keywords / sizeof *keywords);k++)
-	{	if (strcmp(word, keywords[k]) == 0)
-			return 1;
+
+int main(int argc, char** argv)
+{ /* word frequency count */
+	int h_len;
+	if (argc>1)
+	{	if((h_len=atoi(argv[1])) > 0)
+			;
+		else
+			h_len=6;
 	}
+	char word[MAXWORD];
+	char head[h_len];
+	int size_keywords = sizeof keywords / sizeof *keywords;
+	struct htnode *root;
+
+	root = NULL;
+	while (ig_getword(word, MAXWORD) != EOF)
+		if (isalpha(word[0]) && !shouldignore(word,keywords,size_keywords))
+		{	strncpy(head, word, h_len);
+			root = haddtree(root, word, head, h_len);
+		}
+	htreeprint(root);
 	return 0;
 }
 
-/* is cword? (starting with alpha or _ continue with them or number) (n-mind getword already does this, and cwords can't start with _)
+/* v is cword? (starting with alpha or _ continue with them or number) (n-mind getword already does this, and cwords can't start with _)
 v is keyword? 
 v tree where words are identical if 6 chars are identical
 v another tree inside each node not using the count
