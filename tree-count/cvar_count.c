@@ -49,16 +49,17 @@ static const char* keywords[] = {
 int main(int argc, char** argv)
 { /* word frequency count */
 	int h_len;
-	if (argc>1)
-	{	if((h_len=atoi(argv[1])) > 0)
-			;
-		else
-			h_len=6;
-	}
+	if (argc>1 && (h_len=atoi(argv[1])) > 0)
+		;
+	else
+		h_len=6;
+	
 	char word[MAXWORD];
 	char head[h_len+1];
 	const int size_keywords = sizeof keywords / sizeof *keywords;
 	struct htnode *root;
+
+	//stdin = fopen("../logs.txt","r");
 
 	root = NULL;
 	while (ig_getword(word, MAXWORD) != EOF)

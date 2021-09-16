@@ -44,7 +44,7 @@ void crtreeprint(struct tnode *p)
 	if (p != NULL) 
 	{	crtreeprint(p->left);
 		printf("%s: ", p->word);
-		int_line_print(p->pagi);
+		int_line_print(p->lini);
 		crtreeprint(p->right);
 	}
 }

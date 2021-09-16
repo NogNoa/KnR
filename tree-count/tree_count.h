@@ -7,8 +7,8 @@
 struct tnode { /* the tree node: */
 	char *word; /* points to the text */
 	int count; /* number of occurrences */
-	int pagi[MAXLIST]; /* list of pages */
-	int bookmark; /* current place int pagi[] */
+	int lini[MAXLIST]; /* list of pages */
+	int bookmark; /* current place int lini[] */
 	struct tnode *left; /* left child */
 	struct tnode *right; /* right child */
 };

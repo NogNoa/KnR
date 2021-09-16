@@ -13,13 +13,6 @@ struct htnode *htalloc(void)
 	return (struct htnode *) malloc(sizeof(struct htnode));
 }
 
-#define MAXLIST 01000 //0d512
-
-int *lalloc(void)
-{
-	return (int *) malloc(sizeof(int) * MAXLIST);
-}
-
 char *KnR_strdup(char *s) 
 {  /* make a duplicate of s */
 	char *p;
