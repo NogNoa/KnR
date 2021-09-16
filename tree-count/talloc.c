@@ -1,3 +1,5 @@
+// Ritchie, D. and Kernighan, W. (1988) p127
+
 #include "tree_count.h"
 
 

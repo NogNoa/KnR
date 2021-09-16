@@ -1,9 +1,8 @@
-#include <stddef.h>
+// Ritchie, D. and Kernighan, W. (1988) p126
 
 #include "tree_count.h"
 
 struct tnode *talloc(void);
-struct htnode *htalloc(void);
 char *KnR_strdup(char *);
 
 
@@ -24,6 +23,11 @@ struct tnode *addtree(struct tnode *p, char *w)
 		p->right = addtree(p->right, w);
 	return p;
 }
+
+//original
+
+struct htnode *htalloc(void);
+
 
 struct htnode *haddtree(struct htnode *p, char* word, char *head, int h_len)
 {  /* haddtree: add a node with w[0,h_len], at or below p */
@@ -54,31 +58,3 @@ _Bool shouldignore(char* word, char* ignore_me[], int ig_size)
 	return 0;
 }
 
-void treeprint(struct tnode *p)
-{  /* treeprint: in-order print of tree p */
-	if (p != NULL) 
-	{	treeprint(p->left);
-		printf("%4d %s\n", p->count, p->word);
-		treeprint(p->right);
-	}
-}
-
-void tree_line_print(struct tnode *p)
-{  /* treeprint: in-order print of tree p */
-	if (p != NULL) 
-	{	tree_line_print(p->left);
-		printf("%s ", p->word);
-		tree_line_print(p->right);
-	}
-}
-
-void htreeprint(struct htnode *p)
-{  /* treeprint: in-order print of tree p */
-	if (p != NULL) 
-	{	htreeprint(p->left);
-		printf("%4d %s: ", p->count, p->head);
-		tree_line_print(p->headroot);
-		putchar('\n');
-		htreeprint(p->right);
-	}
-}
