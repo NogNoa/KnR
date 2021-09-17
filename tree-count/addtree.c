@@ -83,6 +83,7 @@ struct lnode *reshuffle(struct lnode *);
 
 struct lnode *addlist(struct lnode *p, struct lnode *root, char *w)
 {	struct lnode *q=p->lrgr;
+	
 	if (q == NULL)
 	{	struct lnode *new;
 		new= lalloc();
