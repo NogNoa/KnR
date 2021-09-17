@@ -79,22 +79,38 @@ void append(int lini[],int iline, int *bookmark)
 }
 
 struct lnode *lalloc(void);
+struct lnode *reshuffle(struct lnode *);
 
 struct lnode *addlist(struct lnode *p, struct lnode *root, char *w)
-{
-	if (p->lrgr == NULL)
+{	struct lnode *q=p->lrgr;
+	if (q == NULL)
 	{	struct lnode *new;
 		new= lalloc();
 		new->word = KnR_strdup(w);
 		new->count = 1;
 		new->lrgr = root->lrgr;
 		root->lrgr = new;
-	} else if ((strcmp(w, p->lrgr->word)) == 0)
-	{	p->lrgr->count++; 
+	} else if ((strcmp(w, q->word)) == 0)
+	{	q->count++; 
+		if (q->lrgr != NULL && q->count > q->lrgr->count)
+			p = reshuffle(p);
 	} else
-		root = addlist(p->lrgr, root, w);
+		root = addlist(q, root, w);
 	return root;
 }
+
+struct lnode *reshuffle(struct lnode *p)
+{
+	struct lnode *q=p->lrgr, 
+				 *r=q->lrgr;
+	
+	q->lrgr = r->lrgr;
+	r->lrgr = q;
+	p->lrgr = r;
+
+	return p;
+}
+
 
 _Bool shouldignore(char* word, char* ignore_me[], int ig_size)
 {
