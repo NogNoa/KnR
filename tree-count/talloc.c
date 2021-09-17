@@ -13,6 +13,11 @@ struct htnode *htalloc(void)
 	return (struct htnode *) malloc(sizeof(struct htnode));
 }
 
+struct lnode *lalloc(void)
+{  /* lalloc: make a lnode */
+	return (struct lnode *) malloc(sizeof(struct lnode));
+}
+
 char *KnR_strdup(char *s) 
 {  /* make a duplicate of s */
 	char *p;

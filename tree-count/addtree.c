@@ -49,8 +49,7 @@ struct htnode *haddtree(struct htnode *p, char* word, char *head, int h_len)
 	return p;
 }
 
-int *lalloc(void);
-void lappend(int*, int, int*);
+void append(int*, int, int*);
 
 struct tnode *craddtree(struct tnode *p, char *w, int iline)
 {  /* addtree: add a node with w, at or below p */
@@ -61,9 +60,9 @@ struct tnode *craddtree(struct tnode *p, char *w, int iline)
 		p->word = KnR_strdup(w);
 		p->left = p->right = NULL;
 		p->bookmark = 0;
-		lappend(p->lini,iline, &p->bookmark);
+		append(p->lini,iline, &p->bookmark);
 	} else if ((cond = strcmp(w, p->word)) == 0)
-		lappend(p->lini,iline, &p->bookmark);
+		append(p->lini,iline, &p->bookmark);
 	else if (cond < 0) /* less than into left subtree */
 		p->left = craddtree(p->left, w, iline);
 	else /* greater than into right subtree */
@@ -71,12 +70,34 @@ struct tnode *craddtree(struct tnode *p, char *w, int iline)
 	return p;
 }
 
-void lappend(int lini[],int iline, int *bookmark)
+void append(int lini[],int iline, int *bookmark)
 {
-	if (*bookmark > MAXLIST)
+	if (*bookmark >= MAXLIST)
 		return;
 	else if (*bookmark == 0 || lini[*bookmark-1] != iline)
 		lini[(*bookmark)++] = iline;
+}
+
+struct lnode *lalloc(void);
+
+struct lnode *addlist(struct lnode *p, struct lnode *root, char *w)
+{
+	if (root == NULL)
+	{	root = lalloc();
+		root = addlist(root, root, w);
+	}
+	else if (p->lrgr == NULL)
+	{	struct lnode *new;
+		new= lalloc();
+		new->word = KnR_strdup(w);
+		new->count = 1;
+		new->lrgr = root->lrgr;
+		root->lrgr = new;
+	} else if ((strcmp(w, p->lrgr->word)) == 0)
+	{	p->lrgr->count++; 
+	} else
+		root = addlist(p->lrgr, root, w);
+	return root;
 }
 
 _Bool shouldignore(char* word, char* ignore_me[], int ig_size)
@@ -87,4 +108,5 @@ _Bool shouldignore(char* word, char* ignore_me[], int ig_size)
 	}
 	return 0;
 }
+
 

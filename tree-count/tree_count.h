@@ -20,3 +20,9 @@ struct htnode {// node of a wordhead tree
 	struct htnode *left;
 	struct htnode *right;
 };
+
+struct lnode {
+	char *word;
+	int count;
+	struct lnode *lrgr; 
+};

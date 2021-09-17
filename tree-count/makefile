@@ -22,6 +22,9 @@ cvar: $(ODIR)/cvar_count.o $(OBJ) ../$(ODIR)/molon.lb.o
 cross: $(ODIR)/cross_count.o $(OBJ) ../$(ODIR)/molon.lb.o
 	$(COMPILE)
 
+freq: $(ODIR)/freq_count.o $(OBJ) ../$(ODIR)/molon.lb.o
+	$(COMPILE)
+
 .PHONY: check	
 .PHONY: check++
 
