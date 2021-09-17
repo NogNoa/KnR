@@ -108,6 +108,9 @@ struct lnode *reshuffle(struct lnode *p)
 	r->lrgr = q;
 	p->lrgr = r;
 
+	if (q->lrgr != NULL && q->count > q->lrgr->count)
+		r = reshuffle(r);
+
 	return p;
 }
 
