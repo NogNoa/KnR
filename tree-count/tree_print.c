@@ -57,3 +57,11 @@ void reverse_treeprint(struct tnode *p)
 		reverse_treeprint(p->left);
 	}
 }
+
+void listprint(struct lnode *p)
+{  /* treeprint: in-order print of tree p */
+	if (p != NULL) 
+	{	listprint(p->lrgr);
+		printf("%4d %s\n", p->count, p->word);
+	}
+}

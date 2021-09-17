@@ -17,6 +17,9 @@ int main()
 	while (getword(word, MAXWORD) != EOF)
 		if (isalpha(word[0]))
 			root = addlist(root, root, word);
-	//treeprint(root);
+	if (root != NULL)	
+	/*root itself is null placeholder, so we want to skip it, 
+	but therefore we have to check it's initialised. */
+		listprint(root->lrgr); 
 	return 0;
 }
