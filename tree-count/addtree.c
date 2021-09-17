@@ -82,11 +82,7 @@ struct lnode *lalloc(void);
 
 struct lnode *addlist(struct lnode *p, struct lnode *root, char *w)
 {
-	if (root == NULL)
-	{	root = lalloc();
-		root = addlist(root, root, w);
-	}
-	else if (p->lrgr == NULL)
+	if (p->lrgr == NULL)
 	{	struct lnode *new;
 		new= lalloc();
 		new->word = KnR_strdup(w);
