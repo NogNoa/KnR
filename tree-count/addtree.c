@@ -92,8 +92,7 @@ struct lnode *addlist(struct lnode *p, struct lnode *root, char *w)
 		root->lrgr = new;
 	} else if ((strcmp(w, q->word)) == 0)
 	{	q->count++; 
-		if (q->lrgr != NULL && q->count > q->lrgr->count)
-			p = reshuffle(p);
+		p = reshuffle(p);
 	} else
 		root = addlist(q, root, w);
 	return root;
@@ -104,12 +103,12 @@ struct lnode *reshuffle(struct lnode *p)
 	struct lnode *q=p->lrgr, 
 				 *r=q->lrgr;
 	
-	q->lrgr = r->lrgr;
-	r->lrgr = q;
-	p->lrgr = r;
-
-	if (q->lrgr != NULL && q->count > q->lrgr->count)
+	if (r != NULL && q->count > r->count)
+	{	q->lrgr = r->lrgr;
+		r->lrgr = q;
+		p->lrgr = r;
 		r = reshuffle(r);
+	}
 
 	return p;
 }
