@@ -69,10 +69,14 @@ int undef(char* name)
 		return 1;
 	
 	if (np->next !=NULL) //there is a continuation of the list we have to preserve
-	{	struct nlist *ante;
-		for (ante = hashtab[hash(name)]; ante->next != np; ante = ante->next)
-			;
-		ante->next = np->next;
+	{	struct nlist *ante = hashtab[hash(name)];
+		if (ante == np)
+			ante = np->next;
+		else 
+		{	for (; ante->next != np; ante = ante->next)
+				;
+			ante->next = np->next;
+		}
 	}
 	free(np);
 	return 0;
