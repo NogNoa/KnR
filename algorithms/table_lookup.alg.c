@@ -43,5 +43,15 @@ p3 := install("IN", 3)
 	free((np=p1)->defn)
 	(np=p1)->defn := "3" != NULL
 	return np = {.next=NULL, .name="IN", .defn="3"}
-p1 = p3 
+p1 = p3 = {.next=NULL, .name="IN", .defn="3"}
 
+undef(s2)
+	np := lookup(s2)
+		np := hashtab[18] = p2 != NULL
+		strcmp(s2, p2->name=s2) = 0
+		return np = p2
+	np != NULL
+	np->next = p1 !=NULL
+	ante = hashtab[18]= p2
+	ante->next = p1 
+	

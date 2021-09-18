@@ -67,11 +67,18 @@ int undef(char* name)
 
 	if ((np = lookup(name)) == NULL)
 		return 1;
-	else
-	{	free(np);
-		return 0;
+	
+	if (np->next !=NULL) //there is a continuation of the list we have to preserve
+	{	struct nlist *ante;
+		for (ante = hashtab[hash(name)]; ante->next != np; ante = ante->next)
+			;
+		ante->next = np->next;
 	}
+	free(np);
+	return 0;
 }
+
+#include <stdio.h>
 
 int main()
 {
@@ -79,5 +86,8 @@ int main()
 	struct nlist *p2 = install("OUT","2");
 	struct nlist *p3 = install("IN","3");
 	undef("OUT");
+	printf("%s: %s\n",p2->name, p2->defn);
+	printf("hashtab[hash(IN)]->next = %ld \nhashtab[hash(OUT)]->next = %ld\n",(long) hashtab[hash("IN")]->next, (long) hashtab[hash("OUT")]->next);
+	printf("p1->next = %ld \np2->next = %ld\n",(long) p1->next, (long) p2->next);
 	return 0;
 }
