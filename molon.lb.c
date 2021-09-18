@@ -277,11 +277,12 @@ char get_directive(char *direct, int lim)
 	{	if (c == '\n' && (c=getch()) == '#')
 		{	while ((c=getch()) != '\n' && --lim > 0)
 				*direct++ = c;
-			*direct = '\n';
+			*direct++ = '\n';
+			*direct-- = '\0';
 		} 
-		else
+		if (c != '\n') //there're all kinds of cases when this is seperate from the previous check
 			c=getch();
-	}
+	} 
 	return c;
-	/* success: if *direct != 0 */
+	/* success: if outer *direct != 0 */
 }

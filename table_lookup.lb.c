@@ -69,7 +69,7 @@ int undef(char* name)
 		return 1;
 	
 	if (np->next !=NULL) //there is a continuation of the list we have to preserve
-	{	unsigned hashval=hash(name)
+	{	unsigned hashval=hash(name);
 		struct nlist *ante = hashtab[hashval];
 		if (ante == np)
 			hashtab[hashval] = np->next;
