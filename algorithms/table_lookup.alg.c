@@ -52,6 +52,8 @@ undef(s2)
 		return np = p2
 	np != NULL
 	np->next = p1 !=NULL
-	ante = hashtab[18]= p2
-	ante->next = p1 
-	
+	ante := hashtab[18]= p2
+	ante = np
+	hashtab[18] = np->next=p1
+	free(np=p2)
+

@@ -2,16 +2,15 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+char get_directive(char *direct, int lim);
+
 int main(int argc, char *argv[])
 {
-    int stops[1000]={0};
-    char a = '  ';
+    stdin = fopen("try.c","r");
 
-    for (int i=1;i<argc;i++)
-        stops[i-1] = atoi(argv[i]);
-    for (int i=0;stops[i];i++)
-        printf("%d\n",stops[i]);
-    int c[2]={'Ψ','\0'};
-    printf("%s\n", c);
+    char direct[0200];
+    
+    while (get_directive(direct, 0200) != EOF)
+        printf("%s",direct);
     return 0;
 }

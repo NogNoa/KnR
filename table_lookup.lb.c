@@ -69,9 +69,10 @@ int undef(char* name)
 		return 1;
 	
 	if (np->next !=NULL) //there is a continuation of the list we have to preserve
-	{	struct nlist *ante = hashtab[hash(name)];
+	{	unsigned hashval=hash(name)
+		struct nlist *ante = hashtab[hashval];
 		if (ante == np)
-			ante = np->next;
+			hashtab[hashval] = np->next;
 		else 
 		{	for (; ante->next != np; ante = ante->next)
 				;
@@ -81,7 +82,7 @@ int undef(char* name)
 	free(np);
 	return 0;
 }
-
+/*
 #include <stdio.h>
 
 int main()
@@ -95,3 +96,4 @@ int main()
 	printf("p1->next = %ld \np2->next = %ld\n",(long) p1->next, (long) p2->next);
 	return 0;
 }
+*/
