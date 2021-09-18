@@ -1,3 +1,5 @@
+// Ritchie, D. and Kernighan, W. (1988) p128
+
 #ifndef malloc
 	#include <stdlib.h>
 #endif
@@ -59,7 +61,7 @@ struct nlist *install(char *name, char *defn)
 	return np;
 }
 
-//origina
+//original
 
 int undef(char* name)
 {

@@ -274,14 +274,15 @@ char get_directive(char *direct, int lim)
 	char c='\n';
 	*direct='\0';
 	while (!(*direct) && c != EOF)
-	{	if (c == '\n' && (c=getch()) == '#')
+	{	if (c != '\n')
+			c=getch();
+		else if (( c=getch() ) == '#')
 		{	while ((c=getch()) != '\n' && --lim > 0)
 				*direct++ = c;
 			*direct++ = '\n';
 			*direct-- = '\0';
 		} 
-		if (c != '\n') //there're all kinds of cases when this is seperate from the previous check
-			c=getch();
+
 	} 
 	return c;
 	/* success: if outer *direct != 0 */
