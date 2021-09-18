@@ -58,3 +58,26 @@ struct nlist *install(char *name, char *defn)
 	
 	return np;
 }
+
+//origina
+
+int undef(char* name)
+{
+	struct nlist *np;
+
+	if ((np = lookup(name)) == NULL)
+		return 1;
+	else
+	{	free(np);
+		return 0;
+	}
+}
+
+int main()
+{
+	struct nlist *p1 = install("IN","1");
+	struct nlist *p2 = install("OUT","2");
+	struct nlist *p3 = install("IN","3");
+	undef("OUT");
+	return 0;
+}
