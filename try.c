@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     
     while (get_directive(direct, 0200) != EOF)
     {   char cmd[0100], header[0100];
-        seperate(direct,' ', 0100, 1, cmd);
+        seperate(direct,' ', 0100, 1, header); //seperate don't leave side effects on direct
         seperate(direct,' ', 0100, 2, cmd, header);
         printf("cmd:%s header:%s\n",cmd, header);
     }
