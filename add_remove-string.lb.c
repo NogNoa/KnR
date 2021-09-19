@@ -233,15 +233,17 @@ int alt_strncmp(char *cs,char *ct,int n)
 	#include <stdarg.h>
 #endif
 
-int seperate(char *str, char sep, int lim, int vacount, ...)
+void seperate(char *str, char sep, int lim, int vacount, ...)
 {
 	va_list valist;
 	va_start(valist, vacount);
-	for (int i=0;i<vacount;i++)
+	while (vacount-->0)
 	{	//va_arg(valist,i) = (char *) va_arg(valist,i);
+		char *field=va_arg(valist,char *);
 		for (int j=0;*str != sep && j<lim;j++)
-			*va_arg(valist,char *)++=*str++;
-		*va_arg(valist,i) = '\0';
+			*field++=*str++;
+		*field = '\0';
+		str++;
 	}
 	va_end(valist);
 }
