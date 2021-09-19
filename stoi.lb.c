@@ -1,5 +1,3 @@
-/* gcc with control_flow.lib.c */
-
 #include <ctype.h>
 #ifndef printf
 	#include <stdio.h>
@@ -9,7 +7,20 @@
 	#include <stdlib.h>
 #endif
 
-char *reverse(char *); //from control_flow.lb.c
+char *reverse(char *calls)
+{ /* reverse: reverse string s in place */
+	char *j,*i=j=calls, temp;
+
+	while(*j++)	{}
+	j-=2;
+
+	for (; i < j; i++, j--) {
+		temp = *i;
+		*i = *j;
+		*j = temp;
+	}
+	return calls;
+}
 
 // Ritchie, D. and Kernighan, W. (1988) p59
 
@@ -26,7 +37,7 @@ void KnR_itoa(int n, char s[])
 	if (sign < 0)
 		s[i++] = '-';
 	s[i] = '\0';
-	reverse(s); //defined in control_flow.c
+	reverse(s);
 }
 
 // Ritchie, D. and Kernighan, W. (1988) p65

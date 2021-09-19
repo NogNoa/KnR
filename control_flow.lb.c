@@ -176,21 +176,6 @@ than    {(low < high)
 than 	 (x == v[mid]) iff (low == high)
 */
 
-char *reverse(char *calls)
-{ /* reverse: reverse string s in place */
-	char *j,*i=j=calls, temp;
-
-	while(*j++)	{}
-	j-=2;
-
-	for (; i < j; i++, j--) {
-		temp = *i;
-		*i = *j;
-		*j = temp;
-	}
-	return calls;
-}
-
 void real_recrs_reverse(int i, char s[])
 { /* reverse: reverse string s in place using recursion */
 	static int len, middle;

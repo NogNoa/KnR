@@ -229,3 +229,19 @@ int alt_strncmp(char *cs,char *ct,int n)
 	else
 		return *cs-*ct;
 }
+#ifndef va_list
+	#include <stdarg.h>
+#endif
+
+int seperate(char *str, char sep, int lim, int vacount, ...)
+{
+	va_list valist;
+	va_start(valist, vacount);
+	for (int i=0;i<vacount;i++)
+	{	//va_arg(valist,i) = (char *) va_arg(valist,i);
+		for (int j=0;*str != sep && j<lim;j++)
+			*va_arg(valist,char *)++=*str++;
+		*va_arg(valist,i) = '\0';
+	}
+	va_end(valist);
+}
