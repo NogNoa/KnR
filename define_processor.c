@@ -1,39 +1,52 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DIR_S 0200
+#define LIN_S 0200
 #define FLD_S 040
 
-char get_directive(char *direct, int lim);
-void seperate(char *str, char sep, int lim, int vacount, ...);
-struct nlist *install(char *name, char *defn);
-
-
-int main(int argc, char** argv)
-{
-	if (argc>1)
-		stdin=fopen(argv[1],"r");
-	FILE *codex=stdin;
-
-	char direct[DIR_S];
-
-	struct nlist { /* table entry: */
+struct nlist 
+	{ /* table entry: */
 		struct nlist *next; /* next entry in chain */
 		char *name; /* defined name */
 		char *defn; /* replacement text */
 	};
 
-	char back;
-	while( (back=get_directive(direct, DIR_S)) != EOF)
-	{	if (back == '\0')
-			printf("weird: %s",direct);
-		char cmd[FLD_S], name[FLD_S], defn[FLD_S];
+char get_directive(char *direct, int lim);
+void seperate(char *str, char sep, int lim, int vacount, ...);
+struct nlist *install(char *name, char *defn);
+int gettoken(void);
+struct nlist *lookup(char *s);
+
+int main(int argc, char** argv)
+{
+	if (argc>1)
+		stdin=fopen(argv[1],"r");
+
+	char direct[LIN_S];
+	
+	while(get_directive(direct, LIN_S) != '\0')
+	{	char cmd[FLD_S], name[FLD_S], defn[FLD_S];
 		seperate(direct, ' ', FLD_S, 3, cmd, name, defn);
 		if (strcmp(cmd,"define") == 0)
 			install(name, defn);
 	}
-	fseek(codex, 0, SEEK_SET);
+
+	char token[FLD_S];
+	int tokentype;
+	enum { NAME, PARENS, BRACKETS };
+	struct nlist *nom_ptr;
+
+	while ((tokentype = gettoken()) != EOF)
+	{	if (tokentype != NAME && tokentype != PARENS && tokentype != BRACKETS)
+		{	token[0] = (char) tokentype;
+			token[1] ='\0';
+		}
+		if (( nom_ptr = lookup(token) ) != NULL)
+			printf("%s ",nom_ptr->defn);
+		else
+			printf("%s ",token);
+	}
 
 }
 
-/* problem: I need to look throu the same file twice as stdin */
+/*probably should write a gettoken specificaly for this program */

@@ -4,7 +4,7 @@ DEPS = tabbin.h
 ODIR = obj
 _OBJ = 
 OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
-OBJPILE = $(CC) $(CFLAGS) -c -o $@     $<
+OBJPILE = $(CC) $(CFLAGS) -c -g -o $@     $<
 COMPILE = $(CC) $(CFLAGS) -g -o $@.elf $^
 
 $(ODIR)/%.o: %.c
