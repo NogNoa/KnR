@@ -11,17 +11,26 @@ struct nlist
 		char *defn; /* replacement text */
 	};
 
+/*external*/
 char get_directive(char *direct, int lim);
 void seperate(char *str, char sep, int lim, int vacount, ...);
 struct nlist *install(char *name, char *defn);
-int gettoken(void);
-struct nlist *lookup(char *s);
+
+/*local*/
+void table_make(void);
+void text_process(void);
 
 int main(int argc, char** argv)
 {
 	if (argc>1)
 		stdin=fopen(argv[1],"r");
 
+	table_make();
+	text_process();
+}
+
+void table_make(void)
+{
 	char direct[LIN_S];
 	
 	while(get_directive(direct, LIN_S) != '\0')
@@ -30,7 +39,14 @@ int main(int argc, char** argv)
 		if (strcmp(cmd,"define") == 0)
 			install(name, defn);
 	}
+}
 
+/*external*/
+struct nlist *lookup(char *s);
+int gettoken(void);
+
+void text_process(void)
+{
 	char token[FLD_S];
 	int tokentype;
 	enum { NAME, PARENS, BRACKETS };
@@ -46,7 +62,6 @@ int main(int argc, char** argv)
 		else
 			printf("%s ",token);
 	}
-
 }
 
 /*probably should write a gettoken specificaly for this program */
