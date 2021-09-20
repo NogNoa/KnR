@@ -271,11 +271,10 @@ int lngetword(char *word, int lim)
 
 char get_directive(char *direct, int lim)
 { /* if at or just before start of line with # put line in direct and returns last char, 
-     else eats whitespace and returns 0
-     this function is not tolerent to apparently empty lines that have whitespace in them*/
-	
+     else eats whitespace and returns 0 */
+
 	char c;
-	while((c=getch()) == '\n')
+	while(isspace(c=getch()))
 		;
 	if (c == '#')
 		{	while ((c=getch()) != '\n' && c != EOF && --lim > 0)
