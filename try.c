@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     char direct[0200];
     
-    while (get_directive(direct, 0200) != EOF)
+    while (get_directive(direct, 0200) != '\0')
     {   char cmd[0100], header[0100];
         seperate(direct,' ', 0100, 1, header); //seperate don't leave side effects on direct
         seperate(direct,' ', 0100, 2, cmd, header);
