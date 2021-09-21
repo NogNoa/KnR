@@ -294,23 +294,19 @@ char uni_getword(char *word, int lim)
 { /* get every token between whitespace, 
      and every sequence of whitespace */
 	char *w = word;
+	_Bool b_space;
 
 	if(isspace( *w++ = getch() ))
-	{	for ( ; --lim > 0 && *w != EOF; w++)
-		{	if (!isspace( *w = getch() )) 
-			{	ungetch(*w);
-				break;
-			}
-		}
-	}
+		b_space=1;
 	else
-	{	for ( ; --lim > 0 && *w != EOF; w++)
-		{	if (isspace( *w = getch() )) 
-			{	ungetch(*w);
-				break;
-			}
-		}	
-	}
+		b_space=0;	
+
+	for ( ; --lim > 0 && *w != EOF; w++)
+	{	if ((isspace( *w = getch() )) ^ b_space) 
+		{	ungetch(*w);
+			break;
+		}
+	}	
 	*w--='\0';
 	return *w;
 }
