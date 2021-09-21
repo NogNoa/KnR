@@ -45,25 +45,20 @@ void table_make(void)
 
 /*external*/
 struct nlist *lookup(char *s);
-int gettoken(void);
+char uni_getword(char *word, int lim);
 
 void text_process(void)
 {
-	char token[FLD_S];
-	int tokentype;
-	enum { NAME, PARENS, BRACKETS };
+	char token[FLD_S], c;
 	struct nlist *nom_ptr;
 
-	while ((tokentype = gettoken()) != EOF)
-	{	if (tokentype != NAME && tokentype != PARENS && tokentype != BRACKETS)
-		{	token[0] = (char) tokentype;
-			token[1] ='\0';
-		}
-		if (( nom_ptr = lookup(token) ) != NULL)
+	while ((c = uni_getword(token, FLD_S)) != EOF)
+	{	if (( nom_ptr = lookup(token) ) != NULL)
 			printf("%s ",nom_ptr->defn);
 		else
 			printf("%s ",token);
 	}
 }
 
-/*probably should write a gettoken specificaly for this program */
+/*problem: space is duplicated
+  problem: we need to replace tokens also when they are not surrondered by space */

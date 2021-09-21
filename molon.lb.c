@@ -293,23 +293,24 @@ char get_directive(char *direct, int lim)
 char uni_getword(char *word, int lim)
 { /* get every token between whitespace, 
      and every sequence of whitespace */
-	char *w = word,c;
+	char *w = word;
 
-	if(isspace( c = getch() ))
-	{	*w++ = c;
-		for ( ; --lim > 0; w++)
-			if (!isspace( *w = getch() )) 
+	if(isspace( *w++ = getch() ))
+	{	for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (!isspace( *w = getch() )) 
 			{	ungetch(*w);
 				break;
 			}
+		}
 	}
 	else
-	{	*w++ = c;
-		for ( ; --lim > 0; w++)
-			if (isspace( *w = getch() )) 
+	{	for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (isspace( *w = getch() )) 
 			{	ungetch(*w);
 				break;
 			}
-		
+		}	
 	}
+	*w--='\0';
+	return *w;
 }
