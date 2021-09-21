@@ -11,11 +11,6 @@ struct nlist
 		char *defn; /* replacement text */
 	};
 
-/*external*/
-char get_directive(char *direct, int lim);
-void seperate(char *str, char sep, int lim, int vacount, ...);
-struct nlist *install(char *name, char *defn);
-
 /*local*/
 void table_make(void);
 void text_process(void);
@@ -29,6 +24,12 @@ int main(int argc, char** argv)
 	text_process();
 }
 
+
+/*external*/
+char get_directive(char *direct, int lim);
+void seperate(char *str, char sep, int lim, int vacount, ...);
+struct nlist *install(char *name, char *defn);
+
 void table_make(void)
 {
 	char direct[LIN_S];
@@ -40,6 +41,7 @@ void table_make(void)
 			install(name, defn);
 	}
 }
+
 
 /*external*/
 struct nlist *lookup(char *s);

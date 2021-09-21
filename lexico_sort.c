@@ -168,13 +168,15 @@ int fieldcmp (line fp1, line fp2, struct state stti[])
 }
 
 
-void swap(void** v, int i, int j)
+void swap(void*** v, int i, int j)
 { /* swap: interchange v[i] and v[j] */
-	void* temp;
-
-	temp = v[i];
-	v[i] = v[j];
-	v[j] = temp;
+	void ***t1,
+	 	***t2=v+i,
+	 	***t3=v+j;
+	
+	t1= &(v[i]);
+	t2 = &(v[j]);
+	t3 = t1;
 }
 
 void KnR_qsort(char*** v, int left, int right,
@@ -182,16 +184,16 @@ void KnR_qsort(char*** v, int left, int right,
 { /* qsort: sort v[left]...v[right] into increasing order */
 	int i, last;
 	
-	void swap(void** v, int i, int j);
+	void swap(void*** v, int i, int j);
 
 	if (left >= right) /* do nothing if array contains */
 		return;	  /* fewer than two elements      */
-	swap(v, left, (left + right)/2);
+	swap((void***) v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
 		if (fieldcmp( ((page) v)[i], ((page) v)[left], stti ) < 0)
-			swap(v, ++last, i);
-	swap(v, left, last);
+			swap((void***) v, ++last, i);
+	swap((void***) v, left, last);
 	KnR_qsort(v,   left, last-1, stti);
 	KnR_qsort(v, last+1,  right, stti);
 }
