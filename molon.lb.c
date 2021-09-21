@@ -249,7 +249,7 @@ char ig_getword(char *word, int lim)
 }
 
 int lngetword(char *word, int lim)
-{ /* getword: get next word or character from input */
+{ /* getword: get next word or character from input, including newline*/
 	int c, getch(void);
 	void ungetch(int);
 	char *w = word;
@@ -288,4 +288,28 @@ char get_directive(char *direct, int lim)
 		return '\0';
 	}
 	/* success: if return != 0 */
+}
+
+char uni_getword(char *word, int lim)
+{ /* get every token between whitespace, 
+     and every sequence of whitespace */
+	char *w = word,c;
+
+	if(isspace( c = getch() ))
+	{	*w++ = c;
+		for ( ; --lim > 0; w++)
+			if (!isspace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
+	}
+	else
+	{	*w++ = c;
+		for ( ; --lim > 0; w++)
+			if (isspace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
+		
+	}
 }
