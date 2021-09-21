@@ -170,13 +170,11 @@ int fieldcmp (line fp1, line fp2, struct state stti[])
 
 void swap(void*** v, int i, int j)
 { /* swap: interchange v[i] and v[j] */
-	void ***t1,
-	 	***t2=v+i,
-	 	***t3=v+j;
-	
-	t1= &(v[i]);
-	t2 = &(v[j]);
-	t3 = t1;
+	void** temp;
+
+	temp = v[i];
+	v[i] = v[j];
+	v[j] = temp;
 }
 
 void KnR_qsort(char*** v, int left, int right,

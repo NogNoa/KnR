@@ -6,4 +6,4 @@ KnR_qsort((char ***) linptr, 0, (nlines-1=10), stti)
 	(left=0) < (right=10)
 	swap((v=(char ***)linptr), 0, ((left+right)/2=5))
 		temp := v[0] = pointer(line1,field1)
-		
+		v[0] := v[5] = pointer(line5,field1)

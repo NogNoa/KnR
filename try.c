@@ -7,7 +7,7 @@ void seperate(char *str, char sep, int lim, int vacount, ...);
 
 int main(int argc, char *argv[])
 {
-    stdin = fopen("try.c","r");
+    stdin = fopen("table_lookup.lb.c","r");
 
     char direct[0200];
     

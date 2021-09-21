@@ -1,11 +1,11 @@
-// Ritchie, D. and Kernighan, W. (1988) p128
-
 #ifndef malloc
 	#include <stdlib.h>
 #endif
 #ifndef strcmp
 	#include <string.h>
 #endif
+
+// Ritchie, D. and Kernighan, W. (1988) p128
 
 struct nlist { /* table entry: */
 	struct nlist *next; /* next entry in chain */
