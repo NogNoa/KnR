@@ -277,7 +277,7 @@ char get_directive(char *direct, int lim)
 	while(isspace(c=getch()))
 		;
 	if (c == '#')
-		{	while ((c=getch()) != '\n' && c != EOF && --lim > 0)
+		{	while ((c=getch()) != '\n' && c != '\r' && c != EOF && --lim > 0)
 				*direct++ = c;
 			*direct = '\0';
 			return c;

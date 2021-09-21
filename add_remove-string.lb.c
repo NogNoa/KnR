@@ -237,13 +237,14 @@ void seperate(char *str, char sep, int lim, int vacount, ...)
 {
 	va_list valist;
 	va_start(valist, vacount);
-	while (vacount-->1 && *str != 0)
+	while (vacount-->1)
 	{	//va_arg(valist,i) = (char *) va_arg(valist,i);
 		char *field=va_arg(valist,char *);
 		for (int j=0;*str != sep && j<lim && *str != 0;j++) 
 			*field++=*str++;
 		*field = '\0';
-		str++;
+		if (*str != 0)
+			str++;
 	}
 	{	//last one, not cutting at seperator
 		char *field=va_arg(valist,char *);
