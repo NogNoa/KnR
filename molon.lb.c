@@ -296,7 +296,7 @@ char uni_getword(char *word, int lim)
 	char *w = word;
 	_Bool b_space;
 
-	if(isspace( *w++ = getch() ))
+	if(isspace( *w++ = getch() ) || *w == '\r')
 		b_space=1;
 	else
 		b_space=0;	

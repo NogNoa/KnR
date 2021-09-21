@@ -54,11 +54,10 @@ void text_process(void)
 
 	while ((c = uni_getword(token, FLD_S)) != EOF)
 	{	if (( nom_ptr = lookup(token) ) != NULL)
-			printf("%s ",nom_ptr->defn);
+			printf("%s",nom_ptr->defn);
 		else
-			printf("%s ",token);
+			printf("%s",token);
 	}
 }
 
-/*problem: space is duplicated
-  problem: we need to replace tokens also when they are not surrondered by space */
+/*problem: we need to replace tokens also when they are not surrondered by space */
