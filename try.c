@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-char get_directive(char *direct, int lim);
-void seperate(char *str, char sep, int lim, int vacount, ...);
+char get_directive(char *direct, size_t lim);
+void seperate(char *str, char sep, size_t lim, int vacount, ...);
 
 int main(int argc, char *argv[])
 {

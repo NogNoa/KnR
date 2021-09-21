@@ -207,7 +207,7 @@ char *alt_strncpy(char *calls,char *ct, int n)
 	return calls;
 }
 
-char *alt_strncat(char *calls,char *ct,int n)
+char *alt_strncat(char *calls,char *ct, int n)
 { /* concatenate at most n characters of string ct to string s, terminate s
      with '\0'; return s. */
 	char *s = calls;
@@ -233,7 +233,7 @@ int alt_strncmp(char *cs,char *ct,int n)
 	#include <stdarg.h>
 #endif
 
-void seperate(char *str, char sep, int lim, int vacount, ...)
+void seperate(char *str, char sep, size_t lim, int vacount, ...)
 {
 	va_list valist;
 	va_start(valist, vacount);

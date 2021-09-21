@@ -26,8 +26,8 @@ int main(int argc, char** argv)
 
 
 /*external*/
-char get_directive(char *direct, int lim);
-void seperate(char *str, char sep, int lim, int vacount, ...);
+char get_directive(char *direct, size_t lim);
+void seperate(char *str, char sep, size_t lim, int vacount, ...);
 struct nlist *install(char *name, char *defn);
 
 void table_make(void)
@@ -45,7 +45,7 @@ void table_make(void)
 
 /*external*/
 struct nlist *lookup(char *s);
-char uni_getword(char *word, int lim);
+char uni_getword(char *word, size_t lim);
 
 void text_process(void)
 {

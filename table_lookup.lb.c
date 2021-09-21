@@ -81,7 +81,7 @@ int undef(char* name)
 			ante->next = np->next;
 		}
 	}
-	free(np); np=NULL;
+	free(np); np = NULL;
 	return 0;
 }
 /*

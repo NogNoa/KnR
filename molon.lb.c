@@ -186,7 +186,7 @@ and the token is supposed to still be there since the stack is very shallow
 
 // Ritchie, D. and Kernighan, W. (1988) p121
 
-int getword(char *word, int lim)
+int getword(char *word, size_t lim)
 { /* getword: get next word or character from input */
 	int c, getch(void);
 	void ungetch(int);
@@ -209,7 +209,7 @@ int getword(char *word, int lim)
 
 //original
 
-char ig_getword(char *word, int lim)
+char ig_getword(char *word, size_t lim)
 { /* ig_getword: get next word or character from input 
 	 ignores preprocessor, strings constants and comments*/
 	char *w = word, c;
@@ -248,7 +248,7 @@ char ig_getword(char *word, int lim)
 	return c;
 }
 
-int lngetword(char *word, int lim)
+int lngetword(char *word, size_t lim)
 { /* getword: get next word or character from input, including newline*/
 	int c, getch(void);
 	void ungetch(int);
@@ -269,7 +269,7 @@ int lngetword(char *word, int lim)
 	return c;
 }
 
-char get_directive(char *direct, int lim)
+char get_directive(char *direct, size_t lim)
 { /* if at or just before start of line with # put line in direct and returns last char, 
      else eats whitespace and returns 0 */
 
@@ -290,7 +290,7 @@ char get_directive(char *direct, int lim)
 	/* success: if return != 0 */
 }
 
-char uni_getword(char *word, int lim)
+char uni_getword(char *word, size_t lim)
 { /* get every token between whitespace, 
      and every sequence of whitespace */
 	char *w = word;
