@@ -91,3 +91,4 @@ void text_process(void)
 	}
 }
 
+/* somewhere between the two functions in main a char is lost (namely the / that start line 8) */
