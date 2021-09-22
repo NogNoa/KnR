@@ -290,23 +290,40 @@ char get_directive(char *direct, size_t lim)
 	/* success: if return != 0 */
 }
 
+
+_Bool ex_isspace(char c)
+{
+	if (c =='\r' || c == ')' || 
+	    c == ']' || c == '}' ||
+	    c == '+' || c == '-' ||
+	    c == ',' || c == ';' ||
+	    c == '*' || c == '(' || 
+	    c == '[' || c == '{' ||
+	    c == '+' || c == '-' ||
+	    c == '&' || c == '!' ||
+	    isspace(c))
+		return 1;
+	else
+		return 0;
+}
+
 char uni_getword(char *word, size_t lim)
 { /* get every token between whitespace, 
      and every sequence of whitespace */
 	char *w = word;
 	_Bool b_space;
 
-	if(isspace( *w++ = getch() ) || *w == '\r')
+	if(ex_isspace( *w++ = getch() ))
 		b_space=1;
 	else
 		b_space=0;	
 
 	for ( ; --lim > 0 && *w != EOF; w++)
-	{	if ((isspace( *w = getch() )) ^ b_space) 
+	{	if ((ex_isspace( *w = getch() )) ^ b_space) 
 		{	ungetch(*w);
 			break;
 		}
-	}	
+	}
 	*w--='\0';
 	return *w;
 }
