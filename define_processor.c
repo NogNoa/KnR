@@ -55,29 +55,38 @@ char uni_getword(char *word, size_t lim);
 
 _Bool namecompare(char* token, int iname)
 {
-	char c,*name = nameary[iname];
+	char *name = nameary[iname];
 	token++, name++;
-	for (;*name != '\0' && (c=getchar()) == *name;token++,name++)
-		*token = c;
+
+	for (;*name == '\0';token++,name++)
+	{	
+		if (*token == '\0')
+			*token = getchar();
+		if(*token != *name)
+			break;
+	}
+	*++token = '\0'; 
 	if (*name == '\0')
 		return 1;
 	else
 		return 0;
-
 }
 
 void text_process(void)
 {
-	char token[FLD_S], c;
+	char token[FLD_S]={0}, c;
 	struct nlist *nom_ptr;
 
 	while ((c = getchar()) != EOF)
 	{
+		*token = c;
 		for (int i=0;i<NP;i++)
 			if (c == *nameary[i])
-			{	*token = c;
-				namecompare(token, i)
-			}
+				namecompare(token, i);
+		if (( nom_ptr = lookup(token) ) != NULL)
+			printf("%s",nom_ptr->defn);
+		else
+			printf("%s",token);
 	}
 }
 
