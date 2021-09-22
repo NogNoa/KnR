@@ -294,7 +294,8 @@ _Bool isprespace(char c)
 {
 	if (c =='\r' || c == ')' || 
 	    c == ']' || c == '}' ||
-	    c == '+' || c == '-' )
+	    c == '+' || c == '-' ||
+	    c == ',' || c == ';' )
 		return 1;
 	else
 		return 0;
@@ -318,8 +319,8 @@ char uni_getword(char *word, int lim)
 	char *w = word;
 	//_Bool b_space;
 
-	if(isspace(isprespace( *w++ = getch() )))
-	{	for ( ; --lim > 0 && *w != EOF; w++)
+	if(isspace(isprespace( *w = getch() )))
+	{	for (++w; --lim > 0 && *w != EOF; w++)
 		{	if (!isprespace( *w = getch() )) 
 			{	ungetch(*w);
 				break;
@@ -339,7 +340,7 @@ char uni_getword(char *word, int lim)
 		}
 	}
 	else if(isspace(*w))
-	{	for ( ; --lim > 0 && *w != EOF; w++)
+	{	for (++w; --lim > 0 && *w != EOF; w++)
 		{	if (!isspace( *w = getch() )) 
 			{	ungetch(*w);
 				break;
@@ -354,7 +355,7 @@ char uni_getword(char *word, int lim)
 	}
 	else if (ispostspace(*w))
 	{	
-		for ( ; --lim > 0 && *w != EOF; w++)
+		for (++w; --lim > 0 && *w != EOF; w++)
 		{	if (!ispostspace( *w = getch() )) 
 			{	ungetch(*w);
 				break;
@@ -363,8 +364,8 @@ char uni_getword(char *word, int lim)
 	}	
 	else
 	{	
-		for ( ; --lim > 0 && *w != EOF; w++)
-		{	if (isspace( *w = getch() ) || isprespace(*w)) 
+		for (++w; --lim > 0 && *w != EOF; w++)
+		{	if (isspace( *w = getch() ) || isprespace(*w) || ispostspace(*w)) 
 			{	ungetch(*w);
 				break;
 			}
