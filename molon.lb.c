@@ -299,7 +299,6 @@ _Bool ex_isspace(char c)
 	    c == ',' || c == ';' ||
 	    c == '*' || c == '(' || 
 	    c == '[' || c == '{' ||
-	    c == '+' || c == '-' ||
 	    c == '&' || c == '!' ||
 	    isspace(c))
 		return 1;

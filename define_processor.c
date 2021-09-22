@@ -58,7 +58,7 @@ _Bool namecompare(char* token, int iname)
 	char *name = nameary[iname];
 	token++, name++;
 
-	for (;*name == '\0';token++,name++)
+	for (;*name != '\0';token++,name++)
 	{	
 		if (*token == '\0')
 			*token = getchar();
@@ -88,7 +88,9 @@ void text_process(void)
 				break;
 			}
 		if (!found)
+		{	*(token+1) = '\0';
 			printf("%s",token);
+		}
 	}
 }
 
