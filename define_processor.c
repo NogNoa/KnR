@@ -76,16 +76,18 @@ void text_process(void)
 {
 	char token[FLD_S]={0}, c;
 	struct nlist *nom_ptr;
+	_Bool found;
 
 	while ((c = getchar()) != EOF)
 	{
 		*token = c;
 		for (int i=0;i<NP;i++)
-			if (c == *nameary[i])
-				namecompare(token, i);
-		if (( nom_ptr = lookup(token) ) != NULL)
-			printf("%s",nom_ptr->defn);
-		else
+			if (( found = (c == *nameary[i] && namecompare(token, i)) ))
+			{ 	nom_ptr = lookup(nameary[i]);
+				printf("%s",nom_ptr->defn);
+				break;
+			}
+		if (!found)
 			printf("%s",token);
 	}
 }
