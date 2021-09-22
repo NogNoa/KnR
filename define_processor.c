@@ -4,12 +4,6 @@
 #define LIN_S 0200
 #define FLD_S 040
 
-struct nlist 
-	{ /* table entry: */
-		struct nlist *next; /* next entry in chain */
-		char *name; /* defined name */
-		char *defn; /* replacement text */
-	};
 
 /*local*/
 void table_make(void);
@@ -24,6 +18,12 @@ int main(int argc, char** argv)
 	text_process();
 }
 
+struct nlist 
+	{ /* table entry: */
+		struct nlist *next; /* next entry in chain */
+		char *name; /* defined name */
+		char *defn; /* replacement text */
+	};
 
 /*external*/
 char get_directive(char *direct, int lim);
