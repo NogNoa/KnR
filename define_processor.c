@@ -74,23 +74,20 @@ _Bool namecompare(char* token, int iname)
 
 void text_process(void)
 {
-	char token[FLD_S]={0}, c;
+	char token[FLD_S]={0};
 	struct nlist *nom_ptr;
 	_Bool found;
 
-	while ((c = getchar()) != EOF)
-	{
-		*token = c;
-		for (int i=0;i<NP;i++)
-			if (( found = (c == *nameary[i] && namecompare(token, i)) ))
+	while ((*token = getchar()) != EOF)
+	{	for (int i=0;i<NP;i++)
+			if (( found = (*token == *nameary[i] && namecompare(token, i)) ))
 			{ 	nom_ptr = lookup(nameary[i]);
 				printf("%s",nom_ptr->defn);
 				break;
 			}
 		if (!found)
-		{	*(token+1) = '\0';
 			printf("%s",token);
-		}
+		memset(token,0,FLD_S);
 	}
 }
 
