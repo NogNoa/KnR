@@ -10,7 +10,7 @@ COMPILE = $(CC) $(CFLAGS) -g -o $@.elf $^
 $(ODIR)/%.o: %.c
 	 $(OBJPILE)
 
-detab: $(ODIR)/detab.o $(ODIR)/tabbin.lb.o
+detab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o
 	$(COMPILE)
 
 entab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o

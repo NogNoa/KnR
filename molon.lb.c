@@ -316,19 +316,60 @@ char uni_getword(char *word, int lim)
 { /* get every token between whitespace, 
      and every sequence of whitespace */
 	char *w = word;
-	_Bool b_space;
+	//_Bool b_space;
 
-	if(isspace( *w++ = getch() ) || isprespace(*w))
-		b_space=1;
-	else
-		b_space=0;	
-
-	for ( ; --lim > 0 && *w != EOF; w++)
-	{	if ((isspace( *w = getch() )) ^ b_space) 
-		{	ungetch(*w);
-			break;
+	if(isspace(isprespace( *w++ = getch() )))
+	{	for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (!isprespace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
+		}
+		for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (!isspace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
+		}
+		for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (!ispostspace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
+		}
+	}
+	else if(isspace(*w))
+	{	for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (!isspace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
+		}
+		for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (!ispostspace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
+		}
+	}
+	else if (ispostspace(*w))
+	{	
+		for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (!ispostspace( *w = getch() )) 
+			{	ungetch(*w);
+				break;
+			}
 		}
 	}	
+	else
+	{	
+		for ( ; --lim > 0 && *w != EOF; w++)
+		{	if (isspace( *w = getch() ) || isprespace(*w)) 
+			{	ungetch(*w);
+				break;
+			}
+		}		
+	}
 	*w--='\0';
 	return *w;
 }
