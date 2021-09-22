@@ -25,6 +25,9 @@ struct nlist
 		char *defn; /* replacement text */
 	};
 
+char* nameary[LIN_S];
+int NP=0;
+
 /*external*/
 char get_directive(char *direct, size_t lim);
 void seperate(char *str, char sep, size_t lim, int vacount, ...);
@@ -36,9 +39,12 @@ void table_make(void)
 	
 	while(get_directive(direct, LIN_S) != '\0')
 	{	char cmd[FLD_S], name[FLD_S], defn[FLD_S];
+		struct nlist *nom_ptr;
 		seperate(direct, ' ', FLD_S, 3, cmd, name, defn);
 		if (strcmp(cmd,"define") == 0)
-			install(name, defn);
+		{	nom_ptr = install(name, defn);
+			nameary[NP++] = nom_ptr->name; 
+		}
 	}
 }
 
@@ -47,17 +53,31 @@ void table_make(void)
 struct nlist *lookup(char *s);
 char uni_getword(char *word, size_t lim);
 
+_Bool namecompare(char* token, int iname)
+{
+	char c,*name = nameary[iname];
+	token++, name++;
+	for (;*name != '\0' && (c=getchar()) == *name;token++,name++)
+		*token = c;
+	if (*name == '\0')
+		return 1;
+	else
+		return 0;
+
+}
+
 void text_process(void)
 {
 	char token[FLD_S], c;
 	struct nlist *nom_ptr;
 
-	while ((c = uni_getword(token, FLD_S)) != EOF)
-	{	if (( nom_ptr = lookup(token) ) != NULL)
-			printf("%s",nom_ptr->defn);
-		else
-			printf("%s",token);
+	while ((c = getchar()) != EOF)
+	{
+		for (int i=0;i<NP;i++)
+			if (c == *nameary[i])
+			{	*token = c;
+				namecompare(token, i)
+			}
 	}
 }
 
-/*problem: we need to replace tokens also when they are not surrondered by space */
