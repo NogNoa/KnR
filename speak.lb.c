@@ -9,6 +9,9 @@
 #ifndef strlen
 	#include <string.h>
 #endif
+#ifndef isdigit
+	#include <ctype.h>
+#endif
 
 
 void minprintf(char *fmt, ...)
@@ -26,7 +29,9 @@ void minprintf(char *fmt, ...)
 			continue;
 		}
 
-		p += sscanf(++p,"%d",&fldwd);
+		sscanf(++p,"%d",&fldwd);
+		while(isdigit(*p++) == 0)
+			;
 		
 		switch (*p)
 		{case 'd':
@@ -55,11 +60,11 @@ void minprintf(char *fmt, ...)
 			sprintf(back, "%p", va_arg(ap, void *));
 			break;
 		case 's':
-			for (sval = va_arg(ap, char *); *sval; sval++)
-				putchar(*sval);
+			sval = va_arg(ap, char*);
+			sprintf(back,"%s",sval);
 			break;
 		default:
-			putchar(*p);
+			sprintf(back,"%c",*p);
 			break;
 		}
 		for (int i=strlen(back);i<fldwd;i++) 
