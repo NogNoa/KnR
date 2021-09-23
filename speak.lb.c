@@ -6,13 +6,16 @@
 #ifndef putchar
 	#include <stdio.h>
 #endif
+#ifndef strlen
+	#include <string.h>
+#endif
 
 
 void minprintf(char *fmt, ...)
 {  /* minprintf: minimal printf with variable argument list */
 	va_list ap; /* points to each unnamed arg in turn */
-	char *p, *sval, minfmt[3];
-	int ival;
+	char *p, *sval, minfmt[3],back[0200];
+	int ival, fldwd;
 	unsigned uval;
 	double dval;
 	
@@ -22,8 +25,10 @@ void minprintf(char *fmt, ...)
 		{	putchar(*p);
 			continue;
 		}
+
+		p += sscanf(++p,"%d",&fldwd);
 		
-		switch (*++p)
+		switch (*p)
 		{case 'd':
 		case 'i':
 		case 'x':
@@ -31,7 +36,7 @@ void minprintf(char *fmt, ...)
 		case 'o':
 			ival = va_arg(ap, int);
 			sprintf(minfmt,"%%%c",*p);
-			printf(minfmt, ival);
+			sprintf(back, minfmt, ival);
 			break;
 		case 'u':
 			uval = va_arg(ap, unsigned);
@@ -44,10 +49,10 @@ void minprintf(char *fmt, ...)
 		case 'G':
 			dval = va_arg(ap, double);
 			sprintf(minfmt,"%%%c",*p);
-			printf(minfmt, dval);
+			sprintf(back, minfmt, dval);
 			break;
 		case 'p':
-			printf("%p", va_arg(ap, void *));
+			sprintf(back, "%p", va_arg(ap, void *));
 			break;
 		case 's':
 			for (sval = va_arg(ap, char *); *sval; sval++)
@@ -57,6 +62,15 @@ void minprintf(char *fmt, ...)
 			putchar(*p);
 			break;
 		}
+		for (int i=strlen(back);i<fldwd;i++) 
+			/*if fldwd is ≤ than strlen(back)
+			 inc. if it negative, than nop */
+			putchar(' ');
+		printf("%s",back);
+		for (int i=strlen(back);i<(-fldwd);i++) 
+			/*Again but the opposite.*/
+			 putchar(' ');
+
 	}
 	va_end(ap); /* clean up when done */
 }
