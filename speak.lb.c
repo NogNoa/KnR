@@ -20,25 +20,23 @@
 void minprintf(char *fmt, ...)
 {  /* minprintf: minimal printf with variable argument list */
 	va_list ap; /* points to each unnamed arg in turn */
-	char *p, *sval, minfmt[3],back[0200],nums[020];
-	int ival, fldwd;
+	char *p, *sval, minfmt[3],back[0200];
+	int ival;
 	unsigned uval;
 	double dval;
 	
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) {
+		int fldwd=0;
+		
 		if (*p != '%') 
 		{	putchar(*p);
 			continue;
 		}
 
-		char *s=nums;
-		++p;
-		//sscanf(++p,"%d",&fldwd);
-		while(isdigit(*p) == 0)
-			*s++ = *p++;
-		*s = '\0';
-		fldwd = atoi(nums);
+		sscanf(++p,"%d",&fldwd);
+		while(isdigit(*p) || *p=='-')
+			p++;
 		
 		switch (*p)
 		{case 'd':
