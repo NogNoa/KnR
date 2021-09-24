@@ -22,7 +22,7 @@ char *reverse(char *calls)
 	return calls;
 }
 
-// Ritchie, D. and Kernighan, W. (1988) p59
+// Ritchie, D.M. and Kernighan, B.W. (1988) p59
 
 void KnR_itoa(int n, char s[])
 { /* itoa: convert n to characters in s */
@@ -40,7 +40,7 @@ void KnR_itoa(int n, char s[])
 	reverse(s);
 }
 
-// Ritchie, D. and Kernighan, W. (1988) p65
+// Ritchie, D.M. and Kernighan, B.W. (1988) p65
 
 double KnR_atof(char s[])
 {	/* atof: convert string s to double */

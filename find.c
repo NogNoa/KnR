@@ -2,7 +2,7 @@
 #include "KnR_getline.lb.c"
 #include "add_remove-string.lb.c"
 
-// Ritchie, D. and Kernighan, W. (1988) p63
+// Ritchie, D.M. and Kernighan, B.W. (1988) p63
 
 char pattern[] = "ould"; /* pattern to search for */
 
@@ -19,7 +19,7 @@ int find40()
 	return found;
 }
 
-// Ritchie, D. and Kernighan, W. (1988) p104
+// Ritchie, D.M. and Kernighan, B.W. (1988) p104
 
 int find54(int argc, char *argv[])
 { /* find: print lines that match pattern from 1st arg */

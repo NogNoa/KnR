@@ -1,4 +1,4 @@
-// Ritchie, D. and Kernighan, W. (1988) p126
+// Ritchie, D.M. and Kernighan, B.W. (1988) p126
 
 #include "tree_count.h"
 

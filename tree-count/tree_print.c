@@ -1,6 +1,6 @@
 #include "tree_count.h"
 
-// Ritchie, D. and Kernighan, W. (1988) p126
+// Ritchie, D.M. and Kernighan, B.W. (1988) p126
 
 void treeprint(struct tnode *p)
 {  /* treeprint: in-order print of tree p */

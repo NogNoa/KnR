@@ -1,6 +1,6 @@
 #include <string.h>
 
-// Ritchie, D. and Kernighan, W. (1988) p54
+// Ritchie, D.M. and Kernighan, B.W. (1988) p54
 
 int KnR_binsearch(int x, int v[], int n)
 { /* binsearch: find x in v[0] <= v[1] <= ... <= v[n-1] */
@@ -19,7 +19,7 @@ int KnR_binsearch(int x, int v[], int n)
 	return -1; /* no match */
 }
 
-// Ritchie, D. and Kernighan, W. (1988) p57
+// Ritchie, D.M. and Kernighan, B.W. (1988) p57
 
 void KnR_reverse(char s[])
 { /* reverse: reverse string s in place */

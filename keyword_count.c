@@ -1,4 +1,4 @@
-// Ritchie, D. and Kernighan, W. (1988) p119
+// Ritchie, D.M. and Kernighan, B.W. (1988) p119
 
 #include <stdio.h>
 #include <ctype.h>

@@ -1,4 +1,4 @@
-// Ritchie, D. and Kernighan, W. (1988) p99
+// Ritchie, D.M. and Kernighan, B.W. (1988) p99
 
 static char daytab[2][13] = 
 	{{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},

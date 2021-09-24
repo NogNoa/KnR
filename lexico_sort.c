@@ -1,5 +1,5 @@
-// Ritchie, D. and Kernighan, W. (1988) p97
-// Ritchie, D. and Kernighan, W. (1988) p106
+// Ritchie, D.M. and Kernighan, B.W. (1988) p97
+// Ritchie, D.M. and Kernighan, B.W. (1988) p106
 
 #include "KnR_getline.h"
 #include <ctype.h>

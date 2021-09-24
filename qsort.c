@@ -1,4 +1,4 @@
-// Ritchie, D. and Kernighan, W. (1988) p78
+// Ritchie, D.M. and Kernighan, B.W. (1988) p78
 
 void swap(int v[], int i, int j)
 {	/* swap: interchange v[i] and v[j] */

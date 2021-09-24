@@ -1,4 +1,4 @@
-// Ritchie, D. and Kernighan, W. (1988) p45
+// Ritchie, D.M. and Kernighan, B.W. (1988) p45
 
 char * squeeze(char s[], int c)
 { /* squeeze: delete all c from s */
@@ -23,7 +23,7 @@ char * KnR_strcat(char s[], char t[])
 	return s;
 }
 
-// Ritchie, D. and Kernighan, W. (1988) p64
+// Ritchie, D.M. and Kernighan, B.W. (1988) p64
 
 int strindex_1st(char s[], char t[])
 {	/* strindex: return index of t in s, -1 if none */

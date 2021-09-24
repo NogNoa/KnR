@@ -1,4 +1,4 @@
-// Ritchie, D. and Kernighan, W. (1988) p86
+// Ritchie, D.M. and Kernighan, B.W. (1988) p86
 #ifndef printf
 	#include <stdio.h>
 #endif
@@ -84,7 +84,7 @@ int getfloat(double *pn)
 	return c;
 }
 
-// Ritchie, D. and Kernighan, W. (1988) p69
+// Ritchie, D.M. and Kernighan, B.W. (1988) p69
 
 #include <string.h> /* for strlen() */
 #define BUFSIZE 100
@@ -117,7 +117,7 @@ void unget(char s[])
 			buf[bufp++] = s[i];
 }
 
-// Ritchie, D. and Kernighan, W. (1988) p91
+// Ritchie, D.M. and Kernighan, B.W. (1988) p91
 
 #define ALLOCSIZE 10000 /* size of available space */
 static char allocbuf[ALLOCSIZE]; /* storage for alloc */
@@ -140,7 +140,7 @@ void afree(char *p) /* free storage pointed to by p */
 
 #include "dcl.h"
 
-// Ritchie, D. and Kernighan, W. (1988) p111
+// Ritchie, D.M. and Kernighan, B.W. (1988) p111
 
 int gettoken(void) 
 { /* return next token */
@@ -184,7 +184,7 @@ and the token is supposed to still be there since the stack is very shallow
 (only used for one token + a charecter after reading a new string token)
 */
 
-// Ritchie, D. and Kernighan, W. (1988) p121
+// Ritchie, D.M. and Kernighan, B.W. (1988) p121
 
 int getword(char *word, size_t lim)
 { /* getword: get next word or character from input */
