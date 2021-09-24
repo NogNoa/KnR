@@ -326,3 +326,19 @@ char uni_getword(char *word, size_t lim)
 	*w--='\0';
 	return *w;
 }
+
+
+/* fgets: get at most n chars from iop */
+char *KnR_fgets(char *s, int n, FILE *iop)
+{
+	register int c;
+	register char *cs;
+	
+	cs = s;
+	while (--n > 0 && (c = getc(iop)) != EOF)
+		if ((*cs++ = c) == '\n')
+			break;
+	*cs = '\0';
+	return (c == EOF && cs == s) ? NULL : s;
+}
+

@@ -21,13 +21,13 @@ void minprintf(char *fmt, ...)
 {  /* minprintf: minimal printf with variable argument list */
 	va_list ap; /* points to each unnamed arg in turn */
 	char *p, *sval, minfmt[3],back[0200];
-	int ival;
+	int ival, pnt_pntae;
 	unsigned uval;
 	double dval;
 	
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) {
-		int fldwd=0, perc=~0;
+		int fldwd=0, prec=~0;
 		
 		if (*p != '%') 
 		{	putchar(*p);
@@ -38,7 +38,7 @@ void minprintf(char *fmt, ...)
 		while(isdigit(*p) || *p=='-')
 			p++;
 		if (*p == '.')
-		{	sscanf(++p,"%d",&perc);
+		{	sscanf(++p,"%d",&prec);
 			while(isdigit(*p) || *p=='-')
 				p++;
 		}
@@ -64,14 +64,18 @@ void minprintf(char *fmt, ...)
 			dval = va_arg(ap, double);
 			sprintf(minfmt,"%%%c",*p);
 			sprintf(back, minfmt, dval);
+			for (pnt_pntae=0; back[pnt_pntae] && back[pnt_pntae++] != '.';)
+				; //++ intentionaly in the middle part of for
+			if(strlen(back)-pnt_pntae > prec)
+				back[pnt_pntae+prec] = '\0';
 			break;
 		case 'p':
 			sprintf(back, "%p", va_arg(ap, void *));
 			break;
 		case 's':
 			sval = va_arg(ap, char*);
-			if (strlen(sval) > perc)
-				sval[perc] = '\0';
+			if (strlen(sval) > prec)
+				sval[prec] = '\0';
 			sprintf(back,"%s",sval);
 			break;
 		default:
@@ -89,4 +93,13 @@ void minprintf(char *fmt, ...)
 
 	}
 	va_end(ap); /* clean up when done */
+}
+
+/* fputs: put string s on file iop */
+int KnR_fputs(char *s, FILE *iop)
+{
+	int c;
+	while ((c = *s++))
+		putc(c, iop);
+	return ferror(iop) ? EOF : 0;
 }

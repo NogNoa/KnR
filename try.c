@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     {   char cmd[0100], header[0100];
         seperate(direct,' ', 0100, 1, header); //seperate don't leave side effects on direct
         seperate(direct,' ', 0100, 2, cmd, header);
-        minprintf("cmd:%11s header:%s\n",cmd, header);
+        minprintf("cmd:%4.2s header:%s\n",cmd, header);
     }
-    minprintf("%3d %-3x %X %o %u %g %p\n", 11, 11, 11, 11, -1, 3.12, direct);
+    minprintf("%3d %-3x %X %o %u %.2g %p\n", 11, 11, 11, 11, -1, 3.1267, direct);
     return 0;
 }

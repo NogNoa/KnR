@@ -25,6 +25,9 @@ undcl:  $(ODIR)/undcl.o $(ODIR)/molon.lb.o dcl.h
 defproc:  $(ODIR)/define_processor.o $(ODIR)/molon.lb.o $(ODIR)/add_remove-string.lb.o $(ODIR)/table_lookup.lb.o
 	$(COMPILE)
 
+try: $(ODIR)/try.o $(ODIR)/molon.lb.o $(ODIR)/add_remove-string.lb.o $(ODIR)/speak.lb.o
+	$(COMPILE) 
+
 .PHONY: check
 .PHONY: check++
 
