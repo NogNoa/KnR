@@ -12,12 +12,15 @@
 #ifndef isdigit
 	#include <ctype.h>
 #endif
+#ifndef atoi
+	#include <stdlib.h>
+#endif
 
 
 void minprintf(char *fmt, ...)
 {  /* minprintf: minimal printf with variable argument list */
 	va_list ap; /* points to each unnamed arg in turn */
-	char *p, *sval, minfmt[3],back[0200];
+	char *p, *sval, minfmt[3],back[0200],nums[020];
 	int ival, fldwd;
 	unsigned uval;
 	double dval;
@@ -29,9 +32,13 @@ void minprintf(char *fmt, ...)
 			continue;
 		}
 
-		sscanf(++p,"%d",&fldwd);
-		while(isdigit(*p++) == 0)
-			;
+		char *s=nums;
+		++p;
+		//sscanf(++p,"%d",&fldwd);
+		while(isdigit(*p) == 0)
+			*s++ = *p++;
+		*s = '\0';
+		fldwd = atoi(nums);
 		
 		switch (*p)
 		{case 'd':

@@ -1,11 +1,11 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 DEPS = tabbin.h
 ODIR = obj
 _OBJ = 
 OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
-OBJPILE = $(CC) $(CFLAGS) -c -g -o $@     $<
-COMPILE = $(CC) $(CFLAGS) -g -o $@.elf $^
+OBJPILE = $(CC) $(CFLAGS) -c -o $@     $<
+COMPILE = $(CC) $(CFLAGS)    -o $@.elf $^
 
 $(ODIR)/%.o: %.c
 	 $(OBJPILE)
