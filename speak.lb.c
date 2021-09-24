@@ -27,7 +27,7 @@ void minprintf(char *fmt, ...)
 	
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) {
-		int fldwd=0;
+		int fldwd=0, perc=~0;
 		
 		if (*p != '%') 
 		{	putchar(*p);
@@ -37,7 +37,11 @@ void minprintf(char *fmt, ...)
 		sscanf(++p,"%d",&fldwd);
 		while(isdigit(*p) || *p=='-')
 			p++;
-		
+		if (*p == '.')
+		{	sscanf(++p,"%d",&perc);
+			while(isdigit(*p) || *p=='-')
+				p++;
+		}
 		switch (*p)
 		{case 'd':
 		case 'i':
@@ -66,6 +70,8 @@ void minprintf(char *fmt, ...)
 			break;
 		case 's':
 			sval = va_arg(ap, char*);
+			if (strlen(sval) > perc)
+				sval[perc] = '\0';
 			sprintf(back,"%s",sval);
 			break;
 		default:
