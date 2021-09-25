@@ -342,3 +342,73 @@ char *KnR_fgets(char *s, int n, FILE *iop)
 	return (c == EOF && cs == s) ? NULL : s;
 }
 
+#ifndef va_list
+	#include <stdarg.h>
+#endif
+
+void minscanf(char *fmt, ...)
+{  /* minscanf: minimal scanf with variable argument list */
+	va_list arg_pnti; /* points to each unnamed arg in turn */
+	char *p, *sval, minfmt[3],c;
+	int *ival;
+	unsigned *uval;
+	double *dval;
+		
+	for(c=getch();isspace(c);c=getch())
+		;
+	
+	va_start(arg_pnti, fmt); /* make ap point to 1st unnamed arg */
+	for (p = fmt; *p; p++) {
+		
+		for(;isspace(*p);p++)
+		{	while(isspace(c))
+			{	c=getch();
+			}
+		}
+		
+		for (;*p && *p != '%' && *p == c;p++,c=getch())
+			;
+		
+		if (*p != '%')
+			continue;
+
+		switch (*++p)
+		{case 'd':
+		case 'i':
+		case 'x':
+		case 'X':
+		case 'o':
+			ival = va_arg(arg_pnti, int*);
+			sprintf(minfmt,"%%%c",*p);
+			scanf(minfmt, ival);
+			break;
+		case 'u':
+			uval = va_arg(arg_pnti, unsigned*);
+			scanf("%u", uval);
+			break;
+		case 'f':
+		case 'e':
+		case 'E':
+		case 'g':
+		case 'G':
+			dval = va_arg(arg_pnti, double*);
+			sprintf(minfmt,"%%%c",*p);
+			scanf(minfmt, dval);
+			break;
+		case 'p':
+			scanf("%p", va_arg(arg_pnti, void **));
+			break;
+		case 's':
+			sval = va_arg(arg_pnti, char*);
+			scanf("%s",sval);
+			break;
+		case '%':
+			if (c=='%')
+				p++, c=getch();
+			break;
+		default:
+			break;
+		}
+	}
+	va_end(arg_pnti); /* clean up when done */
+}
