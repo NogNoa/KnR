@@ -349,7 +349,7 @@ char *KnR_fgets(char *s, int n, FILE *iop)
 void minscanf(char *fmt, ...)
 {  /* minscanf: minimal scanf with variable argument list */
 	va_list arg_pnti; /* points to each unnamed arg in turn */
-	char *p, *sval, minfmt[3],c;
+	char *p, *sval, minfmt[4],c;
 	int *ival;
 	unsigned *uval;
 	double *dval;
@@ -400,14 +400,16 @@ void minscanf(char *fmt, ...)
 		case 'g':
 		case 'G':
 			dval = va_arg(arg_pnti, double*);
-			sprintf(minfmt,"l%%%c",*p);
+			sprintf(minfmt,"%%l%c",*p);
 			scanf(minfmt, dval);
 			break;
 		case 'p':
 			scanf("%p", va_arg(arg_pnti, void **));
 			break;
 		case 's':
+		case 'c':
 			sval = va_arg(arg_pnti, char*);
+			sprintf(minfmt,"%%%c",*p);
 			scanf("%s",sval);
 			break;
 		case '%':

@@ -20,14 +20,17 @@
 void minprintf(char *fmt, ...)
 {  /* minprintf: minimal printf with variable argument list */
 	va_list ap; /* points to each unnamed arg in turn */
-	char *p, *sval, minfmt[3],back[0200];
-	int ival, pnt_pntae;
+	char *p, *sval, minfmt[4],back[0200];
+	int pnt_pntae;
+	long int ival;
 	unsigned uval;
 	double dval;
+	;
 	
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) {
 		int fldwd=0, prec=~0;
+		char vall='\0';
 		
 		if (*p != '%') 
 		{	putchar(*p);
@@ -42,17 +45,31 @@ void minprintf(char *fmt, ...)
 			while(isdigit(*p) || *p=='-')
 				p++;
 		}
+
+		if (*p == 'l' || *p == 'h')
+			vall=*p++;
+
 		switch (*p)
 		{case 'd':
 		case 'i':
-		case 'x':
-		case 'X':
-		case 'o':
 			ival = va_arg(ap, int);
-			sprintf(minfmt,"%%%c",*p);
+			switch(vall)
+			{case 'l':
+				sprintf(minfmt,"%%l%c",*p);
+				break;
+			case 'h' :
+				sprintf(minfmt,"%%h%c",*p);
+				break;
+			default :
+				sprintf(minfmt,"%%%c",*p);
+				break;
+			}
 			sprintf(back, minfmt, ival);
 			break;
 		case 'u':
+		case 'x':
+		case 'X':
+		case 'o':
 			uval = va_arg(ap, unsigned);
 			printf("%u", uval);
 			break;
@@ -78,6 +95,8 @@ void minprintf(char *fmt, ...)
 				sval[prec] = '\0';
 			sprintf(back,"%s",sval);
 			break;
+		case 'c':
+			sprintf(back,"%c",va_arg(ap, int));
 		default:
 			sprintf(back,"%c",*p);
 			break;
