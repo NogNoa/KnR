@@ -352,13 +352,19 @@ void minscanf(char *fmt, ...)
 	char *p, *sval, minfmt[4],c;
 	int *ival;
 	unsigned *uval;
+	float *fievel;
 	double *dval;
+	short *sival;
+	long *lival;
+	unsigned short *suval;
+	unsigned long *luval;
 		
 	for(c=getch();isspace(c);c=getch())
 		;
 	
 	va_start(arg_pnti, fmt); /* make ap point to 1st unnamed arg */
-	for (p = fmt; *p; p++) {
+	for (p = fmt; *p; p++) 
+	{	char vallen;
 		
 		if(!c)
 			c=getchar();
@@ -380,28 +386,69 @@ void minscanf(char *fmt, ...)
 			c=0;
 		}
 
+		if (*++p == 'l' || *p == 'h')
+			vallen=*p;
+
 		switch (*++p)
-		{case 'd':
+         {case 'd':
 		case 'i':
+			switch(vallen)
+			{case 'l':
+				lival = va_arg(arg_pnti, long int*);
+				sprintf(minfmt,"%%l%c",*p);
+				scanf(minfmt, lival);
+				break;
+			case 'h' :
+				sival = va_arg(arg_pnti, short int*);
+				sprintf(minfmt,"%%h%c",*p);
+				scanf(minfmt, sival);
+				break;
+			default :
+				ival = va_arg(arg_pnti, int*);
+				sprintf(minfmt,"%%%c",*p);
+				scanf(minfmt, ival);
+				break;
+			}	
+			break;
+		case 'u':
 		case 'x':
 		case 'X':
 		case 'o':
-			ival = va_arg(arg_pnti, int*);
-			sprintf(minfmt,"%%%c",*p);
-			scanf(minfmt, ival);
-			break;
-		case 'u':
-			uval = va_arg(arg_pnti, unsigned*);
-			scanf("%u", uval);
+			switch(vallen)
+			{case 'l':
+				luval = va_arg(arg_pnti, long unsigned*);
+				sprintf(minfmt,"%%l%c",*p);
+				scanf(minfmt, luval);
+				break;
+			case 'h' :
+				suval = va_arg(arg_pnti, short unsigned*);
+				sprintf(minfmt,"%%h%c",*p);
+				scanf(minfmt, suval);
+				break;
+			default :
+				uval = va_arg(arg_pnti, unsigned*);
+				sprintf(minfmt,"%%%c",*p);
+				scanf(minfmt, uval);
+				break;
+			}
 			break;
 		case 'f':
 		case 'e':
 		case 'E':
 		case 'g':
 		case 'G':
-			dval = va_arg(arg_pnti, double*);
-			sprintf(minfmt,"%%l%c",*p);
-			scanf(minfmt, dval);
+			switch(vallen)
+			{case 'l':
+				dval = va_arg(arg_pnti, double*);
+				sprintf(minfmt,"%%l%c",*p);
+				scanf(minfmt, dval);
+				break;
+			default:
+				fievel = va_arg(arg_pnti, float*);
+				sprintf(minfmt,"%%%c",*p);
+				scanf(minfmt, fievel);
+				break;
+			}
 			break;
 		case 'p':
 			scanf("%p", va_arg(arg_pnti, void **));

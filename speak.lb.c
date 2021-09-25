@@ -28,8 +28,8 @@ void minprintf(char *fmt, ...)
 	;
 	
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
-	for (p = fmt; *p; p++) {
-		int fldwd=0, prec=~0;
+	for (p = fmt; *p; p++) 
+	{	int fldwd=0, prec=~0;
 		char minfmt[4]="%";
 		
 		if (*p != '%') 
