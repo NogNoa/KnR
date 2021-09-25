@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     double g;
     void  *p;
 
-    minscanf("%d %x %X %o %u %g %p\n",&i,&ix,&ex,&o,&u, &g, &p);
+    minscanf("%d r%x %X %o %u %g %p\n",&i,&ix,&ex,&o,&u, &g, &p);
     minprintf("%d %x %X %o %u %g %p\n",i,ix,ex,o,u, g, p);
 
     return 0;

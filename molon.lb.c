@@ -360,17 +360,25 @@ void minscanf(char *fmt, ...)
 	va_start(arg_pnti, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) {
 		
+		if(!c)
+			c=getchar();
+
 		for(;isspace(*p);p++)
 		{	while(isspace(c))
-			{	c=getch();
+			{	c=getchar();
 			}
 		}
 		
-		for (;*p && *p != '%' && *p == c;p++,c=getch())
+		for (;*p && *p != '%' && *p == c;p++,c=getchar())
 			;
 		
 		if (*p != '%')
-			continue;
+			break;
+
+		if (c)
+		{	ungetc(c, stdin);
+			c=0;
+		}
 
 		switch (*++p)
 		{case 'd':
@@ -392,7 +400,7 @@ void minscanf(char *fmt, ...)
 		case 'g':
 		case 'G':
 			dval = va_arg(arg_pnti, double*);
-			sprintf(minfmt,"%%%c",*p);
+			sprintf(minfmt,"l%%%c",*p);
 			scanf(minfmt, dval);
 			break;
 		case 'p':
