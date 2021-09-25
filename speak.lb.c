@@ -29,7 +29,8 @@ void minprintf(char *fmt, ...)
 	
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) 
-	{	int fldwd=0, prec=~0;
+	{	int fldwd=0;
+		unsigned prec=~0;
 		char minfmt[5]="%";
 		
 		if (*p != '%') 
@@ -64,7 +65,7 @@ void minprintf(char *fmt, ...)
 			uval = va_arg(ap, unsigned);
 			strcpy(temp,minfmt);
 			sprintf(minfmt,"%s%c",temp,*p);
-			printf(minfmt, uval);
+			sprintf(back,minfmt, uval);
 			break;
 		case 'f':
 		case 'e':

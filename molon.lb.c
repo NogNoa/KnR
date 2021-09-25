@@ -387,9 +387,9 @@ void minscanf(char *fmt, ...)
 		}
 
 		if (*++p == 'l' || *p == 'h')
-			vallen=*p;
+			vallen=*p++;
 
-		switch (*++p)
+		switch (*p)
          {case 'd':
 		case 'i':
 			switch(vallen)
