@@ -1,22 +1,16 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
 
-char get_directive(char *direct, size_t lim);
-void seperate(char *str, char sep, size_t lim, int vacount, ...);
 void minprintf(char *fmt, ...);
+void minscanf(char *fmt, ...);
 
 int main(int argc, char *argv[])
 {
-    stdin = fopen("table_lookup.lb.c","r");
+    int i, ix, ex, o, u;
+    double g;
+    void  *p;
 
-    char direct[0200];
-    while (get_directive(direct, 0200) != '\0')
-    {   char cmd[0100], header[0100];
-        seperate(direct,' ', 0100, 1, header); //seperate don't leave side effects on direct
-        seperate(direct,' ', 0100, 2, cmd, header);
-        minprintf("cmd:%4.2s header:%s\n",cmd, header);
-    }
-    minprintf("%3d %-3x %X %o %u %.2g %p\n", 11, 11, 11, 11, -1, 3.1267, direct);
+    minscanf("%d %x %X %o %u %g %p\n",&i,&ix,&ex,&o,&u, &g, &p);
+    minprintf("%d %x %X %o %u %g %p\n",i,ix,ex,o,u, g, p);
+
     return 0;
 }
