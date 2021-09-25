@@ -20,7 +20,7 @@
 void minprintf(char *fmt, ...)
 {  /* minprintf: minimal printf with variable argument list */
 	va_list ap; /* points to each unnamed arg in turn */
-	char *p, *sval,back[0200], *temp="%";
+	char *p, *sval,back[0200], temp[4]="%";
 	int pnt_pntae;
 	long int ival;
 	unsigned long uval;
@@ -30,7 +30,7 @@ void minprintf(char *fmt, ...)
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) 
 	{	int fldwd=0, prec=~0;
-		char minfmt[4]="%";
+		char minfmt[5]="%";
 		
 		if (*p != '%') 
 		{	putchar(*p);
