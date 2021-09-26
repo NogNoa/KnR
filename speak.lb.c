@@ -42,7 +42,7 @@ void minprintf(char *fmt, ...)
 		while(isdigit(*p) || *p=='-')
 			p++;
 		if (*p == '.')
-		{	sscanf(++p,"%d",&prec);
+		{	sscanf(++p,"%u",&prec);
 			while(isdigit(*p) || *p=='-')
 				p++;
 		}

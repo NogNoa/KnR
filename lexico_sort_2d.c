@@ -19,7 +19,7 @@ _Bool dircord; /* 1 if directory order sort */
 int readlines(char *lineptr[][512], int nlines, char dlimit, char *snglptr);
 void fieldseperate(char *fieldptr[], char dlimit);
 void writelines(char *lineptr[][512], int nlines, char dlimit);
-void set_state(char *arg, struct state *stt)
+void set_state(char *arg, struct state *stt);
 void KnR_qsort(void *lineptr[], int left, int right, int (*cmp)(void *, void *, void *));
 int numcmp(char *s1, char *s2, struct state *);
 int lexcmp(char *cs,char *ct, struct state *stt);
@@ -28,15 +28,15 @@ int fieldcmp (char fp1[], char fp2[], struct state stti[]);
 int main(int argc, char *argv[])
 {	/* sort input lines */
 	int nlines; /* number of input lines re'd */
-	char buffer[MAXLEN];
+	char buffer[MAXLEN], *arg;
 
 	//stdin = fopen("a.txt", "r");
 	char dlimit = ' ';
 
 	if (argc > 2)
-		set_state(arg[2], fieldstt)
+		set_state(argv[2], &fieldstt);
 	if (argc > 1 && (arg=argv[1])[0] == '-')
-		set_state(arg[1], linstt)
+		set_state(argv[1], &linstt);
 	if ((nlines = readlines(lineptr, MAXLINES,dlimit,buffer)) >= 0) 
 	{	KnR_qsort((void**) lineptr, 0, nlines-1,
 		(int (*)(void*,void*,void*))(linstt.numeric ? numcmp : lexcmp));
@@ -54,10 +54,10 @@ void set_state(char *arg, struct state *stt)
 	if (*arg == '-')
 	{	char c;
 		while ((c = *++arg ))
-		{	stt.numeric |= (c == 'n');
-			stt.reverse |= (c == 'r');
-			stt.casefld |= (c == 'f');
-			stt.dircord |= (c == 'd');
+		{	stt->numeric |= (c == 'n');
+			stt->reverse |= (c == 'r');
+			stt->casefld |= (c == 'f');
+			stt->dircord |= (c == 'd');
 		}
 	}
 }
@@ -150,10 +150,11 @@ void swap(void *v[], int i, int j)
 }
 
 void swaplines(void *v[], int linei, int linej)
-	while (*++(v[linei]) && *++(v[linej]))
+{	while (*++(v[linei]) && *++(v[linej]))
 	{	
 
 	}
+}
 
 void KnR_qsort(void *v[], int left, int right,
 	int (*cmp)(void *, void *, void *))

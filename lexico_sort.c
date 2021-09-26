@@ -14,7 +14,7 @@ typedef char *(*page)[MAXLEN/2];
 static char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
 static int nfield=1;
 
-static struct state{
+struct state{
 _Bool numeric; /* 1 if numeric sort */
 _Bool reverse; /* 1 if reverse sort */
 _Bool casefld; /* 1 if case insensitive sort */
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	if ((nlines = readlines(lineptr, MAXLINES, dlimit)) >= 0) 
-	{	KnR_qsort((char ***) lineptr, 0, nlines-1, stti);
+	{	KnR_qsort(lineptr, 0, nlines-1, stti);
 		writelines(lineptr, nlines, dlimit);
 		return 0;
 	} 

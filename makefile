@@ -32,7 +32,7 @@ try: $(ODIR)/try.o $(ODIR)/molon.lb.o $(ODIR)/speak.lb.o
 .PHONY: check++
 
 check: 
-	$(CC) $(CFLAGS) -o out.o *.c
+	$(CC) -Wall -pedantic -o out.o *.c
 
 check++: %.c
-	g++ $(CFLAGS) -c -o out.o $<
+	g++ -Wall -pedantic -c -o out.o $<
