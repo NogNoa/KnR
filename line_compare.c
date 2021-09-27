@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define LIN_S 0120
+#define LIN_S 0200
 
 int main(int argc, char* argv[])
 {
@@ -24,14 +24,14 @@ int main(int argc, char* argv[])
 			break;
 	}
 	if (liner && linand)
-	{	printf("The first difference between %s and %s is on line %d.\n\n\n",argv[1],argv[2],iline);
+	{	printf("The first difference between %s and %s is on line %d.\n\n",argv[1],argv[2],iline);
 		printf("%s line %d:\n%s\n",argv[1],iline,liner);
 		printf("%s line %d:\n%s\n",argv[2],iline,linand);
 	}
 	else if (liner)
-		printf("%s and %s are identical until the end of %s.\n %s continues %s",argv[1],argv[2],argv[2],argv[1],liner);
-	else if (linand)
-		printf("%s and %s are identical until the end of %s.\n %s continues %s",argv[1],argv[2],argv[1],argv[2],linand);
+		printf("%s and %s are identical until the end of %s.\n%s continues: %s",argv[1],argv[2],argv[2],argv[1],liner);
+	else if (linand = fgets(linand, LIN_S, comperand))
+		printf("%s and %s are identical until the end of %s.\n%s continues: %s",argv[1],argv[2],argv[1],argv[2],linand);
 	else
-		printf("both %s and %s are completely identical",argv[1],argv[2]);
+		printf("both %s and %s are completely identical\n",argv[1],argv[2]);
 }
