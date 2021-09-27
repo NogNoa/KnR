@@ -28,5 +28,10 @@ int main(int argc, char* argv[])
 		printf("%s line %d:\n%s\n",argv[1],iline,liner);
 		printf("%s line %d:\n%s\n",argv[2],iline,linand);
 	}
-	
+	else if (liner)
+		printf("%s and %s are identical until the end of %s.\n %s continues %s",argv[1],argv[2],argv[2],argv[1],liner);
+	else if (linand)
+		printf("%s and %s are identical until the end of %s.\n %s continues %s",argv[1],argv[2],argv[1],argv[2],linand);
+	else
+		printf("both %s and %s are completely identical",argv[1],argv[2]);
 }
