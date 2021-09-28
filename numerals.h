@@ -10,17 +10,23 @@ int binarise_single(bcd call)
 
 //bcd arrs are little endian, as all things should be.
 
-int binarise(bcd call[])
+int binarise_wraped(bcd call[], int len, int iter)
 {
-	if (!call)
+	if (iter>=len)
 		return 0;
 	else
-		return binarise_single(*call) + 10*binarise(call+1);
+	{	return 10*binarise_wraped(call+1,len,iter+1) + binarise_single(*call);
+	}
+}
+
+int binarise(bcd call[], int len)
+{
+	binarise_wraped(call, len, 0);
 }
 
 void reveal(bcd call[])
 {
-	printf("%d",binarise(call));
+	printf("%d",binarise(call,sizeof call / sizeof(bcd)));
 }
 
 bcd decimise_single(int call)
