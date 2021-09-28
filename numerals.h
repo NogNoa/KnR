@@ -12,7 +12,7 @@ int binarise_single(bcd call)
 
 int binarise_wraped(bcd call[], int len, int iter)
 {
-	if (iter>=len)
+	if (iter>=len || !call)
 		return 0;
 	else
 	{	return 10*binarise_wraped(call+1,len,iter+1) + binarise_single(*call);
@@ -21,12 +21,12 @@ int binarise_wraped(bcd call[], int len, int iter)
 
 int binarise(bcd call[], int len)
 {
-	binarise_wraped(call, len, 0);
+	return binarise_wraped(call, len, 0);
 }
 
-void reveal(bcd call[])
+void reveal(bcd call[], int len)
 {
-	printf("%d",binarise(call,sizeof call / sizeof(bcd)));
+	printf("%d",binarise(call, len));
 }
 
 bcd decimise_single(int call)
