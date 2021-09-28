@@ -12,15 +12,17 @@ typedef struct
 
 int find(char *, state, FILE *);
 
-char ** strarr_allocate(int argc, char **argv)
-{	char *codii[argc];
-	char buffer[0200];
+char ** strarr_allocate(int argc, char **argv, char **codii)
+{	char buffer[0200];
 	size_t len;
+	
+	codii = calloc(argc, sizeof (char *));
 	char **back = codii;
 	
 	for (; argc> 0;argc--)
-	{	len=strncpy(buffer, *argv, 0200);
-		*codii++ = malloc(len+1);
+	{	strncpy(buffer, *argv, 0200);
+		*codii = malloc(strlen(buffer)+1);
+		strcpy(*codii++,buffer);
 	}
 	return back;
 }
@@ -58,9 +60,11 @@ int main(int argc, char *argv[])
 		pattern = *argv;
 
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
-		codii = strarr_allocate(argc, argv);
+		codii = strarr_allocate(argc, argv, codii);
 	else
-		codii = {"stdin"}; 
+	{	*codii = malloc(6);
+		*codii = "stdin"; 
+	}
 
 	stt.found = find(pattern, stt, stdin);
 	return stt.found;
