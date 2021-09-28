@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 		case 'n':
 			stt.number = 1;
 			break;
-			case 'f':
+		case 'f':
 			fprintf(stderr, "before listing files, give me the pattern");
 			argc = 0;
 			stt.found = -1;
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	else
 		pattern = *argv;
 
-	if (strncmp(*++argv,"-f",2))
+	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
 		codex = fopen(*++argv,"r");
 	else
 		codex = stdin;
