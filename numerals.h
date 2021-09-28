@@ -5,14 +5,14 @@ typedef struct {
 
 int binarise_single(bcd call)
 {
-	return (signed) (call.eight) ? (call.rest > 1 ? 10 : 8 + call.rest) : call.rest;
+	return (signed) (call.eight) ? (call.rest ? 9 : 8) : call.rest;
 }
 
 //bcd arrs are little endian, as all things should be.
 
 int binarise_wraped(bcd call[], int len, int iter)
 {
-	if (iter>=len || !call)
+	if (iter>=len)
 		return 0;
 	else
 	{	return 10*binarise_wraped(call+1,len,iter+1) + binarise_single(*call);
@@ -26,7 +26,7 @@ int binarise(bcd call[], int len)
 
 void reveal(bcd call[], int len)
 {
-	printf("%d",binarise(call, len));
+	printf("%d\n",binarise(call, len));
 }
 
 bcd decimise_single(int call)
