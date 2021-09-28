@@ -12,10 +12,25 @@ typedef struct
 
 int find(char *, state, FILE *);
 
+char ** strarr_allocate(int argc, char **argv)
+{	char *codii[argc];
+	char buffer[0200];
+	size_t len;
+	char **back = codii;
+	
+	for (; argc> 0;argc--)
+	{	len=strncpy(buffer, *argv, 0200);
+		*codii++ = malloc(len+1);
+	}
+	return back;
+}
+
 int main(int argc, char *argv[])
 {	char c, *pattern; 
 	state stt = {0,0,0};
 	FILE *codex;
+
+	char **codii;
 
 	while (--argc > 0 && (*++argv)[0] == '-')
 		while ((c = *++argv[0]))
@@ -43,11 +58,11 @@ int main(int argc, char *argv[])
 		pattern = *argv;
 
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
-		codex = fopen(*++argv,"r");
+		codii = strarr_allocate(argc, argv);
 	else
-		codex = stdin;
+		codii = {"stdin"}; 
 
-	stt.found = find(pattern, stt, codex);
+	stt.found = find(pattern, stt, stdin);
 	return stt.found;
 }
 
@@ -55,7 +70,7 @@ int find(char *str, state stt, FILE *codex)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	char *line;
-	size_t maxline = 02000;
+	size_t maxline = 0200;
 	line = (char *) malloc(maxline);
 
 	while (getline(&line, &maxline, codex) > 0)
@@ -69,3 +84,5 @@ int find(char *str, state stt, FILE *codex)
 	}
 	return stt.found;
 }
+
+/* Make codii array. make allocation function. make switch file function. */
