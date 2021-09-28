@@ -9,7 +9,7 @@ typedef struct
 		_Bool except, number;
 	}state;
 
-int find(char *argv[], state stt);
+int find(char *, state);
 
 int main(int argc, char *argv[])
 {	char c; 
@@ -33,11 +33,11 @@ int main(int argc, char *argv[])
 	if (argc != 1)
 		printf("Usage: find -x -n pattern\n"); 
 	else
-		stt.found = find(argv, stt);
+		stt.found = find(*argv, stt);
 	return stt.found;
 }
 
-int find(char *argv[], state stt)
+int find(char *str, state stt)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	char *line;
@@ -46,7 +46,7 @@ int find(char *argv[], state stt)
 
 	while (getline(&line, &maxline, stdin) > 0)
 	{	lineno++;
-		if ((strstr(line, *argv) != NULL) != stt.except) 
+		if ((strstr(line, str) != NULL) != stt.except) 
 		{	if (stt.number)
 				printf("%ld:", lineno);
 			printf("%s", line);
