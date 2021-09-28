@@ -1,5 +1,7 @@
 #include <string.h>
-#include "KnR_getline.lb.c"
+#include <stdio.h>
+
+#define MAXLINE 02000
 
 // Ritchie, D.M. and Kernighan, B.W. (1988) p104
 
@@ -26,7 +28,7 @@ int find(int argc, char *argv[])
 		}
 	if (argc != 1)
 		printf("Usage: find -x -n pattern\n");
-	else while (KnR_getline(line, MAXLINE) > 0)
+	else while (fgets(line, MAXLINE, stdin) > 0)
 	{	lineno++;
 		if ((strstr(line, *argv) != NULL) != except) 
 		{	if (number)
