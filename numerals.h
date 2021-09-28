@@ -8,7 +8,7 @@ int binarise_single(bcd call)
 	return (signed) (call.eight) ? (call.rest ? 9 : 8) : call.rest;
 }
 
-//bcd arrs are little endian, as all things should be.
+//bcd arrays are little endian, as all things should be.
 
 int binarise_wraped(bcd call[], int len, int iter)
 {
