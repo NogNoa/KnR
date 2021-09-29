@@ -14,7 +14,6 @@ int find(char *, state, char **);
 
 char ** strarr_allocate(int argc, char **argv, char **codii)
 {	char buffer[0201];
-	size_t len;
 	
 	codii = calloc(argc, sizeof (char *));
 	char **back = codii;
@@ -30,10 +29,8 @@ char ** strarr_allocate(int argc, char **argv, char **codii)
 int main(int argc, char *argv[])
 {	char c, *pattern; 
 	state stt = {0,0,0};
-	FILE *codex;
 
 	char **codii;
-	*codii = "";
 
 	while (--argc > 0 && (*++argv)[0] == '-')
 		while ((c = *++argv[0]))
@@ -62,9 +59,14 @@ int main(int argc, char *argv[])
 
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
 		codii = strarr_allocate(argc, argv, codii);
-
+	else
+	{	codii=malloc(1);
+		*codii = "";
+	}
+	
 	if (stt.found > -1)
 		stt.found = find(pattern, stt, codii);
+	
 	return stt.found;
 }
 
@@ -73,14 +75,13 @@ FILE * file_switch(FILE *codex, char** codii, int count);
 int find(char *str, state stt, char **codii)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
-	char *line;
 	FILE *codex;
-	int count_codii = 0;
+	int count_codii = -1;
 	size_t maxline = 0200;
-	line = (char *) malloc(maxline);
+	char *line = (char *) malloc(maxline);
 
-	while ((codex = file_switch(codex, codii, count_codii)) != NULL)
-	{	printf("\n%i  -  %s:\n", count_codii, codii[count_codii++]);
+	while ((codex = file_switch(codex, codii, ++count_codii)) != NULL)
+	{	printf("\n%i  -  %s:\n", count_codii, codii[count_codii]);
 		while (getline(&line, &maxline, codex) > 0)
 		{	lineno++;
 			if ((strstr(line, str) != NULL) != stt.except) 
