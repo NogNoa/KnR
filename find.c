@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
 		codii = strarr_allocate(argc, argv, codii);
 	else
-	{	*codii = malloc(6);
-		*codii = "stdin"; 
+	{	*codii = malloc(1);
+		*codii = "\01"; 
 	}
 
 	stt.found = find(pattern, stt, codii);
@@ -76,7 +76,7 @@ int find(char *str, state stt, char **codii)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	char *line;
-	FILE *codex;
+	FILE *codex=0;
 	size_t maxline = 0200;
 	line = (char *) malloc(maxline);
 
@@ -97,7 +97,12 @@ FILE * file_switch(FILE *codex, char** codii)
 {
 	static int count_codii; //static variables are guaranteed to init 0;
 
-	fclose(codex);
+	if (codex)
+		fclose(codex);
+	if (*codii[count_codii] == '\01')
+	{	count_codii++;
+		return stdin;
+	}
 	return fopen(codii[count_codii++],"r");
 }
 
