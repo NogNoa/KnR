@@ -10,21 +10,10 @@ typedef struct
 		_Bool except, number;
 	}state;
 
+//external
+char ** strarr_allocate(int argc, char **argv, char **codii);
+//internal
 int find(char *, state, char **);
-
-char ** strarr_allocate(int argc, char **argv, char **codii)
-{	char buffer[0201];
-	
-	codii = calloc(argc, sizeof (char *));
-	char **back = codii;
-	
-	while (argc--> 0)
-	{	strncpy(buffer, *++argv, 0200);
-		*codii = malloc(strlen(buffer)+1);
-		strcpy(*codii++,buffer);
-	}
-	return back;
-}
 
 int main(int argc, char *argv[])
 {	char c, *pattern; 
@@ -70,6 +59,7 @@ int main(int argc, char *argv[])
 	return stt.found;
 }
 
+//external
 FILE * file_switch(FILE *codex, char** codii, int count);
 
 int find(char *str, state stt, char **codii)
@@ -94,17 +84,6 @@ int find(char *str, state stt, char **codii)
 		}
 	}
 	return stt.found;
-}
-
-FILE * file_switch(FILE *codex, char** codii, int count_codii)
-{
-	if (count_codii==0)
-	{	if (!*codii)
-			return stdin;
-	}
-	else
-		fclose(codex);
-	return fopen(codii[count_codii],"r");
 }
 
 /* Make codii array. make allocation function. make switch file function. */

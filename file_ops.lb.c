@@ -21,3 +21,30 @@ char * file_stringise(char * filename)
   }
   return buffer;
 }
+
+#include <string.h>
+
+FILE * file_switch(FILE *codex, char** codii, int index_codii)
+{
+  if (index_codii==0)
+  { if (!*codii)
+      return stdin;
+  }
+  else
+    fclose(codex);
+  return fopen(codii[index_codii],"r");
+}
+
+char ** strarr_allocate(int argc, char **argv, char **codii)
+{ char buffer[0201];
+  
+  codii = calloc(argc, sizeof (char *));
+  char **back = codii;
+  
+  while (argc--> 0)
+  { strncpy(buffer, *++argv, 0200);
+    *codii = malloc(strlen(buffer)+1);
+    strcpy(*codii++,buffer);
+  }
+  return back;
+}
