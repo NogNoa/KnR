@@ -19,7 +19,7 @@ char ** strarr_allocate(int argc, char **argv, char **codii)
 	codii = calloc(argc, sizeof (char *));
 	char **back = codii;
 	
-	while (--argc> 0)
+	while (argc--> 0)
 	{	strncpy(buffer, *++argv, 0200);
 		*codii = malloc(strlen(buffer)+1);
 		strcpy(*codii++,buffer);
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	state stt = {0,0,0};
 	FILE *codex;
 
-	char **codii;
+	char **codii={""};
 
 	while (--argc > 0 && (*++argv)[0] == '-')
 		while ((c = *++argv[0]))
@@ -61,10 +61,6 @@ int main(int argc, char *argv[])
 
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
 		codii = strarr_allocate(argc, argv, codii);
-	else
-	{	*codii = malloc(1);
-		*codii = "\01"; 
-	}
 
 	stt.found = find(pattern, stt, codii);
 	return stt.found;
@@ -76,7 +72,7 @@ int find(char *str, state stt, char **codii)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	char *line;
-	FILE *codex=0;
+	FILE *codex;
 	size_t maxline = 0200;
 	line = (char *) malloc(maxline);
 
@@ -97,12 +93,14 @@ FILE * file_switch(FILE *codex, char** codii)
 {
 	static int count_codii; //static variables are guaranteed to init 0;
 
-	if (codex)
-		fclose(codex);
-	if (*codii[count_codii] == '\01')
-	{	count_codii++;
-		return stdin;
+	if (count_codii==0)
+	{	if (!*codii)
+		{	count_codii++;
+			return stdin;
+		}
 	}
+	else
+		fclose(codex);
 	return fopen(codii[count_codii++],"r");
 }
 
