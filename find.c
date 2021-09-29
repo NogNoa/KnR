@@ -10,7 +10,7 @@ typedef struct
 		_Bool except, number;
 	}state;
 
-int find(char *, state, FILE *, char **);
+int find(char *, state, char **);
 
 char ** strarr_allocate(int argc, char **argv, char **codii)
 {	char buffer[0201];
@@ -66,29 +66,30 @@ int main(int argc, char *argv[])
 		*codii = "stdin"; 
 	}
 
-	stt.found = find(pattern, stt, fopen("find.c", "r"), codii);
+	stt.found = find(pattern, stt, codii);
 	return stt.found;
 }
 
 FILE * file_switch(FILE *codex, char** codii);
 
-int find(char *str, state stt, FILE *codex, char **codii)
+int find(char *str, state stt, char **codii)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	char *line;
+	FILE *codex;
 	size_t maxline = 0200;
 	line = (char *) malloc(maxline);
 
-	while (getline(&line, &maxline, codex) > 0)
-	{	codex = file_switch(codex, codii);
-		lineno++;
-		if ((strstr(line, str) != NULL) != stt.except) 
-		{	if (stt.number)
-				printf("%ld:", lineno);
-			printf("%s", line);
-			stt.found++;
+	while ((codex = file_switch(codex, codii)) != NULL)
+		while (getline(&line, &maxline, codex) > 0)
+		{	lineno++;
+			if ((strstr(line, str) != NULL) != stt.except) 
+			{	if (stt.number)
+					printf("%ld:", lineno);
+				printf("%s", line);
+				stt.found++;
+			}
 		}
-	}
 	return stt.found;
 }
 
