@@ -32,7 +32,8 @@ int main(int argc, char *argv[])
 	state stt = {0,0,0};
 	FILE *codex;
 
-	char **codii={""};
+	char **codii;
+	*codii = "";
 
 	while (--argc > 0 && (*++argv)[0] == '-')
 		while ((c = *++argv[0]))
@@ -55,53 +56,54 @@ int main(int argc, char *argv[])
 			break;
 		}
 	if (--argc <= 0)
-		printf("Usage: find -x -n pattern -f files\n"); 
+		printf("Usage: find -x -n pattern -f files\n");
 	else
 		pattern = *argv;
 
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
 		codii = strarr_allocate(argc, argv, codii);
 
-	stt.found = find(pattern, stt, codii);
+	if (stt.found > -1)
+		stt.found = find(pattern, stt, codii);
 	return stt.found;
 }
 
-FILE * file_switch(FILE *codex, char** codii);
+FILE * file_switch(FILE *codex, char** codii, int count);
 
 int find(char *str, state stt, char **codii)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	char *line;
 	FILE *codex;
+	int count_codii = 0;
 	size_t maxline = 0200;
 	line = (char *) malloc(maxline);
 
-	while ((codex = file_switch(codex, codii)) != NULL)
+	while ((codex = file_switch(codex, codii, count_codii)) != NULL)
+	{	printf("\n%i  -  %s:\n", count_codii, codii[count_codii++]);
 		while (getline(&line, &maxline, codex) > 0)
 		{	lineno++;
 			if ((strstr(line, str) != NULL) != stt.except) 
-			{	if (stt.number)
-					printf("%ld:", lineno);
-				printf("%s", line);
+			{	putchar('\t');
+				if (stt.number)
+					printf("%ld", lineno);
+				printf(":%s", line);
 				stt.found++;
 			}
 		}
+	}
 	return stt.found;
 }
 
-FILE * file_switch(FILE *codex, char** codii)
+FILE * file_switch(FILE *codex, char** codii, int count_codii)
 {
-	static int count_codii; //static variables are guaranteed to init 0;
-
 	if (count_codii==0)
 	{	if (!*codii)
-		{	count_codii++;
 			return stdin;
-		}
 	}
 	else
 		fclose(codex);
-	return fopen(codii[count_codii++],"r");
+	return fopen(codii[count_codii],"r");
 }
 
 /* Make codii array. make allocation function. make switch file function. */
