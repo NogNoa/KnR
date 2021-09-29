@@ -13,14 +13,14 @@ typedef struct
 int find(char *, state, FILE *);
 
 char ** strarr_allocate(int argc, char **argv, char **codii)
-{	char buffer[0200];
+{	char buffer[0201];
 	size_t len;
 	
 	codii = calloc(argc, sizeof (char *));
 	char **back = codii;
 	
-	for (; argc> 0;argc--)
-	{	strncpy(buffer, *argv, 0200);
+	while (--argc> 0)
+	{	strncpy(buffer, *++argv, 0200);
 		*codii = malloc(strlen(buffer)+1);
 		strcpy(*codii++,buffer);
 	}
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 			stt.found = -1;
 			break;
 		}
-	if (!**argv)
+	if (--argc <= 0)
 		printf("Usage: find -x -n pattern -f files\n"); 
 	else
 		pattern = *argv;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 		*codii = "stdin"; 
 	}
 
-	stt.found = find(pattern, stt, stdin);
+	stt.found = find(pattern, stt, fopen("find.c", "r"));
 	return stt.found;
 }
 
