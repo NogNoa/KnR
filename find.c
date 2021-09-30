@@ -83,6 +83,7 @@ int find(char *str, state stt, char **codii)
 			}
 		}
 	}
+	free(line);
 	return stt.found;
 }
 
