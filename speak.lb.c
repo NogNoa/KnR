@@ -99,7 +99,7 @@ void minprintf(char *fmt, ...)
 			/*if fldwd is ≤ than strlen(back)
 			 inc. if it negative, than nop */
 			putchar(' ');
-		puts(back);
+		printf("%s",back);;
 		for (int i=strlen(back);i<(-fldwd);i++) 
 			/*Again but the opposite.*/
 			 putchar(' ');

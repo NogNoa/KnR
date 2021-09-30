@@ -25,7 +25,10 @@ undcl:  $(ODIR)/undcl.o $(ODIR)/molon.lb.o dcl.h
 defproc:  $(ODIR)/define_processor.o $(ODIR)/molon.lb.o $(ODIR)/add_remove-string.lb.o $(ODIR)/table_lookup.lb.o
 	$(COMPILE)
 
-find: $(ODIR)/find.o $(ODIR)/file_ops.lb.c
+find: $(ODIR)/find.o $(ODIR)/file_ops.lb.o
+	$(COMPILE)
+
+files_print: $(ODIR)/files_print.o $(ODIR)/file_ops.lb.o
 	$(COMPILE)
 
 try: $(ODIR)/try.o $(ODIR)/molon.lb.o $(ODIR)/speak.lb.o

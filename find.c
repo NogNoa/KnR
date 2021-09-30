@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 		pattern = *argv;
 
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
-		codii = strarr_allocate(argc, argv, codii);
+		codii = strarr_allocate(argc, ++argv, codii);
 	else
 	{	codii=malloc(1);
 		*codii = "";

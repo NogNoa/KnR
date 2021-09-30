@@ -36,15 +36,13 @@ FILE * file_switch(FILE *codex, char** codii, int index_codii)
 }
 
 char ** strarr_allocate(int nom_cnt, char **nomi, char **codii)
-{ char buffer[0201];
-  
+{ 
   codii = calloc(nom_cnt, sizeof (char *));
   char **back = codii;
   
   while (nom_cnt--> 0)
-  { strncpy(buffer, *++nomi, 0200);
-    *codii = malloc(strlen(buffer)+1);
-    strcpy(*codii++,buffer);
+  { *codii = malloc(strlen(*nomi)+1);
+    strcpy(*codii++,*nomi++);
   }
   return back;
 }

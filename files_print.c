@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	int count_codii = 0;
 
 	if (argc > 1)
-		codii = strarr_allocate(--argc, argv, codii);
+		codii = strarr_allocate(--argc, ++argv, codii);
 	
 	while ((codex = file_switch(codex, codii, count_codii)) != NULL)
 		puts(codii[count_codii++]);
