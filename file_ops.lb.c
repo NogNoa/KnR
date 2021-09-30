@@ -35,14 +35,14 @@ FILE * file_switch(FILE *codex, char** codii, int index_codii)
   return fopen(codii[index_codii],"r");
 }
 
-char ** strarr_allocate(int argc, char **argv, char **codii)
+char ** strarr_allocate(int nom_cnt, char **nomi, char **codii)
 { char buffer[0201];
   
-  codii = calloc(argc, sizeof (char *));
+  codii = calloc(nom_cnt, sizeof (char *));
   char **back = codii;
   
-  while (argc--> 0)
-  { strncpy(buffer, *++argv, 0200);
+  while (nom_cnt--> 0)
+  { strncpy(buffer, *++nomi, 0200);
     *codii = malloc(strlen(buffer)+1);
     strcpy(*codii++,buffer);
   }
