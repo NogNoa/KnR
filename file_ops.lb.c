@@ -24,15 +24,18 @@ char * file_stringise(char * filename)
 
 #include <string.h>
 
-FILE * file_switch(FILE *codex, char** codii, int index_codii)
+FILE * file_switch(FILE *codex, char** codii)
 {
+  static int index_codii; //static variables are guaranteed to init 0;
   if (index_codii==0)
   { if (!*codii)
+    {  index_codii++;
       return stdin;
+    }
   }
   else
     fclose(codex);
-  return fopen(codii[index_codii],"r");
+  return fopen(codii[index_codii++],"r");
 }
 
 char ** strarr_allocate(int nom_cnt, char **nomi, char **codii)

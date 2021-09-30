@@ -60,17 +60,17 @@ int main(int argc, char *argv[])
 }
 
 //external
-FILE * file_switch(FILE *codex, char** codii, int count);
+FILE * file_switch(FILE *codex, char** codii);
 
 int find(char *str, state stt, char **codii)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	FILE *codex;
-	int count_codii = -1;
+	int count_codii = 0;
 	size_t maxline = 0200;
 	char *line = (char *) malloc(maxline);
 
-	while ((codex = file_switch(codex, codii, ++count_codii)) != NULL)
+	for (;(codex = file_switch(codex, codii)) != NULL; count_codii++)
 	{	printf("\n%i  -  %s:\n", count_codii, codii[count_codii]);
 		while (getline(&line, &maxline, codex) > 0)
 		{	lineno++;
