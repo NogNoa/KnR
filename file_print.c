@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define PAGELINI 120
+#define PAGELINI 74 /*≈79*sqrt(2)*2/3 
+79 is the python line, sqrt(2) for A-series page, 
+2/3 approximetly hight to width of a latin grapheme
+*/
+
 
 //external
 char ** strarr_allocate(int nom_cnt, char **nomi, char **codii);
@@ -28,17 +32,17 @@ int file_print(FILE *codex)
 	       int line_num    ;
 	size_t maxline = 0200;
 	char *line = (char *) malloc(maxline);
-	_Bool nextpage=1;
+	_Bool lastpage=0;
 
-	while (nextpage)
-	{	for(line_num=1;line_num<PAGELINI;line_num++)
-		{	if (!nextpage)
+	while (!lastpage)
+	{	for(line_num=0;line_num<PAGELINI;line_num++)
+		{	if (lastpage)
 				line="\n";
 			else
-		 		nextpage =getline(&line, &maxline, codex);
+		 		lastpage =(getline(&line, &maxline, codex) == EOF);
 			printf("%s",line);
 		}
-		printf("%40d",page_num++);
+		printf("%40d\n",page_num++);
 	}
 	return page_num;
 }
