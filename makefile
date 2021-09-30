@@ -7,8 +7,8 @@ OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
 OBJPILE = $(CC) $(CFLAGS) -c -o $@     $<
 COMPILE = $(CC) $(CFLAGS)    -o $@.elf $^
 
-$(ODIR)/%.o: %.c
-	 $(OBJPILE)
+try: $(ODIR)/try.o $(ODIR)/molon.lb.o $(ODIR)/speak.lb.o
+	$(COMPILE) 
 
 detab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o
 	$(COMPILE)
@@ -28,12 +28,11 @@ defproc:  $(ODIR)/define_processor.o $(ODIR)/molon.lb.o $(ODIR)/add_remove-strin
 find: $(ODIR)/find.o $(ODIR)/file_ops.lb.o
 	$(COMPILE)
 
-files_print: $(ODIR)/files_print.o $(ODIR)/file_ops.lb.o
+file_print: $(ODIR)/file_print.o $(ODIR)/file_ops.lb.o
 	$(COMPILE)
 
-try: $(ODIR)/try.o $(ODIR)/molon.lb.o $(ODIR)/speak.lb.o
-	$(COMPILE) 
-
+$(ODIR)/%.o: %.c
+	 $(OBJPILE)
 
 .PHONY: check
 .PHONY: check++

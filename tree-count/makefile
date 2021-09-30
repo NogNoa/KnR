@@ -6,6 +6,7 @@ _OBJ = addtree talloc tree_print
 OBJ = $(patsubst %, $(ODIR)/%.o, $(_OBJ))
 OBJPILE = $(CC) $(CFLAGS) -c -o $@     $<
 COMPILE = $(CC) $(CFLAGS)    -o $@.elf $^ 
+.DEFAULT_GOAL = tree_count
 
 $(ODIR)/%.o: %.c $(DEPS)
 	 $(OBJPILE)
