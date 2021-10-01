@@ -8,6 +8,7 @@
  32 - lower: 61-7A
  64 -xdigit: digit | 41-46 | 61-66
 128 - blank: 0A-0D
+
 compound types:
 alpha: UPPER | lower
 alnum: alpha | digit
@@ -70,3 +71,87 @@ void tis_init(void)
 			{map[i] |= XDGT;}
 	}
 } 
+
+_Bool tispunct(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & PNCT);
+}
+
+_Bool tisspace(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & SPC);
+}
+
+_Bool tisdigit(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & DGT);
+}
+
+_Bool tiscntl(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & CNTL);
+}
+
+_Bool tisupper(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & UP);
+}
+
+_Bool tislower(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & LOW);
+}
+
+_Bool tisxdigit(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & XDGT);
+}
+
+_Bool tisblank(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & BLNK);
+}
+
+_Bool tisalpha(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & (UP | LOW));
+}
+
+_Bool tisalnum(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & (UP | LOW | DGT));
+}
+
+_Bool tisgraph(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & (UP | LOW | DGT | PNCT));
+}
+
+_Bool tisprint(char c)
+{
+	int i = (int) c;
+
+	return (_Bool) (map[i] & (UP | LOW | DGT | PNCT)) | (i == ' ');
+}
