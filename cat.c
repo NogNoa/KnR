@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "unix.lb.h"
+void error(char *fmt, ...);
 
 #define STDIN 0
 #define STDOUT 1
@@ -38,8 +38,8 @@ void main(int argc, char *argv[])
 
 void filecopy(int inf, int outf)
 { /*copy file ifp to file ofp */
-	int c;
-	while ((c = KnR_getchar(inf)) != EOF)
-		alt_putchar(c, outf);
-	alt_putchar(EOF, outf);
+	char buf[BUFSIZ];
+	int n;
+	while ((n = read(inf, buf, BUFSIZ)) > EOF)
+		write(outf, buf, n);
 }
