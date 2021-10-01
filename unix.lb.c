@@ -3,15 +3,15 @@
 
 // Ritchie, D.M. and Kernighan, B.W. (1988) p153-155
 
-int KnR_getchar(void)
+int KnR_getchar(int inf)
 {	/* simple buffered version */
-static char buf[BUFSIZ];
-static char *bufp = buf;
-static int n = 0;
+	static char buf[BUFSIZ];
+	static char *bufp = buf;
+	static int n = 0;
 	
 	if (n == 0) 
 	{ /* buffer is empty */
-		n = read(0, buf, sizeof buf);
+		n = read(inf, buf, sizeof buf);
 		bufp = buf;
 	}
 	return (--n >= 0) ? (unsigned char) *bufp++ : EOF;
@@ -29,6 +29,27 @@ void error(char *fmt, ...)
 	fprintf (stderr, "\n"     );
 	va_end  (             args);
 	exit(1);
+}
+
+//original
+int alt_putchar(char c, int outf)
+{
+	static char buf[BUFSIZ];
+	static int n = 0;
+	static int soutf = 1;
+
+	if (n > BUFSIZ)
+		error("stack has overflowed");
+	else if (n == BUFSIZ || c == EOF || soutf != outf)
+	{	write(outf, buf, sizeof buf);
+		n = 0;
+	}
+	if (soutf != outf)
+		soutf = outf;
+	if (c == EOF)
+		return EOF;
+	else
+		return (buf[n++] = c);
 }
 
 #include <fcntl.h>
@@ -56,9 +77,4 @@ int cp (int argc, char *argv[])
 		}
 	}
 	return 0;
-}
-
-int main(int argc, char *argv[])
-{
-	return cp(argc, argv);
 }

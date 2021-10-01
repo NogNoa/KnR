@@ -1,36 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#include "unix.lb.h"
+
+#define STDIN 0
+#define STDOUT 1
 
 // Ritchie, D.M. and Kernighan, B.W. (1988) p144-145
+//original
 
 void main(int argc, char *argv[])
 { /*print files, concatenating them*/
-	FILE *fp;
-	void filecopy(FILE *, FILE *);
+	int scroll;
+	void filecopy(int, int);
 	char *prog = argv[0]; /* program name for errors */
 	if (argc == 1 ) /* no args; copy standard input */
-		filecopy(stdin, stdout);
+		filecopy(STDIN, STDOUT);
 	else
 		while (--argc > 0)
-			if ((fp = fopen(*++argv, "r")) == NULL)
-			{	fprintf(stderr, "%s: can't open %s\n",
+			if ((scroll = open(*++argv, O_RDONLY, 0)) == EOF)
+			{	error("%s: can't open %s\n",
 				prog, *argv);
 				exit(1);
 			} 
 			else
-			{	filecopy(fp, stdout);
-				fclose(fp);
+			{	filecopy(scroll, STDOUT);
+				close(scroll);
 			}
 	if (ferror(stdout)) {
-		fprintf(stderr, "%s: error writing stdout\n", prog);
+		error("%s: error writing stdout\n", prog);
 		exit(2);
 	}
 	exit(0);
 }
 
-void filecopy(FILE *ifp, FILE *ofp)
+void filecopy(int inf, int outf)
 { /*copy file ifp to file ofp */
 	int c;
-	while ((c = getc(ifp)) != EOF)
-		putc(c, ofp);
+	while ((c = KnR_getchar(inf)) != EOF)
+		alt_putchar(c, outf);
 }

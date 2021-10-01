@@ -31,6 +31,9 @@ find: $(ODIR)/find.o $(ODIR)/file_ops.lb.o
 file_print: $(ODIR)/file_print.o $(ODIR)/file_ops.lb.o
 	$(COMPILE)
 
+cat: $(ODIR)/cat.o $(ODIR)/unix.lb.o unix.lb.h
+	$(COMPILE)
+
 $(ODIR)/%.o: %.c
 	 $(OBJPILE)
 
