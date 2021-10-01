@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 			stt.number = 1;
 			break;
 		case 'f':
-			fprintf(stderr, "before listing files, give me the pattern");
+			fprintf(stderr, "before listing files, give me the pattern\n");
 			argc = 0;
 			found = -1;
 			break;
@@ -72,7 +72,7 @@ int find(char *str, state stt, char **codii)
 	char *line = (char *) malloc(maxline);
 
 	for (;(codex = file_switch(codex, codii)) != NULL; count_codii++)
-	{	printf("\n%i  -  %s:\n", count_codii, codii[count_codii]);
+	{	printf("%i  -  %s:\n", count_codii, codii[count_codii]);
 		while (getline(&line, &maxline, codex) > 0)
 		{	lineno++;
 			if ((strstr(line, str) != NULL) != stt.except) 
@@ -83,6 +83,7 @@ int find(char *str, state stt, char **codii)
 				found++;
 			}
 		}
+		putchar('\n');
 	}
 	free(line);
 	return found;
