@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-// Ritchie, D.M. and Kernighan, B.W. (1988) p153,154
+// Ritchie, D.M. and Kernighan, B.W. (1988) p153-155
 
 int KnR_getchar(void)
 {	/* simple buffered version */
@@ -21,7 +21,19 @@ static int n = 0;
 
 #define PERMS 0666 /* RW for owner, group, others */
 
-void error(char *, ...);
+#include <stdarg.h>
+#include <stdlib.h>
+
+void error(char *fmt, ...)
+{  /* print an error message and die */
+	va_list args;
+	va_start(args  , fmt      );
+	fprintf (stderr, "error: ");
+	vfprintf(stderr, fmt, args);
+	fprintf (stderr, "\n"     );
+	va_end  (             args);
+	exit(1);
+}
 
 int cp (int argc, char *argv[])
 { /* cp: copy f1 to f2 */

@@ -44,5 +44,6 @@ int file_print(FILE *codex)
 		}
 		printf("%40d\n",page_num++);
 	}
+	free(line);
 	return page_num;
 }
