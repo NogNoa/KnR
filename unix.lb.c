@@ -17,10 +17,6 @@ static int n = 0;
 	return (--n >= 0) ? (unsigned char) *bufp++ : EOF;
 }
 
-#include <fcntl.h>
-
-#define PERMS 0666 /* RW for owner, group, others */
-
 #include <stdarg.h>
 #include <stdlib.h>
 
@@ -34,6 +30,10 @@ void error(char *fmt, ...)
 	va_end  (             args);
 	exit(1);
 }
+
+#include <fcntl.h>
+
+#define PERMS 0666 /* RW for owner, group, others */
 
 int cp (int argc, char *argv[])
 { /* cp: copy f1 to f2 */

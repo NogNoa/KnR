@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #define PAGELINI 74 /*≈79*sqrt(2)*2/3 
 79 is the python line, sqrt(2) for A-series page, 
-2/3 approximetly hight to width of a latin grapheme
+2/3 approximetly higth to width of a latin grapheme
 */
 
 
 //external
-char ** strarr_allocate(int nom_cnt, char **nomi, char **codii);
 FILE * file_switch(FILE *codex, char** codii);
 
 //internal
@@ -15,13 +14,9 @@ int file_print(FILE *codex);
 
 int main(int argc, char *argv[])
 {
-	char **codii;
 	FILE *codex;
-
-	if (argc > 1)
-		codii = strarr_allocate(--argc, ++argv, codii);
 	
-	while ((codex = file_switch(codex, codii)) != NULL)
+	while (--argc > 1 && (codex = file_switch(codex, ++argv)) != NULL)
 		file_print(codex);
 	return EXIT_SUCCESS;
 }
@@ -44,6 +39,5 @@ int file_print(FILE *codex)
 		}
 		printf("%40d\n",page_num++);
 	}
-	free(line);
 	return page_num;
 }

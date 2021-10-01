@@ -56,3 +56,20 @@ char ** strarr_allocate(int nom_cnt, char **nomi, char **codii)
   }
   return back;
 }
+
+#include <fcntl.h>
+#include <unistd.h>
+
+int file_switch_low(int codex, char** codii)
+{ //open next file in a list of file-names
+  static int index_codii; //static variables are guaranteed to init 0;
+  if (index_codii==0)
+  { if (!*codii)
+    { index_codii++;
+      return 0;
+    }
+  }
+  else
+    close(codex);
+  return open(codii[index_codii++],O_RDONLY, 0);
+}
