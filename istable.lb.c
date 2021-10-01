@@ -13,6 +13,17 @@ alpha: UPPER | lower
 alnum: alpha | digit
 graph: punct | alnum 
 print: graph | 20 
+
+atomic types
+cntl only: 00-08 | Oe-1f | 7f
+blank
+tab 09
+space 20
+punct
+digit
+upper
+lower
+
 */
 
 #define CNTL  0x1
@@ -29,6 +40,7 @@ at https://clc-wiki.net/wiki/K%26R2_solutions:Chapter_7:Exercise_9
 */
 
 #include <ctype.h>
+#include <limits.h>
 
 static unsigned char map[UCHAR_MAX]={0};
 
@@ -37,21 +49,24 @@ void tis_init(void)
 	int i;
 
 	for (i = 0; i < UCHAR_MAX; i++)
-	{	if(iscntrl(i))
-			{map[i] |= CNTL;}
-		if (isspace(i))
-			{map[i] |= SPC;}
-		if (ispunct(i))
+	{	if (ispunct(i))
 			{map[i] |= PNCT;}
-		if (isdigit(i))
+		else if (isdigit(i))
 			{map[i] |= DGT;}
-		if (isupper(i))
+		else if (isupper(i))
 			{map[i] |= UP;}
-		if (islower(i))
+		else if (islower(i))
 			{map[i] |= LOW;}
+		else
+		{	if(iscntrl(i))
+				{map[i] |= CNTL;}
+			if (isspace(i))
+			{	map[i] |= SPC;
+				if (isblank(i))
+					{map[i] |= BLNK;}
+			}
+		}
 		if (isxdigit(i))
 			{map[i] |= XDGT;}
-		if (isblank(i))
-			{map[i] |= BLNK;}
 	}
 } 
