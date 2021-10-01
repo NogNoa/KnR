@@ -8,5 +8,8 @@ int main(int argc, char *argv[])
     bcd c[3];
     reveal(decimise(620, c),3);
 
+    FILE *codex;
+    codex = fopen("try.c","r");
+
     return 0;
 }

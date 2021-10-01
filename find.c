@@ -6,8 +6,7 @@
 #include <stdlib.h>
 
 typedef struct
-	{	int found;
-		_Bool except, number;
+	{	unsigned int except, number:1;
 	}state;
 
 //external
@@ -17,7 +16,8 @@ int find(char *, state, char **);
 
 int main(int argc, char *argv[])
 {	char c, *pattern; 
-	state stt = {0,0,0};
+	int found;
+	state stt = {0,0};
 
 	char **codii;
 
@@ -33,18 +33,20 @@ int main(int argc, char *argv[])
 		case 'f':
 			fprintf(stderr, "before listing files, give me the pattern");
 			argc = 0;
-			stt.found = -1;
+			found = -1;
 			break;
 		default:
 			fprintf(stderr,"find: illegal option %c\n", c);
 			argc = 0;
-			stt.found = -1;
+			found = -1;
 			break;
 		}
 	if (--argc <= 0)
-		printf("Usage: find -x -n pattern -f files\n");
-	else
-		pattern = *argv;
+	{	printf("Usage: find -x -n pattern -f files\n");
+		return found;
+	}
+	
+	pattern = *argv;
 
 	if (--argc > 1 && strncmp(*++argv,"-f",2) == 0)
 		codii = strarr_allocate(argc, ++argv, codii);
@@ -53,10 +55,9 @@ int main(int argc, char *argv[])
 		*codii = "";
 	}
 	
-	if (stt.found > -1)
-		stt.found = find(pattern, stt, codii);
+	found += find(pattern, stt, codii);
 	
-	return stt.found;
+	return found;
 }
 
 //external
@@ -66,7 +67,7 @@ int find(char *str, state stt, char **codii)
 { /* find: print lines that match pattern from 1st arg */
 	long lineno = 0;
 	FILE *codex;
-	int count_codii = 0;
+	int count_codii = 0, found;
 	size_t maxline = 0200;
 	char *line = (char *) malloc(maxline);
 
@@ -79,12 +80,12 @@ int find(char *str, state stt, char **codii)
 				if (stt.number)
 					printf("%ld", lineno);
 				printf(":%s", line);
-				stt.found++;
+				found++;
 			}
 		}
 	}
 	free(line);
-	return stt.found;
+	return found;
 }
 
 /* Make codii array. make allocation function. make switch file function. */
