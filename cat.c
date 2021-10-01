@@ -41,4 +41,5 @@ void filecopy(int inf, int outf)
 	int c;
 	while ((c = KnR_getchar(inf)) != EOF)
 		alt_putchar(c, outf);
+	alt_putchar(EOF, outf);
 }
