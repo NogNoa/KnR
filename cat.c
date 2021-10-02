@@ -40,6 +40,6 @@ void filecopy(int inf, int outf)
 { /*copy file ifp to file ofp */
 	char buf[BUFSIZ];
 	int n;
-	while ((n = read(inf, buf, BUFSIZ)) > EOF)
+	while ((n = read(inf, buf, BUFSIZ)) > 0)
 		write(outf, buf, n);
 }
