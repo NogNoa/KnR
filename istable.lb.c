@@ -72,86 +72,64 @@ void tis_init(void)
 	}
 } 
 
+#include <stdint.h>
+
 _Bool tispunct(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & PNCT);
+	return (_Bool) (map[(int8_t) c] & PNCT);
 }
 
 _Bool tisspace(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & SPC);
+	return (_Bool) (map[(int8_t) c] & SPC);
 }
 
 _Bool tisdigit(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & DGT);
+	return (_Bool) (map[(int8_t) c] & DGT);
 }
 
 _Bool tiscntl(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & CNTL);
+	return (_Bool) (map[(int8_t) c] & CNTL);
 }
 
 _Bool tisupper(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & UP);
+	return (_Bool) (map[(int8_t) c] & UP);
 }
 
 _Bool tislower(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & LOW);
+	return (_Bool) (map[(int8_t) c] & LOW);
 }
 
 _Bool tisxdigit(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & XDGT);
+	return (_Bool) (map[(int8_t) c] & XDGT);
 }
 
 _Bool tisblank(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & BLNK);
+	return (_Bool) (map[(int8_t) c] & BLNK);
 }
 
 _Bool tisalpha(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & (UP | LOW));
+	return (_Bool) (map[(int8_t) c] & (UP | LOW));
 }
 
 _Bool tisalnum(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & (UP | LOW | DGT));
+	return (_Bool) (map[(int8_t) c] & (UP | LOW | DGT));
 }
 
 _Bool tisgraph(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & (UP | LOW | DGT | PNCT));
+	return (_Bool) (map[(int8_t) c] & (UP | LOW | DGT | PNCT));
 }
 
 _Bool tisprint(char c)
 {
-	int i = (int) c;
-
-	return (_Bool) (map[i] & (UP | LOW | DGT | PNCT)) | (i == ' ');
+	return (_Bool) (map[(int8_t) c] & (UP | LOW | DGT | PNCT)) || (c == ' ');
 }

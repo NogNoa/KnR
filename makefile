@@ -7,7 +7,7 @@ OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
 OBJPILE = $(CC) $(CFLAGS) -c -o $@     $<
 COMPILE = $(CC) $(CFLAGS)    -o $@.elf $^
 
-try: $(ODIR)/try.o $(ODIR)/molon.lb.o $(ODIR)/speak.lb.o
+try: $(ODIR)/try.o $(ODIR)/istable.lb.o istable.lb.h
 	$(COMPILE) 
 
 detab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o
