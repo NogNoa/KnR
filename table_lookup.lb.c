@@ -1,9 +1,5 @@
-#ifndef malloc
-	#include <stdlib.h>
-#endif
-#ifndef strcmp
-	#include <string.h>
-#endif
+#include <stdlib.h>
+#include <string.h>
 
 // Ritchie, D.M. and Kernighan, B.W. (1988) p128
 

@@ -1,11 +1,7 @@
 #include <ctype.h>
-#ifndef printf
-	#include <stdio.h>
-#endif
+#include <stdio.h>
 #include <string.h>
-#ifndef malloc 
-	#include <stdlib.h>
-#endif
+#include <stdlib.h>
 
 char *reverse(char *calls)
 { /* reverse: reverse string s in place */

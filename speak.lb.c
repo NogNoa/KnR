@@ -1,20 +1,10 @@
 // Ritchie, D.M. and Kernighan, B.W. (1988) p128
 
-#ifndef va_list
-	#include <stdarg.h>
-#endif
-#ifndef putchar
-	#include <stdio.h>
-#endif
-#ifndef strlen
-	#include <string.h>
-#endif
-#ifndef isdigit
-	#include <ctype.h>
-#endif
-#ifndef atoi
-	#include <stdlib.h>
-#endif
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 
 void minprintf(char *fmt, ...)

@@ -1,10 +1,6 @@
 // Ritchie, D.M. and Kernighan, B.W. (1988) p86
-#ifndef printf
-	#include <stdio.h>
-#endif
-#ifndef isdigit
-	#include <ctype.h>
-#endif
+#include <stdio.h>
+#include <ctype.h>
 
 static int getch(void);
 static void ungetch(int);
@@ -342,9 +338,7 @@ char *KnR_fgets(char *s, int n, FILE *iop)
 	return (c == EOF && cs == s) ? NULL : s;
 }
 
-#ifndef va_list
-	#include <stdarg.h>
-#endif
+#include <stdarg.h>
 
 void minscanf(char *fmt, ...)
 {  /* minscanf: minimal scanf with variable argument list */

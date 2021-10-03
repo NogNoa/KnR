@@ -143,9 +143,7 @@ int strindex_last(char *calls, char *callt)
 	return back;
 }
 
-#ifndef isspace
-	#include <ctype.h>
-#endif
+#include <ctype.h>
 
 _Bool compare(char s[], char sh[])
 { /* check if two strings are identical */
@@ -174,12 +172,8 @@ char * alt_strcat(char *s, char *t)
 	return calls;
 }
 
-#ifndef size_t
-	#include <stddef.h>
-#endif
-#ifndef strlen
-	#include <string.h>
-#endif
+#include <stddef.h>
+#include <string.h>
 
 
 size_t strlen(const char *);
@@ -229,9 +223,7 @@ int alt_strncmp(char *cs,char *ct,int n)
 	else
 		return *cs-*ct;
 }
-#ifndef va_list
-	#include <stdarg.h>
-#endif
+#include <stdarg.h>
 
 void seperate(char *str, char sep, size_t lim, int vacount, ...)
 {
