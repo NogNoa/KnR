@@ -10,7 +10,7 @@ int entab(int strt, int gap, int *stops, int len)
 	while ((c = getchar()) != EOF){
 		if (c == ' '){
 			++spc;
-			int nxtstp = fndstp(strt, gap, stops , 0, i); //nxtstp
+			int nxtstp = fndstp(strt, gap, stops , 0, i);
 			int rmn = (nxtstp - i);
 			if (spc > rmn)
 			{	putchar('\t');
@@ -77,9 +77,9 @@ int main(int argc, char *argv[])
 	_Bool bentab = 1;
 	int (*funtab)(int,int,int*,int);
 
-	if(strcmp("/mnt/d/Projects/C/cingles/entab.elf",argv[0]) == 0)
+	if(strstr(argv[0],"entab.elf"))
 		funtab=*entab;
-	else if(strcmp("/mnt/d/Projects/C/cingles/detab.elf",argv[0]) == 0)
+	else if(strstr(argv[0],"detab.elf"))
 		funtab=*detab;
 	else
 	{	if (bentab)
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 			funtab=*detab;
 	}
 
-	stdin = fopen("entab.c","r");
+	//stdin = fopen("entab.c","r");
 
 	if (argc < 2)
 	{	/* tab-stops of 4-spaces each. */

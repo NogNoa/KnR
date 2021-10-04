@@ -45,3 +45,16 @@ check:
 
 check++: %.c
 	g++ -Wall -pedantic -c -o out.o $<
+
+.PHONY: cleanex
+.PHONY: cleanob
+.PHONY: cleanall
+
+cleanex:
+	rm *.exe *.elf *.ilk *.pdb
+
+cleanob:
+	rm $(ODIR)/*.o *.obj
+
+cleanall:
+	cleanex  cleanob
