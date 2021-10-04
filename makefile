@@ -7,8 +7,9 @@ OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
 OBJPILE = $(CC) $(CFLAGS) -c -o $@     $<
 COMPILE = $(CC) $(CFLAGS)    -o $@.elf $^
 
-try: $(ODIR)/try.o $(ODIR)/istable.lb.o istable.lb.h
+try: $(ODIR)/try.o $(ODIR)/istable.lb.o 
 	$(COMPILE) 
+$(ODIR)/try.o: istable.lb.h
 
 detab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o
 	$(COMPILE)
@@ -16,11 +17,13 @@ detab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o
 entab: $(ODIR)/entab.o $(ODIR)/tabbin.lb.o
 	$(COMPILE)
 
-dcl: $(ODIR)/declaration_parser.o $(ODIR)/molon.lb.o dcl.h
+dcl: $(ODIR)/declaration_parser.o $(ODIR)/molon.lb.o
 	$(COMPILE)
+$(ODIR)/declaration_parser.o: dcl.h
 
-undcl:  $(ODIR)/undcl.o $(ODIR)/molon.lb.o dcl.h
+undcl:  $(ODIR)/undcl.o $(ODIR)/molon.lb.o
 	$(COMPILE)
+$(ODIR)/undcl.o: dcl.h
 
 defproc:  $(ODIR)/define_processor.o $(ODIR)/molon.lb.o $(ODIR)/add_remove-string.lb.o $(ODIR)/table_lookup.lb.o
 	$(COMPILE)
@@ -31,8 +34,9 @@ find: $(ODIR)/find.o $(ODIR)/file_ops.lb.o
 file_print: $(ODIR)/file_print.o $(ODIR)/file_ops.lb.o
 	$(COMPILE)
 
-cat: $(ODIR)/cat.o $(ODIR)/unix.lb.o unix.lb.h
+cat: $(ODIR)/cat.o $(ODIR)/unix.lb.o
 	$(COMPILE)
+$(ODIR)/cat.o: unix.lb.h
 
 $(ODIR)/%.o: %.c
 	 $(OBJPILE)

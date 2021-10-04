@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 	}
 	else if (liner)
 		printf("%s and %s are identical until the end of %s.\n%s continues: %s",argv[1],argv[2],argv[2],argv[1],liner);
-	else if (linand = fgets(linand, LIN_S, comperand))
+	else if (( linand = fgets(linand, LIN_S, comperand) ))
 		printf("%s and %s are identical until the end of %s.\n%s continues: %s",argv[1],argv[2],argv[1],argv[2],linand);
 	else
 		printf("both %s and %s are completely identical\n",argv[1],argv[2]);

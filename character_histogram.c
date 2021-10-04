@@ -21,7 +21,7 @@ int main()
 			++hest[c];
 	}
 
-	for (mnchar=0; hest[mnchar]==0;++mnchar)
+	for (mnchar=0; hest[(__uint8_t) mnchar]==0;++mnchar)
 		;
 
 	for (i=mnchar;i<0x20;++i)
