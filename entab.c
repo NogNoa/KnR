@@ -74,21 +74,14 @@ int main(int argc, char *argv[])
 {
 	int back;
 	struct tabbin taby;
-	_Bool bentab = 1;
-	int (*funtab)(int,int,int*,int);
+	int (*funtab)(int,int,int*,int) = *entab;
 
 	if(strstr(argv[0],"entab.elf"))
 		funtab=*entab;
 	else if(strstr(argv[0],"detab.elf"))
 		funtab=*detab;
-	else
-	{	if (bentab)
-			funtab=*entab;
-		else
-			funtab=*detab;
-	}
 
-	//stdin = fopen("entab.c","r");
+	stdin = fopen("entab.c","r");
 
 	if (argc < 2)
 	{	/* tab-stops of 4-spaces each. */
