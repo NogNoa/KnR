@@ -18,7 +18,7 @@ char cmnt = 0;
 char qt = 0;
 char last = 0;
 char cls[0x100] = {0,};
-char pcls = 1;
+__uint8_t pcls = 1;
 _Bool delay_cmnt;
 
 
