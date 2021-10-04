@@ -38,7 +38,7 @@ int *fndcrsr(int i, int *stops, int len) //find cursor
 
 int fndstp (int start, int gap, int *stops, int len, int i)
 { 
-	int gpstp = start + ((i-start)/gap+1)*gap; //gap stop
+	int gpstp= (gap > 0) ? start + ((i-start)/gap+1)*gap : start; //gap stop, we don't want an arithmathic error
 	gpstp = (gpstp > start) ? gpstp : start;
 	int *hibd; //high boundary
 	hibd = fndcrsr(i,stops,len);
