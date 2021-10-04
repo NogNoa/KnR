@@ -16,5 +16,7 @@ array.c
 *.ilk
 *.obj
 *.csv
-/build
+build/
 CMakeLists.txt
+.codelite/
+/KnR-cingles.workspace
