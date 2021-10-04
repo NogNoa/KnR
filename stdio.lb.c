@@ -16,7 +16,7 @@ FILE *fopen(char *name, char *mode)
 		return NULL;
 	
 	for (fp = _iob; fp < _iob + OPEN_MAX; fp++)
-	{	if ((fp->flag.flgint & (_READ | _WRITE)) == 0)
+	{	if ((fp->flag & (_READ | _WRITE)) == 0)
 			break; /* found free slot */
 	}
 	if (fp >= _iob + OPEN_MAX) /* no free slots */
@@ -37,7 +37,7 @@ FILE *fopen(char *name, char *mode)
 	fp->fd = fd;
 	fp->cnt = 0;
 	fp->base = NULL;
-	fp->flag.flgint = (*mode == 'r') ? _READ : _WRITE;
+	fp->flag = (*mode == 'r') ? _READ : _WRITE;
 	return fp;
 }
 
@@ -50,7 +50,7 @@ FILE *fopen_fld(char *name, char *mode)
 		return NULL;
 	
 	for (fp = _iob; fp < _iob + OPEN_MAX; fp++)
-	{	if ((fp->flag.flgfld.read | fp->flag.flgfld.write) == 0)
+	{	if ((fp->flgfld.read | fp->flgfld.write) == 0)
 			break; /* found free slot */
 	}
 	if (fp >= _iob + OPEN_MAX) /* no free slots */
@@ -71,7 +71,7 @@ FILE *fopen_fld(char *name, char *mode)
 	fp->fd = fd;
 	fp->cnt = 0;
 	fp->base = NULL;
-	(*mode == 'r') ? (fp->flag.flgfld.read = 1) : (fp->flag.flgfld.write = 1);
+	(*mode == 'r') ? (fp->flgfld.read = 1) : (fp->flgfld.write = 1);
 	return fp;
 }
 
@@ -80,10 +80,10 @@ void *malloc(size_t size);
 int _fillbuf(FILE *fp)
 {  /* allocate and fill input buffer */
 	int bufsize;
-	if ((fp->flag.flgint&(_READ|_EOF|_ERR)) != _READ)
+	if ((fp->flag&(_READ|_EOF|_ERR)) != _READ)
 		return EOF;
 	
-	bufsize = (fp->flag.flgint & _UNBUF) ? 1 : BUFSIZ;
+	bufsize = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
 	if (fp->base == NULL) /* no buffer yet */
 	{	if ((fp->base = (char *) malloc(bufsize)) == NULL)
 			return EOF; /* can't get buffer */
@@ -93,9 +93,9 @@ int _fillbuf(FILE *fp)
 	
 	if (--fp->cnt < 0) 
 	{	if (fp->cnt == -1)
-			fp->flag.flgint |= _EOF;
+			fp->flag|= _EOF;
 		else
-			fp->flag.flgint |= _ERR;
+			fp->flag |= _ERR;
 		fp->cnt = 0;
 		return EOF;
 	}
@@ -105,10 +105,10 @@ int _fillbuf(FILE *fp)
 int _fillbuf_fld(FILE *fp)
 {  /* allocate and fill input buffer */
 	int bufsize;
-	if (!(fp->flag.flgfld.read) || (fp->flag.flgfld.err) || (fp->flag.flgfld.eof))
+	if (!(fp->flgfld.read) || (fp->flgfld.err) || (fp->flgfld.eof))
 		return EOF;
 	
-	bufsize = (fp->flag.flgfld.unbuf) ? 1 : BUFSIZ;
+	bufsize = (fp->flgfld.unbuf) ? 1 : BUFSIZ;
 	if (fp->base == NULL) /* no buffer yet */
 	{	if ((fp->base = (char *) malloc(bufsize)) == NULL)
 			return EOF; /* can't get buffer */
@@ -118,9 +118,9 @@ int _fillbuf_fld(FILE *fp)
 	
 	if (--fp->cnt < 0) 
 	{	if (fp->cnt == -1)
-			fp->flag.flgfld.eof = 1;
+			fp->flgfld.eof = 1;
 		else
-			fp->flag.flgfld.err = 1;
+			fp->flgfld.err = 1;
 		fp->cnt = 0;
 		return EOF;
 	}

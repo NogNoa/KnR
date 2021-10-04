@@ -5,8 +5,12 @@
 #define BUFSIZ 1024
 #define OPEN_MAX 20 /* max #files open at once */
 
-typedef union 
-{	int flgint;
+typedef struct _iobuf 
+{	int cnt; /* characters left */
+	char *ptr; /* next character position */
+	char *base; /* location of buffer */
+	int flag; /* mode of file access */
+	int fd; /* file descriptor */
 	struct 
 	{	int read :1; 
 		int write:1; 
@@ -14,14 +18,6 @@ typedef union
 		int eof  :1; 
 		int err  :1; 
 	} flgfld;
-} flagy;
-
-typedef struct _iobuf 
-{	int cnt; /* characters left */
-	char *ptr; /* next character position */
-	char *base; /* location of buffer */
-	flagy flag; /* mode of file access */
-	int fd; /* file descriptor */
 } FILE;
 
 extern FILE _iob[OPEN_MAX];
