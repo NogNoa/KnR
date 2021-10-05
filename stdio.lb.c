@@ -127,12 +127,12 @@ int _fillbuf_fld(FILE *fp)
 	return (unsigned char) *fp->ptr++;
 }
 
-/* flushbuf design: first call prepare buffer for writing to a file
-	than call to putc macro is decresing cnt and add a charecter to buffer
+/* flushbuf design: first call prepares buffer for writing to a file
+	further calls to putc macro are decresing cnt and adding a charecter to buffer
 	that means that the first call should set cnt to the buffer capacity, 
 	and put the first charecter in it.
-	Each next call write the buffer to the file and than prepare a new buffer, 
-	again starting with the charecter
+	Each next call write the buffer to the file and than reset the buffer 
+	(cnt to capaciy and ptr to base), and again put the argument charecter in its start.
 */
 
 int _flushbuf(int c, FILE *fp)
@@ -145,7 +145,7 @@ int _flushbuf(int c, FILE *fp)
 	{	if ((fp->base = (char *) malloc(bufsize)) == NULL)
 			return EOF; /* can't get buffer */
 	}
-	fp->cnt = write(fp->fd, fp->base,bufsize)-1;
+	fp->cnt = write(fp->fd, fp->base,bufsize)-1; //one less for the char will be writing now.
 		
 	if (fp->cnt < 0)
 	{	if (fp->cnt == -1)
