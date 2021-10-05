@@ -115,9 +115,10 @@ int fflush(FILE *fp)
 	if (fp->base == NULL || (fp->flag & _WRITE) == 0)
 		return EOF;
 	
-	*fp->ptr = '\0';
-	int len = (fp->ptr-fp->base);
-	fp->ptr = fp->base;
+	fp->cnt = 0; // restart buf size
+	*fp->ptr = '\0'; //null termination
+	int len = (fp->ptr-fp->base); //finding length of buffered str
+	fp->ptr = fp->base; //restart buf pointer
 	
 	return (write(fp->fd,fp->base,len) == len) \
 	? 0 : EOF;
@@ -132,6 +133,29 @@ int fclose(FILE *fp)
 	fp->cnt=fp->flag=fp->fd=0;
 	fp->ptr= fp->base = NULL;
 	return 0;
+}
+
+int fseek(FILE *fp, long offset, int origin)
+{	
+	//buffer maintanace
+	if (fp->flag & _WRITE)
+		fflush(fp);
+	fp->cnt = 0;
+	fp->ptr = fp->base;
+	
+	/*
+	long expect;
+	if (!origin)
+		expect = offset;
+	else if (origin == 1)
+		expect = lseek(fp->fd,0,1) + offset;
+	else
+		 expect = lseek(fp->fd,0,2) + offset;
+	*/
+	
+	lseek(fp->fd, offset, origin);
+	return 0;
+
 }
 
 FILE _iob[OPEN_MAX] = 
