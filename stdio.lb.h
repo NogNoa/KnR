@@ -43,11 +43,12 @@ int _fillbuf_fld(FILE *);
 #define fileno(p) ((p)->fd)
 #define getc(p) (--(p)->cnt >= 0 \
 ? (unsigned char) *(p)->ptr++ : _fillbuf(p))
-#define getc_fld(p) (--(p)->cnt >= 0 \
-? (unsigned char) *(p)->ptr++ : _fillbuf_fld(p))
 
 #define putc(x,p) (--(p)->cnt >= 0 \
 ? *(p)->ptr++ = (x) : _flushbuf((x),p))
 
 #define getchar() getc(stdin)
 #define putchqr(x) putc((x), stdout)
+
+#define getc_fld(p) (--(p)->cnt >= 0 \
+? (unsigned char) *(p)->ptr++ : _fillbuf_fld(p))

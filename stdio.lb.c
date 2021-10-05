@@ -127,6 +127,25 @@ int _fillbuf_fld(FILE *fp)
 	return (unsigned char) *fp->ptr++;
 }
 
+int _flushbuf(int c, FILE *fp)
+{
+	if ((fp->flag&(_WRITE|_ERR)) != _WRITE)
+		return EOF;
+	if (fp->base == NULL)
+		return EOF;
+	int len = 
+	if (fp->cnt < 0 || fp->cnt > BUFSIZ)
+		if (fp->cnt == -1)
+			fp->flag|= _EOF;
+		else
+			fp->flag |= _ERR;
+		fp->cnt = 0;
+		return EOF; 
+	fp->ptr
+	int back = write(fp->fd, fp->base, fp->cnt);
+
+}
+
 FILE _iob[OPEN_MAX] = 
 {	/* stdin, stdout, stderr */
 	{ 0, (char *) 0, (char *) 0, _READ, 0            },
