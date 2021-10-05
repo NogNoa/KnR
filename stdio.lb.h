@@ -48,7 +48,7 @@ int _fillbuf_fld(FILE *);
 ? *(p)->ptr++ = (x) : _flushbuf((x),p))
 
 #define getchar() getc(stdin)
-#define putchqr(x) putc((x), stdout)
+#define putchar(x) putc((x), stdout)
 
 #define getc_fld(p) (--(p)->cnt >= 0 \
 ? (unsigned char) *(p)->ptr++ : _fillbuf_fld(p))
