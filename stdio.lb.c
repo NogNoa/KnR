@@ -140,21 +140,14 @@ int fseek(FILE *fp, long offset, int origin)
 	//buffer maintanace
 	if (fp->flag & _WRITE)
 		fflush(fp);
-	fp->cnt = 0;
-	fp->ptr = fp->base;
-	
-	/*
-	long expect;
-	if (!origin)
-		expect = offset;
-	else if (origin == 1)
-		expect = lseek(fp->fd,0,1) + offset;
+	else if (fp->flag & _READ)
+		//fflush will reset it anyway
+		fp->cnt = 0;
+		fp->ptr = fp->base;
 	else
-		 expect = lseek(fp->fd,0,2) + offset;
-	*/
+		return 2;
 	
-	lseek(fp->fd, offset, origin);
-	return 0;
+	return (lseek(fp->fd, offset, origin) < 0);
 
 }
 
