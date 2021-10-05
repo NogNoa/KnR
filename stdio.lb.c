@@ -161,6 +161,28 @@ int _flushbuf(int c, FILE *fp)
 
 }
 
+int fflush(FILE *fp)
+{
+	if (fp == NULL)
+	{	int back=0;
+		for (FILE *ff=stdout;(ff-_iob)<OPEN_MAX;ff++)
+		{	if (ff->flag&(_WRITE))
+				back |= fflush(ff);
+		}
+		return back;
+	}
+	if (fp->base == NULL || (fp->flag & _WRITE) == 0)
+		return EOF;
+	
+	*fp->ptr = '\0';
+	int len = (fp->ptr-fp->base);
+	fp->ptr = fp->base;
+	
+	return (write(fp->fd,fp->base,len) == len) \
+	? 0 : EOF;
+
+}
+
 FILE _iob[OPEN_MAX] = 
 {	/* stdin, stdout, stderr */
 	{ 0, (char *) 0, (char *) 0, _READ, 0            },

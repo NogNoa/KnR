@@ -52,3 +52,7 @@ int _fillbuf_fld(FILE *);
 
 #define getc_fld(p) (--(p)->cnt >= 0 \
 ? (unsigned char) *(p)->ptr++ : _fillbuf_fld(p))
+
+FILE *fopen(char *name, char *mode);
+FILE *fopen_fld(char *name, char *mode);
+int fflush(FILE *);
