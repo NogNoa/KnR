@@ -183,9 +183,19 @@ int fflush(FILE *fp)
 
 }
 
+void free(void *);
+
+int fclose(FILE *fp)
+{
+	free(fp->base); //free the buffer
+	fp->cnt=fp->flag=fp->fd=0;
+	fp->ptr= fp->base = NULL;
+	return 0;
+}
+
 FILE _iob[OPEN_MAX] = 
 {	/* stdin, stdout, stderr */
-	{ 0, (char *) 0, (char *) 0, _READ, 0            },
-	{ 0, (char *) 0, (char *) 0, _WRITE, 1           },
-	{ 0, (char *) 0, (char *) 0, _WRITE | _UNBUF, 2 }
+	{ 0, (char *) 0, (char *) 0, _READ, 0,  {0}          },
+	{ 0, (char *) 0, (char *) 0, _WRITE, 1, {0}          },
+	{ 0, (char *) 0, (char *) 0, _WRITE | _UNBUF, 2, {0} }
 };
