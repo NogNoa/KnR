@@ -3,11 +3,12 @@
 int main(int argc, char *argv[])
 {
     char a;
-    FILE *scroll = fopen_fld("molon.lb.c","r");
+    FILE *scroll = fopen("molon.lb.c","r");
     for (int i =0; i<100; i++)
-    {   a=getc_fld(scroll);
+    {   a=getc(scroll);
         putchar(a);
     }
     fflush(stdout);
+    fclose(scroll);
     return 0;
 }

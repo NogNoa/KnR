@@ -11,13 +11,6 @@ typedef struct _iobuf
 	char *base; /* location of buffer */
 	int flag; /* mode of file access */
 	int fd; /* file descriptor */
-	struct 
-	{	int read :1; 
-		int write:1; 
-		int unbuf:1; 
-		int eof  :1; 
-		int err  :1; 
-	} flgfld;
 } FILE;
 
 extern FILE _iob[OPEN_MAX];
@@ -50,9 +43,7 @@ int _fillbuf_fld(FILE *);
 #define getchar() getc(stdin)
 #define putchar(x) putc((x), stdout)
 
-#define getc_fld(p) (--(p)->cnt >= 0 \
-? (unsigned char) *(p)->ptr++ : _fillbuf_fld(p))
-
 FILE *fopen(char *name, char *mode);
-FILE *fopen_fld(char *name, char *mode);
+int fclose(FILE *fp);
 int fflush(FILE *);
+int fseek(FILE *fp, long offset, int origin);
