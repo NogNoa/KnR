@@ -68,6 +68,8 @@ int _fillbuf(FILE *fp)
 	return (unsigned char) *fp->ptr++;
 }
 
+//original
+
 /* flushbuf design: first call prepares buffer for writing to a file
 	further calls to putc macro are decresing cnt and adding a charecter to buffer
 	that means that the first call should set cnt to the buffer capacity, 
