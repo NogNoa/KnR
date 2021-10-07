@@ -3,13 +3,9 @@
 *.exe
 *.o
 *.i64
-printv.txt
-tax.c
-x.c
 [abc].txt
 *.alg
 pep-8.htm
-array.c
 .idea/
 .vscode/
 *.pdb
