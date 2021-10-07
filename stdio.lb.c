@@ -143,9 +143,10 @@ int fseek(FILE *fp, long offset, int origin)
 	if (fp->flag & _WRITE)
 		fflush(fp);
 	else if (fp->flag & _READ)
-		//fflush will reset it anyway
+	{	//fflush will reset it anyway
 		fp->cnt = 0;
 		fp->ptr = fp->base;
+	}
 	else
 		return 2;
 	
