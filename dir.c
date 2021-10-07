@@ -6,12 +6,18 @@
 #include <fcntl.h>
 
 #include <sys/dir.h> /* local directory structure */
-#include "dirent.h"
+
+typedef struct 
+{ /* portable directory entry */
+	long ino; /* inode number */
+	char name[NAME_MAX+1]; /* name + '\0' terminator */
+} Dirent;
+
 
 int fstat(int fd, struct stat *);
 
 
-DIR *opendir(char *dirname)
+DIR *opendir(const char *dirname)
 {  /* opendir: open a directory for readdir calls */
 	int fd;
 	struct stat stbuf;

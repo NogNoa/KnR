@@ -1,7 +1,9 @@
 // Ritchie, D.M. and Kernighan, B.W. (1988) p160
 
-#define NAME_MAX 14 /* longest filename component; */
-/* system-dependent */
+#ifndef NAME_MAX
+	#define NAME_MAX 14 /* longest filename component; */
+	/* system-dependent */
+#endif
 
 typedef struct 
 { /* portable directory entry */
