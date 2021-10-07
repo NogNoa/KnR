@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 #include <string.h>
-//#include <fcntl.h> /* flags for read and write */
-//#include <sys/types.h> /* typedefs */
+#include <fcntl.h> /* flags for read and write */
+#include <sys/types.h> /* typedefs */
 #include <sys/stat.h> /* structure returned by stat */
 #include "dirent.h"
 
@@ -47,9 +47,9 @@ void dirwalk(char *dir, void (*fcn)(char *))
 		return;
 	}
 	while ((dp = readdir(dfd)) != NULL) 
-	{	if (strcmp(dp->name, ".") == 0
-		|| strcmp(dp->name, ".."))
-		continue; /* skip self and parent */
+	{	if (strcmp(dp->name,  ".") == 0
+		||  strcmp(dp->name, "..") == 0)
+			continue; /* skip self and parent */
 		if (strlen(dir)+strlen(dp->name)+2 > sizeof(name))
 		{	fprintf(stderr, "dirwalk: name %s %s too long\n",
 			dir, dp->name);
