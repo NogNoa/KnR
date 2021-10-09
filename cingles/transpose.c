@@ -1,5 +1,5 @@
 #include <ctype.h>
-#include "KnR_getline.h"
+#include "../KnR_getline.h"
 
 /*
 Text is nline lines, each killed by /0.
@@ -32,7 +32,7 @@ void expose(char * lini[],int  nline, int mxlen)
 int main()
 {
 	int many_line;
-	//stdin = fopen("transpose.c","r");
+	stdin = fopen("transpose.c","r");
 
 	many_line = linearise();
 	expose(lini, many_line, mxlen);
