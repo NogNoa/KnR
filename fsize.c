@@ -1,11 +1,12 @@
 // Ritchie, D.M. and Kernighan, B.W. (1988) p161
+//ported and fixed
 
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h> /* flags for read and write */
-#include <sys/types.h> /* typedefs */
+//#include <sys/types.h> /* typedefs */
 #include <sys/stat.h> /* structure returned by stat */
-#include "dirent.h"
+#include <dirent.h>
 
 void fsize(char *);
 
@@ -31,7 +32,8 @@ void fsize(char *name)
 	}
 	if ((stbuf.st_mode & S_IFMT) == S_IFDIR)
 		dirwalk(name, fsize);
-	printf("%8ld %s\n", stbuf.st_size, name);
+	printf("%8ld %ld %ld.%ld %s\n", stbuf.st_size, stbuf.st_dev, stbuf.st_atim.tv_sec,stbuf.st_atim.tv_nsec, name);
+	//It's obvious how to add the rest by refering to ./algorithms/fsize libraries.txt. But the line will get pretty long
 }
 
 
@@ -40,22 +42,22 @@ void fsize(char *name)
 void dirwalk(char *dir, void (*fcn)(char *))
 {  /* apply fcn to all files in dir */
 	char name[MAX_PATH];
-	Dirent *dp;
+	struct dirent *dp;
 	DIR *dfd;
 	if ((dfd = opendir(dir)) == NULL) 
 	{	fprintf(stderr, "dirwalk: can't open %s\n", dir);
 		return;
 	}
 	while ((dp = readdir(dfd)) != NULL) 
-	{	if (strcmp(dp->name,  ".") == 0
-		||  strcmp(dp->name, "..") == 0)
+	{	if (strcmp(dp->d_name,  ".") == 0
+		||  strcmp(dp->d_name, "..") == 0)
 			continue; /* skip self and parent */
-		if (strlen(dir)+strlen(dp->name)+2 > sizeof(name))
+		if (strlen(dir)+strlen(dp->d_name)+2 > sizeof(name))
 		{	fprintf(stderr, "dirwalk: name %s %s too long\n",
-			dir, dp->name);
+			dir, dp->d_name);
 		}
 		else 
-		{	sprintf(name, "%s/%s", dir, dp->name);
+		{	sprintf(name, "%s/%s", dir, dp->d_name);
 			(*fcn)(name);
 		}
 	}
