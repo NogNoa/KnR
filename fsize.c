@@ -32,7 +32,8 @@ void fsize(char *name)
 	}
 	if ((stbuf.st_mode & S_IFMT) == S_IFDIR)
 		dirwalk(name, fsize);
-	printf("%8ld %s\n", stbuf.st_size, name);
+	printf("%8ld %ld %ld.%ld %s\n", stbuf.st_size, stbuf.st_dev, stbuf.st_atim.tv_sec,stbuf.st_atim.tv_nsec, name);
+	//It's obvious how to add the rest by refering to ./algorithms/fsize libraries.txt. But the line will get pretty long
 }
 
 
