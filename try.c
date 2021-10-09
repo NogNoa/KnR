@@ -1,14 +1,15 @@
-#include "stdio.lb.h"
+#include <stdio.h>
+
+void *malloc(unsigned nbytes);
+void free(void *ap);
 
 int main(int argc, char *argv[])
 {
-    char a;
-    FILE *scroll = fopen("molon.lb.c","r");
-    for (int i =0; i<100; i++)
-    {   a=getc(scroll);
-        putchar(a);
-    }
-    fflush(stdout);
-    fclose(scroll);
-    return 0;
+    int *a;
+    a = malloc(sizeof(int));
+    printf("%p\n", a);
+    free(a);
+    printf("%p\n", a);
+    *a=6;
+    printf("%d\n", *a);
 }
