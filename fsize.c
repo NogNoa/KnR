@@ -1,5 +1,6 @@
 // Ritchie, D.M. and Kernighan, B.W. (1988) p161
 //ported and fixed
+//partial exercise 8-5
 
 #include <stdio.h>
 #include <string.h>
