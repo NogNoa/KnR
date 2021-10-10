@@ -3,7 +3,10 @@ It's possible there are other factors for being "restrictive",
 but for the sake of excercise let's go with that
 */
 
+#include <stddef.h>
+
 // Ritchie, D.M. and Kernighan, B.W. (1988) p165-166
+//fixed
 
 typedef long double Align; /* for alignment to long double boundary */
 
@@ -20,17 +23,19 @@ typedef union header Header;
 
 static Header base; /* empty list to get started */
 static Header *freep = NULL; /* start of free list */
-/* malloc: general-purpose storage allocator */
-void *malloc(unsigned nbytes)
-{
+
+static Header *morecore(unsigned nu);
+
+void *malloc(long unsigned nbytes)
+{  /* malloc: general-purpose storage allocator */
 	Header *p, *prevp;
 	Header *moreroce(unsigned);
 	unsigned nunits;
 	
-	nunits = (nbytes+sizeof(Header)-1)/sizeof(header) + 1;
+	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
 	if ((prevp = freep) == NULL) 
 	{  /* no free list yet */
-		base.s.ptr = freeptr = prevptr = &base;
+		base.s.ptr = freep = prevp = &base;
 		base.s.size = 0;
 	}
 	for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) 
@@ -53,22 +58,43 @@ void *malloc(unsigned nbytes)
 	}
 }
 
-/* free: put block ap in free list */
+
+#define NALLOC 1024 /* minimum #units to request */
+
+void free(void *ap);
+
+static Header *morecore(unsigned nu)
+{ /* morecore: ask system for more memory */
+	char *cp, *sbrk(int);
+	Header *up;
+	
+	if (nu < NALLOC)
+		nu = NALLOC;
+	cp = sbrk(nu * sizeof(Header));
+	if (cp == (char *) -1) /* no space at all */
+		return NULL;
+	up = (Header *) cp;
+	up->s.size = nu;
+	free((void *)(up+1));
+	return freep;
+}
+
+
 void free(void *ap)
-{
+{  /* free: put block ap in free list */
 	Header *bp, *p;
 	
 	bp = (Header *)ap - 1; /* point to block header */
 	for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
 		if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
 			break; /* freed block at start or end of arena */
-	if (bp + bp->size == p->s.ptr) 
+	if (bp + bp->s.size == p->s.ptr) 
 	{  /* join to upper nbr */
 		bp->s.size += p->s.ptr->s.size;
 		bp->s.ptr = p->s.ptr->s.ptr;
 	} else
 	bp->s.ptr = p->s.ptr;
-	if (p + p->size == bp) 
+	if (p + p->s.size == bp) 
 	{  /* join to lower nbr */
 		p->s.size += bp->s.size;
 		p->s.ptr = bp->s.ptr;

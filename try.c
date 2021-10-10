@@ -12,4 +12,5 @@ int main(int argc, char *argv[])
     printf("%p\n", a);
     *a=6;
     printf("%d\n", *a);
+    //a still seems plenty reachable
 }
