@@ -29,7 +29,6 @@ static Header *morecore(unsigned nu);
 void *malloc(long unsigned nbytes)
 {  /* malloc: general-purpose storage allocator */
 	Header *p, *prevp;
-	Header *moreroce(unsigned);
 	unsigned nunits;
 	
 	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
