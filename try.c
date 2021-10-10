@@ -13,4 +13,5 @@ int main(int argc, char *argv[])
     *a=6;
     printf("%d\n", *a);
     //a still seems plenty reachable
+    printf("%d\n", max_align_t);
 }
