@@ -26,6 +26,7 @@ int file_print(FILE *codex)
 	static int page_num = 1;
 	       int line_num    ;
 	size_t maxline = 0200;
+	
 	char *line = (char *) malloc(maxline);
 	_Bool lastpage=0;
 

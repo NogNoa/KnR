@@ -2,7 +2,6 @@
 
 void swap(int v[], int i, int j)
 {	/* swap: interchange v[i] and v[j] */
-
 	int temp;
 
 	temp = v[i];
@@ -14,6 +13,7 @@ void KnR_qsort(int v[], int left, int right)
 {	/* qsort: sort v[left]...v[right] into increasing order */
 
 	int i, last;
+	
 	void swap(int v[], int i, int j);
 
 	/* do nothing if array contains fewer than two elements */

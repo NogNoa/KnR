@@ -10,12 +10,12 @@
 void minprintf(char *fmt, ...)
 {  /* minprintf: minimal printf with variable argument list */
 	va_list ap; /* points to each unnamed arg in turn */
-	char *p, *sval,back[0200], temp[4]="%";
+	char *p, *sval;
+	char back[0200], temp[4]="%";
 	int pnt_pntae;
 	long int ival;
 	unsigned long uval;
 	double dval;
-	;
 	
 	va_start(ap, fmt); /* make ap point to 1st unnamed arg */
 	for (p = fmt; *p; p++) 

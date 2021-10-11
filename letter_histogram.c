@@ -4,7 +4,8 @@
 
 int main()
 {
-	int c, hest[26], i, j;
+	int c, i, j;
+	int hest[26];
 	
 	for (i = 0; i<26; ++i)
 		hest[i] = 0;

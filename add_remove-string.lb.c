@@ -119,7 +119,8 @@ int charindex_last(char s[],char t)
 
 int charindex_1st(char *calls,char t)
 { //returns the position of the rightmost occurrence of t in s
-	char c,*s=calls;
+	char c;
+	char *s=calls;
 
 	for (;(c=*s++) != 0;)
 	{	if (c==t)
@@ -166,7 +167,7 @@ _Bool compare(char s[], char sh[])
 
 char * alt_strcat(char *s, char *t)
 { /* strcat: concatenate t to end of s; s must be big enough */
-	char * calls=s;
+	char *calls=s;
 	for (;*s;s++)  {} /* find end of s */
 	while ((*s++ = *t++))  {} /* copy t */
 	return calls;

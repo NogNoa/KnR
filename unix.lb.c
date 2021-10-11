@@ -23,6 +23,7 @@ int KnR_getchar(int inf)
 void error(char *fmt, ...)
 {  /* print an error message and die */
 	va_list args;
+	
 	va_start(args  , fmt      );
 	fprintf (stderr, "error: ");
 	vfprintf(stderr, fmt, args);

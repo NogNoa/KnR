@@ -7,7 +7,8 @@ static void ungetch(int);
 
 int getint(int *pn)
 {   /* getint: get next integer from input into *pn */
-	signed char c, s=0, sign;
+	signed char c, sign, s=0;
+	
 	while (isspace(c = getch())) /* skip white space */
 		;
 	if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
@@ -38,7 +39,7 @@ int getint(int *pn)
 
 int getfloat(double *pn)
 {   /* getfloat: get next float from input into *pn */
-	signed char c, s=0, sign;
+	signed char c, sign, s=0;
 	int i=0;
 	while (isspace(c = getch())) /* skip white space */
 		;
@@ -140,9 +141,13 @@ void afree(char *p) /* free storage pointed to by p */
 
 int gettoken(void) 
 { /* return next token */
-	int type, getch(void);
+	int type;
+	char *p = token;
+	char c;
+
+	int getch(void);
 	void ungetch(int);
-	char *p = token, c;
+	
 	while (isspace(c = getch()) && c != '\n')
 		;
 	if (c == '(') 
@@ -184,9 +189,11 @@ and the token is supposed to still be there since the stack is very shallow
 
 int getword(char *word, size_t lim)
 { /* getword: get next word or character from input */
-	int c, getch(void);
-	void ungetch(int);
+	int c; 
 	char *w = word;
+	
+	int getch(void);
+	void ungetch(int);
 	
 	while (isspace(c = getch()))
 		;
@@ -208,7 +215,8 @@ int getword(char *word, size_t lim)
 char ig_getword(char *word, size_t lim)
 { /* ig_getword: get next word or character from input 
 	 ignores preprocessor, strings constants and comments*/
-	char *w = word, c;
+	char c;
+	char *w = word;
 
 	while (isspace(c = getch()))
 		;
@@ -246,10 +254,12 @@ char ig_getword(char *word, size_t lim)
 
 int lngetword(char *word, size_t lim)
 { /* getword: get next word or character from input, including newline*/
-	int c, getch(void);
-	void ungetch(int);
+	int c;
 	char *w = word;
 	
+	int getch(void);
+	void ungetch(int);
+
 	while (isspace(c = getch()) && !(c == '\n'))
 		;
 	if (c != EOF)
@@ -268,8 +278,8 @@ int lngetword(char *word, size_t lim)
 char get_directive(char *direct, size_t lim)
 { /* if at or just before start of line with # put line in direct and returns last char, 
      else eats whitespace and returns 0 */
-
 	char c;
+
 	while(isspace(c=getch()))
 		;
 	if (c == '#')
@@ -324,13 +334,12 @@ char uni_getword(char *word, size_t lim)
 }
 
 
-/* fgets: get at most n chars from iop */
+
 char *KnR_fgets(char *s, int n, FILE *iop)
-{
+{   /*get at most n chars from iop */
 	register int c;
-	register char *cs;
+	register char *cs=s;
 	
-	cs = s;
 	while (--n > 0 && (c = getc(iop)) != EOF)
 		if ((*cs++ = c) == '\n')
 			break;
@@ -343,7 +352,9 @@ char *KnR_fgets(char *s, int n, FILE *iop)
 void minscanf(char *fmt, ...)
 {  /* minscanf: minimal scanf with variable argument list */
 	va_list arg_pnti; /* points to each unnamed arg in turn */
-	char *p, *sval, minfmt[4],c;
+	char c;
+	char *p, *sval;
+	char minfmt[4];
 	int *ival;
 	unsigned *uval;
 	float *fievel;

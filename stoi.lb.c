@@ -5,7 +5,8 @@
 
 char *reverse(char *calls)
 { /* reverse: reverse string s in place */
-	char *j,*i=j=calls, temp;
+	char temp;
+	char *j,*i=j=calls;
 
 	while(*j++)	{}
 	j-=2;
@@ -40,8 +41,8 @@ void KnR_itoa(int n, char s[])
 
 double KnR_atof(char s[])
 {	/* atof: convert string s to double */
-	double val, power;
 	int i, sign;
+	double val, power;
 	
 	for (i = 0; isspace(s[i]); i++) /* skip white space */
 		;
@@ -64,17 +65,18 @@ double KnR_atof(char s[])
 
 int alt_atoi(char *s)
 { /* ptr_atoi: convert s to integer */
-int n;
-n = 0;
-for (; *s >= '0' && *s <= '9'; s++)
-	n = 10 * n + (*s - '0');
-return n;
+	int n = 0;
+	
+	for (; *s >= '0' && *s <= '9'; s++)
+		n = 10 * n + (*s - '0');
+	return n;
 }
 
 int htoi(char s[])
 { /* convert hexadecimal string to integer */
-	int i=0,n=0;
 	char d;
+	int i=0,n=0;
+	
 	if (s[0]=='0' && (s[1]=='x' || s[1]=='X'))
 		i = 2;
 	for (;s[i] != '\0' ;++i)
@@ -95,10 +97,9 @@ int htoi(char s[])
 
 void itoa(int n, char s[])
 { /* itoa: convert n to string in s */
-	int i=0;
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
+	int i=0;
 	unsigned m;
-	
 
 	if (sign)
 		m = ((unsigned)-(n+1))+1;
@@ -118,9 +119,9 @@ void itoa(int n, char s[])
 char * itob(int n, short b)
 { /* itoa: convert n to base b string in s */
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
+	char *s=malloc(1024);
 	short digit;
 	unsigned m;
-	char *s=malloc(1024);
 
 	if (b<2 || 36<b)
 	{	printf("%d is a bad base. Please use one between 2 and 36.\n",b);
@@ -149,8 +150,8 @@ char * itob(int n, short b)
 
 void fill_itoa(int n, char s[], int fill)
 { /* itoa: convert n to string od length fill in s*/
-	int i=0;
 	_Bool sign = (n < 0); //1 is negative, 0 is positive;
+	int i=0;
 	unsigned m;
 	
 	if (sign)
@@ -207,8 +208,8 @@ double tentothe(double power, int sign)
 
 double sci_atof(char s[])
 {	/* atof: convert string s to double */
-	double val, tens=1.;
 	int i, sign, pow_sign=1, power=0;
+	double val, tens=1.;
 	
 	for (i = 0; isspace(s[i]); i++) /* skip white space */
 		;
@@ -243,8 +244,9 @@ double sci_atof(char s[])
 
 int btoi(char *s,int b)
 { /* ptr_atoi: convert s to integer */
-	int n=0;
 	char digit;
+	int n=0;
+	
 	const char basi[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 	if (b < 2 ||strlen(basi) < b)
 	{	printf("%d is a bad base. Please use one between 2 and 36.\n",b);

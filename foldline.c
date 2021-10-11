@@ -22,10 +22,8 @@ void smrt_fold (char str[])
 {
 	_Bool const IN=1;
 	_Bool const OUT=0;
-	
-	int j;
 	_Bool state = IN ;
-	int last = 0;
+	int j, last = 0;
 
 	for (j=0;j<LNSIZ && str[j];++j)
 	{

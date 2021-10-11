@@ -8,11 +8,12 @@ double celsius(int fahr)
 
 int main(int argc, char *argv[])
 {
-	float fahr, lower = 0, upper, step;
-	upper = (argc > 1) ? atof(argv[1]) : 300;
-	step  = (argc > 2) ? atof(argv[2]) :  20;
+	float lower = 0;
+	
+	float upper = (argc > 1) ? atof(argv[1]) : 300;
+	float step  = (argc > 2) ? atof(argv[2]) :  20;
 
-    for (fahr = lower; fahr <= upper; fahr = fahr + step)
+    for (float fahr = lower; fahr <= upper; fahr = fahr + step)
         printf("%3.ff %6.1fc\n", fahr, celsius(fahr));
 
     return 0;

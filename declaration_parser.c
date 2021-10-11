@@ -37,6 +37,7 @@ int main(void)
 void dcl(void)
 { /* dcl: parse a declarator */
 	int ns=0;
+	
 	while ((tokentype = gettoken()) == '*') /* count *'s */
 		ns++;
 	dirdcl();
@@ -46,9 +47,11 @@ void dcl(void)
 
 void argwrite(void)
 {
-	char ante[MAXTOKEN], post[2*MAXTOKEN];
+	char ante[MAXTOKEN];
+	char post[2*MAXTOKEN];
 	strcat(out, " function taking");
 	ante[0]= post[0] = '\0';
+	
 	while ((tokentype=gettoken()) != ')')
 	{
 		if (tokentype == NAME)

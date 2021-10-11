@@ -2,7 +2,6 @@
 
 void reverse(char to[], char from[],int len)
 {  // copy 'from' into 'to' in reverse; */
-
 	int i=len-1, j=0;
 	
 	if (from[i] == '\n')
@@ -14,7 +13,6 @@ void reverse(char to[], char from[],int len)
 
 int main()
 {  /* print each line in reverse */
-
 	int len;
 	char line[MAXLINE];
 	char enil[MAXLINE];

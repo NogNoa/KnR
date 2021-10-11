@@ -8,6 +8,7 @@ static char daytab[2][13] =
 int day_of_year(int year,unsigned int month,unsigned int day)
 {  /* day_of_year: set day of year from month & day */
 	int i, leap;
+	
 	if (!day || !month || year < 1582 || month > 12)
 		return -1;
 	leap = (!(year%4) && (year%100)) || !(year%400);
@@ -22,6 +23,7 @@ int day_of_year(int year,unsigned int month,unsigned int day)
 _Bool month_day(int year, int yearday, int *pmonth, int *pday)
 { /* month_day: set month, day from day of year */
 	int i, leap;
+
 	leap = (!(year%4) && (year%100)) || !(year%400);
 	if (year < 1582 || yearday < 1 || yearday > 365 + leap)
 		return 1;

@@ -1,11 +1,10 @@
 #include <stdio.h>
-float lower, upper, step, fahr;
 
 int main()
 {
-    lower = -20, upper = 150, step = 10;
-
+    float lower = -20, upper = 150, step = 10, fhar;
     int cels = lower;
+    
     while (cels <= upper)
     {
         // (9.0/5.0) * celsius + 32 =  fahr;

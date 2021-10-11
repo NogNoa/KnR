@@ -16,6 +16,7 @@ void main(int argc, char *argv[])
 	int scroll;
 	void filecopy(int, int);
 	char *prog = argv[0]; /* program name for errors */
+	
 	if (argc == 1 ) /* no args; copy standard input */
 		filecopy(STDIN, STDOUT);
 	else
@@ -40,6 +41,7 @@ void filecopy(int inf, int outf)
 { /*copy file ifp to file ofp */
 	char buf[BUFSIZ];
 	int n;
+	
 	while ((n = read(inf, buf, BUFSIZ)) > 0)
 		write(outf, buf, n);
 }
