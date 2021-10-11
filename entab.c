@@ -74,7 +74,8 @@ int main(int argc, char *argv[])
 {
 	int back;
 	struct tabbin taby;
-	int (*funtab)(int,int,int*,int) = *entab;
+	
+	sint (*funtab)(int,int,int*,int) = *entab;
 
 	if(strstr(argv[0],"entab.elf"))
 		funtab=*entab;

@@ -65,8 +65,10 @@ void free(void *ap);
 
 static Header *morecore(unsigned nu)
 { /* morecore: ask system for more memory */
-	char *cp, *sbrk(int);
+	char *cp; 
 	Header *up;
+	
+	char *sbrk(int);
 	
 	if (nu < NALLOC)
 		nu = NALLOC;

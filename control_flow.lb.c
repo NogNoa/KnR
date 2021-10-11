@@ -4,9 +4,10 @@
 
 int KnR_binsearch(int x, int v[], int n)
 { /* binsearch: find x in v[0] <= v[1] <= ... <= v[n-1] */
-	int low, high, mid;
-	low = 0;
-	high = n - 1;
+	int mid;
+	int low = 0;
+	int high = n - 1;
+	
 	while (low <= high) {
 		mid = (low+high)/2;
 		if (x < v[mid])
@@ -38,6 +39,7 @@ void escape(char s[], char t[])
 { //replace any special character with it's escape equivalent
 	char c;
 	int j = 0;
+	
 	for (int i=0;(c = t[i]) != 0;++i){
 		switch(c){
 		case '\n':
@@ -69,6 +71,7 @@ void descape(char s[], char t[])
 { //replace any escape character with it's special character equivalent
 	char c;
 	int j = 0;
+	
 	for (int i=0;(c = t[i]) != 0;++i){
 		switch(c){
 		case '\\':
@@ -104,6 +107,7 @@ void expand(char s1[],char s2[])
 {	// parse shorthand of the type a-z
 	int j=0;
 	char init, finit;
+	
 	s1[-1]='\r'; //we need a -1st case
 	
 	for (int i=-1;s1[i] != 0;++i)
@@ -148,9 +152,10 @@ void expand(char s1[],char s2[])
 
 int binsearch(int x, int v[], int n)
 { /* binsearch: find x in v[0] <= v[1] <= ... <= v[n-1] */
-	int low, high, mid;
-	low = 0;
-	high = n - 1;
+	int mid;
+	int low = 0;
+	int high = n - 1;
+	
 	while (low < high) {
 		mid = (low+high)/2;
 		if (x < v[mid])
@@ -180,6 +185,7 @@ void real_recrs_reverse(int i, char s[])
 { /* reverse: reverse string s in place using recursion */
 	static int len, middle;
 	int temp, alt;
+	
 	if (s[i] != '\0')
 		real_recrs_reverse(i+1, s);
 	else

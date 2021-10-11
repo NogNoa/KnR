@@ -13,6 +13,7 @@ void fsize(char *);
 
 int main(int argc, char **argv)
 {  /* print file name */
+	
 	if (argc == 1) /* default: current directory */
 		fsize(".");
 	else
@@ -27,6 +28,7 @@ void dirwalk(char *, void (*fcn)(char *));
 void fsize(char *name)
 {  /* print the size of file "name" */
 	struct stat stbuf;
+	
 	if (stat(name, &stbuf) == -1) 
 	{	fprintf(stderr, "fsize: can't access %s\n", name);
 		return;
@@ -45,7 +47,8 @@ void dirwalk(char *dir, void (*fcn)(char *))
 	char name[MAX_PATH];
 	struct dirent *dp;
 	DIR *dfd;
-	if ((dfd = opendir(dir)) == NULL) 
+	
+	sif ((dfd = opendir(dir)) == NULL) 
 	{	fprintf(stderr, "dirwalk: can't open %s\n", dir);
 		return;
 	}

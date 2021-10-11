@@ -7,6 +7,7 @@ void free(void *ap);
 int main(int argc, char *argv[])
 {
     int *a, *b;
+    
     a = malloc(sizeof(int));
     b = malloc(sizeof(int));
     free(a);

@@ -13,6 +13,7 @@ void putstar(int lim)
 int main(int argc, char * argv[])
 {
     int i, height;
+    
     height = (argc > 1) ? atoi(argv[1]) : 6;
     int sub_height = height/2;
     

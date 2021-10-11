@@ -17,6 +17,7 @@ int find(char *, state, char **);
 int main(int argc, char *argv[])
 {	char c, *pattern; 
 	int found;
+	
 	state stt = {0,0};
 
 	char **codii;

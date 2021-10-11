@@ -9,8 +9,9 @@ static int cmp(const void *a, const void *b)
 
 struct tabbin arg_prcs(int argc, char *argv[])
 {
-	int *stops = malloc(argc+1);
 	int n=0,m=0;
+	int *stops = malloc(argc+1);
+
 	stops[0]=0; stops[argc+1]=MXLIN;
 	for (int i=1;i<argc;i++)
 	{	if (*argv[i] == '+')
@@ -30,6 +31,7 @@ struct tabbin arg_prcs(int argc, char *argv[])
 int *fndcrsr(int i, int *stops, int len) //find cursor
 {
 	int *p;
+	
 	for (p=stops;p+1<stops+len;++p)
 		if (*p <= i && i < *(p+1))
 			break;

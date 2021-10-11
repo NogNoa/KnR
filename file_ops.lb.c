@@ -5,6 +5,7 @@ char * file_stringise(char * filename)
 {
   char * buffer = 0;
   long length;
+  
   FILE * f = fopen (filename, "rb");
 
   if (f)
@@ -27,6 +28,7 @@ char * file_stringise(char * filename)
 FILE * file_switch(FILE *codex, char** codii)
 { //open next file in a list of file-names
   static int index_codii; //static variables are guaranteed to init 0;
+  
   if (index_codii==0)
   { if (!*codii)
     { index_codii++;
@@ -63,6 +65,7 @@ char ** strarr_allocate(int nom_cnt, char **nomi, char **codii)
 int file_switch_low(int codex, char** codii)
 { //open next file in a list of file-names
   static int index_codii; //static variables are guaranteed to init 0;
+  
   if (index_codii==0)
   { if (!*codii)
     { index_codii++;

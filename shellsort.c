@@ -15,8 +15,8 @@ void shellsort(int v[], int n)
 			}
 }
 
-int main(){
-
+int main()
+{
     char text[10] = "bmkTDWmTqD";
     int TeXt[10];
 

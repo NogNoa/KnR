@@ -46,6 +46,7 @@ void *malloc(size_t size);
 int _fillbuf(FILE *fp)
 {  /* allocate and fill input buffer */
 	int bufsize;
+	
 	if ((fp->flag&(_READ|_EOF|_ERR)) != _READ)
 		return EOF;
 	
@@ -80,6 +81,7 @@ int _fillbuf(FILE *fp)
 
 int _flushbuf(int c, FILE *fp)
 {
+	
 	if ((fp->flag&(_WRITE|_ERR)) != _WRITE)
 		return EOF;
 	
@@ -106,6 +108,7 @@ int _flushbuf(int c, FILE *fp)
 
 int fflush(FILE *fp)
 {
+	
 	if (fp == NULL)
 	{	int back=0;
 		for (FILE *ff=stdout;(ff-_iob)<OPEN_MAX;ff++)
@@ -124,13 +127,13 @@ int fflush(FILE *fp)
 	
 	return (write(fp->fd,fp->base,len) == len) \
 	? 0 : EOF;
-
 }
 
 void free(void *);
 
 int fclose(FILE *fp)
 {
+	
 	free(fp->base); //free the buffer
 	fp->cnt=fp->flag=fp->fd=0;
 	fp->ptr= fp->base = NULL;

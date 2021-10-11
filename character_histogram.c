@@ -4,10 +4,11 @@
 
 int main()
 {
+	char c;
 	char mxchar = (unsigned char) -1 >> 1;
 	char mnchar = 0;
+	char hest[mxchar];
 	int i, j;
-	char hest[mxchar], c;
 
 	char * unprintables[0x20]={"NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL",
 					   		   " BS", " HT", " LF", " VT", " FF", " CR", " SO", " SI",

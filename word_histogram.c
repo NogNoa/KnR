@@ -14,7 +14,8 @@ void mkrow_cnt(char row[], int hest[], int cnt, int mxlen);
 
 int main()
 {
-	int mxlen, hest[(MXWRD)];
+	int mxlen;
+	int hest[(MXWRD)];
 
 	mxlen = measure(hest);
     
@@ -29,10 +30,8 @@ int mxcnt = 0;
 
 int measure(int hest[])
 {
-	int i;
-	char c,prev='\n';
-	int len = 0;
-    int mxlen = 0;
+	char c, prev='\n';
+	int i, len = 0, mxlen = 0;
 
 	for (i = 0; i<(MXWRD); ++i)
 		hest[i] = 0;
@@ -57,7 +56,6 @@ int measure(int hest[])
 void expose_hor(int hest[], int mxlen)
 {
 	int i;
-	//char plus;
 	char row[0x300];
 
 	for (i=1; i<=mxlen; ++i){
@@ -69,6 +67,7 @@ void expose_hor(int hest[], int mxlen)
 void mkrow_len(char row[], int len)
 {
 	int j;
+	
 	for (j=0; j<len; ++j)
 		row[j] ='|';
 	row[j] = '\0';

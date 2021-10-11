@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
 
 	stdin = fopen("Filters.csv", "r");
 
-
 	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 's')
 	{	nfield = argc-2;
 		dlimit = argv[1][2];
@@ -97,6 +96,7 @@ void fieldseperate(line fieldptr, char dlimit)
 	terminating each of them at each instance of the delimiter, 
 	and referancing the next field to the next character */
 	int ifield=1;
+	
 	assert(*fieldptr != NULL);
 	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
 		if (*pc == dlimit)
@@ -107,6 +107,7 @@ void fieldseperate(line fieldptr, char dlimit)
 
 void writelines(char *lineptr[][512], int nlines, char dlimit)
 { /* writelines: write output lines */
+	
 	for (int l = 0; l+1 < nlines; l++)
 	{	for (int f=0;lineptr[l][f] != NULL ;)
 			printf("%s%c",lineptr[l][f++],dlimit);
@@ -132,6 +133,7 @@ int lexcmp(field cs,field ct, struct state *stt)
 { /* compare string cs to string ct, disregarding case; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	char ccs=1, cct=1;
+	
 	for (;ccs == cct && cct;cs++,ct++)
 	{	ccs=*cs; cct=*ct;
 		if (stt->casefld)
@@ -150,6 +152,7 @@ int fieldcmp (line fp1, line fp2, struct state stti[])
 {
 	int (*cmp)(field, field, struct state *);
 	int back = 0;
+	
 	for (int i=0;back == 0 && *fp1 != NULL && *fp2 != NULL;fp1++, fp2++)
 	{	struct state *stt = stti + i;
 		cmp = ((stt->numeric) ? numcmp : lexcmp);

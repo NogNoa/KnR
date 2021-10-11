@@ -28,10 +28,11 @@ int fieldcmp (char fp1[], char fp2[], struct state stti[]);
 int main(int argc, char *argv[])
 {	/* sort input lines */
 	int nlines; /* number of input lines re'd */
-	char buffer[MAXLEN], *arg;
-
-	//stdin = fopen("a.txt", "r");
+	char buffer[MAXLEN];
+	char *arg;
 	char dlimit = ' ';
+	
+	//stdin = fopen("a.txt", "r");
 
 	if (argc > 2)
 		set_state(argv[2], &fieldstt);
@@ -90,6 +91,7 @@ void fieldseperate(char *fieldptr[], char dlimit)
 	terminating each of them at each instance of the delimiter, 
 	and referancing the next field to the next character */
 	int ifield=1;
+	
 	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
 		if (*pc == dlimit)
 		{	*pc = '\0';
@@ -125,6 +127,7 @@ int lexcmp(char *cs,char *ct, struct state *stt)
 { /* compare string cs to string ct, disregarding case; return <0 if
      cs<ct, 0 if cs==ct, or >0 if cs>ct. */
 	char ccs=1, cct=1;
+	
 	for (;ccs == cct && cct;cs++,ct++)
 	{	ccs=*cs; cct=*ct;
 		if (stt->casefld)
