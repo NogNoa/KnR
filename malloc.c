@@ -32,11 +32,12 @@ void *malloc(long unsigned nbytes)
 	unsigned nunits;
 	
 	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
-	if ((prevp = freep) == NULL) 
+	if (freep == NULL) 
 	{  /* no free list yet */
-		base.s.ptr = freep = prevp = &base;
+		base.s.ptr = freep = &base;
 		base.s.size = 0;
 	}
+	prevp = freep;
 	for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) 
 	{	if (p->s.size >= nunits) 
 		{  /* big enough */
