@@ -58,6 +58,16 @@ void *malloc(long unsigned nbytes)
 	}
 }
 
+/*
+base always have size 0, while the tail get all the 
+space allocated from morecore. small segments of this are 
+given to each block that is returned, this metadata is then
+invisible while the memory is in use, but it is retained for when
+free() will be called. this is while p+1 is returned, p points to the header
+itself which is all that interesting to this module, but is boring to the outside
+world 
+*/
+
 
 #define NALLOC 1024 /* minimum #units to request */
 
@@ -77,7 +87,10 @@ static Header *morecore(unsigned nu)
 		return NULL;
 	up = (Header *) cp;
 	up->s.size = nu;
-	free((void *)(up+1));
+	free((void *)(up+1)); 
+	/* cheaky way to put up in the linked list
+	normaly the pointer of the content is given
+	which is one after the pointer of the header */
 	return freep;
 }
 
@@ -87,20 +100,23 @@ void free(void *ap)
 	Header *bp, *p;
 	
 	bp = (Header *)ap - 1; /* point to block header */
+	//finds p such that order of it bp and S(p) is desireable
 	for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
 		if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
 			break; /* freed block at start or end of arena */
 	if (bp + bp->s.size == p->s.ptr) 
-	{  /* join to upper nbr */
+	{  //join S(p) into bp
 		bp->s.size += p->s.ptr->s.size;
 		bp->s.ptr = p->s.ptr->s.ptr;
 	} else
-	bp->s.ptr = p->s.ptr;
+		//put bp before S(p)
+		bp->s.ptr = p->s.ptr;
 	if (p + p->s.size == bp) 
-	{  /* join to lower nbr */
+	{  // join bp into p
 		p->s.size += bp->s.size;
 		p->s.ptr = bp->s.ptr;
 	} else
+		//put p before bp instead of S(p)
 		p->s.ptr = bp;
 	freep = p;
 }
