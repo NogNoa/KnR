@@ -17,12 +17,14 @@ malloc(8)
 	p = freep
 	p := morcore(2) != NULL
 	there is space [1,49]
+	p->s.ptr = base.s.ptr = 17
+	base.s.ptr->s.size = 32
 	prevp := p = &base
-	p := p->s.ptr = &base
+	p := p->s.ptr = 17
 	p->s.size = 32 >= 2
-	p->s.size -= 2 (*16) = 0
-	p += p->s.size = 31
+	p->s.size -= 2 = 30
+	p += (p->s.size (*16) = 32 * 16) = 512 
 	p->s.size := 2
 	freep := prevp = &base
-	return (void) 32
+	return (void*) (512 + 16 = 528)
 
