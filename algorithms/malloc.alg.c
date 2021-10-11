@@ -5,12 +5,12 @@ and we go into the morecore algorithm
 
 __brk=0x7fffff6c73e0
 Header base, *freep = NULL;
-&base in [1,17]
+&base in [1,0x11]
 base.s = {.ptr=0, .size=0}
 
 malloc(4)
 	nunits := (4+sizof(Header)-1)/sizeof(Header) + 1\
-	= (3+16)/16 +1 = 2
+	= (3+0x10)/0x10 +1 = 2
 	freep = NULL
 	base.s.ptr := freep := prevp := &base = 1; 
 	base.s.size := 0
@@ -18,17 +18,28 @@ malloc(4)
 	p := prevp->s.ptr = &base
 	p->s.size = 0 < nunits
 	p = freep
-	p := morcore(2) 
+	p := morcore(2)
+		nu=2
 		(char *) cp
-		NALLOC = 1024
+		NALLOC = 0x400
 		2< NALLOC
-		2 := 1024
-		cp :=sbrk(nu * sizeof(Header) = 32)
-		cp = 4065 (=0xfe0+1)
+		nu := 0x400
+		cp :=sbrk(nu * sizeof(Header) = 0x4000)
+		cp = 0xfe1
 		cp != -1
-		up := (Header *) cp = 4065
-		up->s.size := nu = 2
-		free ((void *)(up+1(*16)=4081)) 
+		up := (Header *) cp = 0xfe1
+		up->s.size := nu = 0x400
+		up->s= {.ptr=0, .size=0x400}
+		free ((void *)(up+1(*0x10)=0xff1)) 
+			void *ap = 0xff1
+			Header *bp, *p
+			bp := (Header *)ap -1(*0x10)=0xfe1
+			p := freep = 1
+			!(bp > p && bp < (p->s.ptr = p)) = !(1 && 0) = 1
+			(p >= p->s.ptr && (bp > p || bp < p->s.ptr) = (1 && (1 || ...))= 1
+			break
+			bp + bp->s.size (*0x10) = 0xfe1 + 0x4000 = 0x4fe1\
+			!= p->s.ptr = 1
 
 	there is space [1,49]
 	p->s.ptr = base.s.ptr = 17

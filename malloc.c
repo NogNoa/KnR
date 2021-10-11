@@ -27,7 +27,7 @@ static Header *freep = NULL; /* start of free list */
 static Header *morecore(unsigned nu);
 
 void *malloc(long unsigned nbytes)
-{  /* malloc: general-purpose storage allocator */
+{  /* general-purpose storage allocator */
 	Header *p, *prevp;
 	unsigned nunits;
 	
@@ -64,7 +64,7 @@ void *malloc(long unsigned nbytes)
 void free(void *ap);
 
 static Header *morecore(unsigned nu)
-{ /* morecore: ask system for more memory */
+{ /* ask system for more memory */
 	char *cp, *sbrk(int);
 	Header *up;
 	
@@ -81,7 +81,7 @@ static Header *morecore(unsigned nu)
 
 
 void free(void *ap)
-{  /* free: put block ap in free list */
+{  /* put block ap in free list */
 	Header *bp, *p;
 	
 	bp = (Header *)ap - 1; /* point to block header */
@@ -102,3 +102,12 @@ void free(void *ap)
 		p->s.ptr = bp;
 	freep = p;
 }
+
+
+/*there are six orderings
+for the sake of shorteness
+s = p->s.ptr
+[p, bp, s], [bp, s, p], [s, p, bp] break
+[bp, p, s], [s, bp, p], [p, s, bp] continue
+thogh there are more with the equality cases
+*/
