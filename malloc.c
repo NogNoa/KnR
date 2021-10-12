@@ -26,7 +26,7 @@ static Header *dyn_basep = NULL; /* start of free list */
 
 static Header *morecore(unsigned nu);
 
-void *malloc(long unsigned nbytes)
+void *KnR_malloc(long unsigned nbytes)
 {  /* general-purpose storage allocator */
 	Header *p, *prevp; //p to the header of the block to be allocated
 	unsigned nunits;

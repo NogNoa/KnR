@@ -8,6 +8,8 @@ Header base, *freep = NULL;
 &base in [1,0x11]
 base.s = {.ptr=0, .size=0}
 
+base->base
+
 malloc(4)
 	nunits := (4+sizof(Header)-1)/sizeof(Header) + 1\
 	= (3+0x10)/0x10 +1 = 2
@@ -50,6 +52,7 @@ malloc(4)
 			(p=1)->s = {.ptr=0x1000=bp, .size=0}
 			freep = p
 		(up=0x1000)->s = {.ptr=1=&base, .size=0400}
+		base->0x1000->base
 		//base=freep leads to up and back
 		return freep
 	effective space is [1,0x1021]
@@ -67,6 +70,7 @@ malloc(4)
 	freep := prevp = &base
 	return (void*) (0x4fe0 + 1 * (0x10) = 0x4ff0)
 a = 0x4ff0
+base->0x1000->base
 b := malloc(4)
 	nunits := 2
 	freep = 1 != NULL
@@ -84,7 +88,6 @@ free(a)
 	bp := (Header *)ap -1(*0x10)=0x4fe0
 	p := freep = &base
 	&base->s.ptr= 0x1000
-	
 	!(bp > p && bp < p->s.ptr) = !(1 && 0) = 1
 	(p >= p->s.ptr && (bp > p || bp < p->s.ptr) = (0 && ...)= 0
 	p:= p->s.ptr = 0x1000
@@ -96,9 +99,22 @@ free(a)
 	!= p->s.ptr = 1
 	bp->s.ptr = p->s.ptr = 1
 	(bp=0x4fe0)->s={.ptr=1, .size=0x20}
-	
 	p + p->s.size = 0x1000 + 0x3fc (*10) =0x4fc0 != bp=0x4fe0
 	p->s.ptr = bp
 	(p=0x1000)->s = {.ptr=0x4fe0=bp, .size=0}
 	freep = p
-
+base->0x1000->0x4fe0->base
+b := malloc(4)
+	nunits := 2
+	freep = 0x1000 != NULL
+	prevp := freep = 0x1000
+	p := prevp->s.ptr = 0x4fe0
+	p->s.size = 0x20 > nunits
+	p->s.size -= nunit = 0x20 - 2 = 0x18
+	p += (p->s.size (*0x10) = 0x180) = 0x4fe0 + 0x180 = 0x5160
+	p->s.size = nunits = 2
+	(p=0x5160)->s = {.pnt=0, .size=2}
+	freep := prevp = &base
+	return (void*) (0x4fd0)
+	
+	
