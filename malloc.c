@@ -93,6 +93,7 @@ static Header *morecore(unsigned nu)
 	return dyn_basep;
 }
 
+void exit(int status);
 
 void free(void *datap)
 {  /* put block datap in free list */
@@ -143,18 +144,18 @@ f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 void *dep_calloc(long unsigned const n, size_t size)
 {
 	size *=n;
-	back = malloc(size);
+	void *back = malloc(size);
 	if (back != NULL)
 		memset(back, 0x00, size);
 	return back;
 }
 
-void *indi_calloc(long unsigned n, size_t size)
+void *indi_calloc(const long unsigned n, const size_t size)
 {  /* general-purpose storage allocator */
 	Header *p, *prevp; //p to the header of the block to be allocated
 	unsigned nunits;
 	
-	nbytes = n * size;
+	size_t nbytes = n * size;
 	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
 	if (dyn_basep == NULL) 
 	{  /* no free list yet */
