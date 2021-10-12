@@ -26,12 +26,11 @@ static Header *dyn_basep = NULL; /* start of free list */
 
 static Header *morecore(unsigned nu);
 
-void *KnR_malloc(size_t nbytes)
+void *KnR_malloc(const size_t nbytes)
 {  /* general-purpose storage allocator */
 	Header *p, *prevp; //p to the header of the block to be allocated
-	unsigned nunits;
 	
-	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
+	const unsigned nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
 	if (dyn_basep == NULL) 
 	{  /* no free list yet */
 		stat_base.s.ptr = dyn_basep = &stat_base;
@@ -71,17 +70,16 @@ world
 
 #define NALLOC 1024 /* minimum #units to request */
 
-void free(void *datap);
+void free(const void *datap);
 char *sbrk(int);
 
 static Header *morecore(unsigned nu)
-{ /* ask system for more memory */
-	char *charp; 
+{ /* ask system for more memory */ 
 	Header *freshp; //pointer for the asked for memory
 	
 	if (nu < NALLOC)
 		nu = NALLOC;
-	charp = sbrk(nu * sizeof(Header));
+	const char * const charp = sbrk(nu * sizeof(Header));
 	if (charp == (char *) -1) /* no space at all */
 		return NULL;
 	freshp = (Header *) charp;
@@ -93,8 +91,9 @@ static Header *morecore(unsigned nu)
 	return dyn_basep;
 }
 
+void exit(int status);
 
-void free(void *datap)
+void free(const void *datap)
 {  /* put block datap in free list */
 	Header *freedp, *p;
 	
@@ -138,24 +137,25 @@ p <  f <  s,  f <= s <= p,  s <= p <  f  break
 f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 */
 
+
 //original
+void *memset(void *str, int c, size_t n);
 
 void *dep_calloc(long unsigned const n, size_t size)
 {
 	size *=n;
-	back = malloc(size);
+	void *back = KnR_malloc(size);
 	if (back != NULL)
 		memset(back, 0x00, size);
 	return back;
 }
 
-void *indi_calloc(long unsigned n, size_t size)
+void *indi_calloc(const long unsigned n, const size_t size)
 {  /* general-purpose storage allocator */
 	Header *p, *prevp; //p to the header of the block to be allocated
-	unsigned nunits;
 	
-	nbytes = n * size;
-	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
+	const size_t nbytes = n * size;
+	const unsigned  nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
 	if (dyn_basep == NULL) 
 	{  /* no free list yet */
 		stat_base.s.ptr = dyn_basep = &stat_base;
