@@ -135,9 +135,13 @@ f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 
 //original
 
-void *dep_calloc(long unsigned n, size_t size)
+void *dep_calloc(long unsigned const n, size_t size)
 {
-	return malloc(n*size);
+	size *=n;
+	back = malloc(size);
+	if (back != NULL)
+		memset(back, 0x00, size);
+	return back;
 }
 
 void *indi_calloc(long unsigned n, size_t size)
@@ -165,6 +169,7 @@ void *indi_calloc(long unsigned n, size_t size)
 				p->s.size = nunits;
 			}
 			dyn_basep = prevp;
+			memset(p+1, 0x00, nbytes)
 			return (void *)(p+1);
 		}
 		if (p == dyn_basep) /* wrdatapped around free list */
