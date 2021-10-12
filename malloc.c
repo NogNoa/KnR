@@ -21,23 +21,23 @@ union header
 
 typedef union header Header;
 
-static Header base; /* empty list to get started */
-static Header *freep = NULL; /* start of free list */
+static Header stat_base; /* empty list to get started */
+static Header *dyn_basep = NULL; /* start of free list */
 
 static Header *morecore(unsigned nu);
 
 void *malloc(long unsigned nbytes)
 {  /* general-purpose storage allocator */
-	Header *p, *prevp;
+	Header *p, *prevp; //p to the header of the block to be allocated
 	unsigned nunits;
 	
 	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
-	if (freep == NULL) 
+	if (dyn_basep == NULL) 
 	{  /* no free list yet */
-		base.s.ptr = freep = &base;
-		base.s.size = 0;
+		stat_base.s.ptr = dyn_basep = &stat_base;
+		stat_base.s.size = 0;
 	}
-	prevp = freep;
+	prevp = dyn_basep;
 	for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) 
 	{	if (p->s.size >= nunits) 
 		{  /* big enough */
@@ -49,17 +49,17 @@ void *malloc(long unsigned nbytes)
 				p += p->s.size;
 				p->s.size = nunits;
 			}
-			freep = prevp;
+			dyn_basep = prevp;
 			return (void *)(p+1);
 		}
-		if (p == freep) /* wrapped around free list */
+		if (p == dyn_basep) /* wrdatapped around free list */
 			if ((p = morecore(nunits)) == NULL)
 				return NULL; /* none left */
 	}
 }
 
 /*
-base always have size 0, while the tail get all the 
+stat_base always have size 0, while the tail get all the 
 space allocated from morecore. small segments of this are 
 given to each block that is returned, this metadata is then
 invisible while the memory is in use, but it is retained for when
@@ -71,61 +71,64 @@ world
 
 #define NALLOC 1024 /* minimum #units to request */
 
-void free(void *ap);
+void free(void *datap);
+char *sbrk(int);
 
 static Header *morecore(unsigned nu)
 { /* ask system for more memory */
-	char *cp; 
-	Header *up;
-	
-	char *sbrk(int);
+	char *charp; 
+	Header *freshp; //pointer for the asked for memory
 	
 	if (nu < NALLOC)
 		nu = NALLOC;
-	cp = sbrk(nu * sizeof(Header));
-	if (cp == (char *) -1) /* no space at all */
+	charp = sbrk(nu * sizeof(Header));
+	if (charp == (char *) -1) /* no space at all */
 		return NULL;
-	up = (Header *) cp;
-	up->s.size = nu;
-	free((void *)(up+1)); 
-	/* cheaky way to put up in the linked list
+	freshp = (Header *) charp;
+	freshp->s.size = nu;
+	free((void *)(freshp+1)); 
+	/* cheaky way to put freshp in the linked list
 	normaly the pointer of the content is given
 	which is one after the pointer of the header */
-	return freep;
+	return dyn_basep;
 }
 
 
-void free(void *ap)
-{  /* put block ap in free list */
-	Header *bp, *p;
+void free(void *datap)
+{  /* put block datap in free list */
+	Header *freedp, *p;
 	
-	bp = (Header *)ap - 1; /* point to block header */
-	//finds p such that order of it bp and S(p) is desireable
-	for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
-		if (p >= p->s.ptr && (bp > p || bp < p->s.ptr))
+	freedp = (Header *)datap - 1; /* point to block header */
+	/*finds p such that order of it freedp and S(p) is desirea. look below */ 
+	for (p = dyn_basep; !(freedp > p && freedp < p->s.ptr); p = p->s.ptr)
+		if (p >= p->s.ptr && (freedp > p || freedp < p->s.ptr))
 			break; /* freed block at start or end of arena */
-	if (bp + bp->s.size == p->s.ptr) 
-	{  //join S(p) into bp
-		bp->s.size += p->s.ptr->s.size;
-		bp->s.ptr = p->s.ptr->s.ptr;
+	if (freedp + freedp->s.size == p->s.ptr) 
+	{  //join S(p) into freedp
+		freedp->s.size += p->s.ptr->s.size;
+		freedp->s.ptr = p->s.ptr->s.ptr;
 	} else
-		//put bp before S(p)
-		bp->s.ptr = p->s.ptr;
-	if (p + p->s.size == bp) 
-	{  // join bp into p
-		p->s.size += bp->s.size;
-		p->s.ptr = bp->s.ptr;
+		//link freedp to S(p)
+		freedp->s.ptr = p->s.ptr;
+	if (p + p->s.size == freedp) 
+	{  // join freedp into p
+		p->s.size += freedp->s.size;
+		p->s.ptr = freedp->s.ptr;
 	} else
-		//put p before bp instead of S(p)
-		p->s.ptr = bp;
-	freep = p;
+		//link p to freedp instead of S(p)
+		p->s.ptr = freedp;
+	dyn_basep = p;
 }
 
 
 /*there are six orderings
-for the sake of shorteness
+for the sake of shorteness:
 s = p->s.ptr
-[p, bp, s], [bp, s, p], [s, p, bp] break
-[bp, p, s], [s, bp, p], [p, s, bp] continue
+f = freedp
+[p, f, s], [f, s, p], [s, p, f] break
+[f, p, s], [s, f, p], [p, s, f] continue
 thogh there are more with the equality cases
+more precisely:
+p <  f <  s,  f <= s <= p,  s <= p <  f  break
+f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 */
