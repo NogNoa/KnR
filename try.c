@@ -12,11 +12,8 @@ int main(int argc, char *argv[])
     b = KnR_malloc(sizeof(int));
     free(a);
     *a=6;
-    a = KnR_malloc(sizeof(int));
-    //a still seems plenty reachable
-    printf("%ld\n", sizeof(max_align_t));
-    /*It's 32B i.e 356 bits. More than 
-    just the size of the biggest types 
-    long double and __float128which is 
-    just 16B.*/
+    a = KnR_malloc(3);
+    *a = 0x006968;
+    char c[3]= (char *) a;
+    printf("%s\n",c);
 }

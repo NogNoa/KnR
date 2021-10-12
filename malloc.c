@@ -6,7 +6,7 @@ but for the sake of excercise let's go with that
 #include <stddef.h>
 
 // Ritchie, D.M. and Kernighan, B.W. (1988) p165-166
-//fixed
+//fixed and edited
 
 typedef long double Align; /* for alignment to long double boundary */
 
@@ -26,7 +26,7 @@ static Header *dyn_basep = NULL; /* start of free list */
 
 static Header *morecore(unsigned nu);
 
-void *KnR_malloc(long unsigned nbytes)
+void *KnR_malloc(size_t nbytes)
 {  /* general-purpose storage allocator */
 	Header *p, *prevp; //p to the header of the block to be allocated
 	unsigned nunits;
@@ -132,3 +132,43 @@ more precisely:
 p <  f <  s,  f <= s <= p,  s <= p <  f  break
 f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 */
+
+//original
+
+void *dep_calloc(long unsigned n, size_t size)
+{
+	return malloc(n*size);
+}
+
+void *indi_calloc(long unsigned n, size_t size)
+{  /* general-purpose storage allocator */
+	Header *p, *prevp; //p to the header of the block to be allocated
+	unsigned nunits;
+	
+	nbytes = n * size;
+	nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
+	if (dyn_basep == NULL) 
+	{  /* no free list yet */
+		stat_base.s.ptr = dyn_basep = &stat_base;
+		stat_base.s.size = 0;
+	}
+	prevp = dyn_basep;
+	for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) 
+	{	if (p->s.size >= nunits) 
+		{  /* big enough */
+			if (p->s.size == nunits) /* exactly */
+				prevp->s.ptr = p->s.ptr;
+			else 
+			{  /* allocate tail end */
+				p->s.size -= nunits;
+				p += p->s.size;
+				p->s.size = nunits;
+			}
+			dyn_basep = prevp;
+			return (void *)(p+1);
+		}
+		if (p == dyn_basep) /* wrdatapped around free list */
+			if ((p = morecore(nunits)) == NULL)
+				return NULL; /* none left */
+	}
+}
