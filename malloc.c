@@ -52,7 +52,7 @@ void *KnR_malloc(size_t nbytes)
 			dyn_basep = prevp;
 			return (void *)(p+1);
 		}
-		if (p == dyn_basep) /* wrdatapped around free list */
+		if (p == dyn_basep) /* wrapped around free list */
 			if ((p = morecore(nunits)) == NULL)
 				return NULL; /* none left */
 	}
@@ -101,8 +101,13 @@ void free(void *datap)
 	freedp = (Header *)datap - 1; /* point to block header */
 	/*finds p such that order of it freedp and S(p) is desirea. look below */ 
 	for (p = dyn_basep; !(freedp > p && freedp < p->s.ptr); p = p->s.ptr)
+	{	if (freedp < p && p < freedp + freedp->s.size)
+			exit(1);
 		if (p >= p->s.ptr && (freedp > p || freedp < p->s.ptr))
 			break; /* freed block at start or end of arena */
+	}
+	if (freedp < p->s.ptr && p->s.ptr < freedp + freedp->s.size)
+			exit(1);
 	if (freedp + freedp->s.size == p->s.ptr) 
 	{  //join S(p) into freedp
 		freedp->s.size += p->s.ptr->s.size;
@@ -169,10 +174,10 @@ void *indi_calloc(long unsigned n, size_t size)
 				p->s.size = nunits;
 			}
 			dyn_basep = prevp;
-			memset(p+1, 0x00, nbytes)
+			memset(p+1, 0x00, nbytes);
 			return (void *)(p+1);
 		}
-		if (p == dyn_basep) /* wrdatapped around free list */
+		if (p == dyn_basep) /* wrapped around free list */
 			if ((p = morecore(nunits)) == NULL)
 				return NULL; /* none left */
 	}
