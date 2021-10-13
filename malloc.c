@@ -22,7 +22,8 @@ union header
 
 typedef union header Header;
 
-//external
+#include <stdio.h>
+
 void exit(int status);
 
 static Header stat_base; /* empty list to get started */
@@ -35,7 +36,8 @@ void *KnR_malloc(const size_t nbytes)
 	Header *p, *prevp; //p to the header of the block to be allocated
 	
 	if (nbytes > UINT_MAX - 2 * sizeof(Header))
-		exit(2);
+		fprintf(stderr,"You asked for to much - %ld what are ye gonna do with all that memory?\
+			You'l get my registers overflowed",nbytes);
 	/*note: if caller asked for 0 bytes it they're fault, 
 	maybe there're legitimate reasons to want a bodiless header
 	and it could be easily freed*/
@@ -86,6 +88,21 @@ nbytes+sH-1 <= UM - sH - 1
 nbytes <= UM -2*sH
 */
 
+//original
+
+//external
+void *memset(void *str, int c, size_t n);
+
+void *dep_calloc(long unsigned const n, size_t size)
+{
+	size *=n;
+	void *back = KnR_malloc(size);
+	if (back != NULL)
+		memset(back, 0x00, size);
+	return back;
+}
+
+// Ritchie, D.M. and Kernighan, B.W. (1988) p165-166
 
 #define NALLOC 1024 /* minimum #units to request */
 
@@ -115,17 +132,23 @@ static Header *morecore(unsigned nu)
 void free(const void *datap)
 {  /* put block datap in free list */
 	Header *freedp, *p;
+	const char *freerr="We got some problem. This block of memory says it's bigger than it's supposed to be.\
+			 I don't feel it's safe to free that. sorry";
 	
 	freedp = (Header *)datap - 1; /* point to block header */
 	/*finds p such that order of it freedp and S(p) is desirea. look below */ 
 	for (p = dyn_basep; !(freedp > p && freedp < p->s.ptr); p = p->s.ptr)
 	{	if (freedp < p && p < freedp + freedp->s.size)
-			exit(1); //freedp's block don't suppose to go over another pointer
+		{	fprintf(stderr,"%s",freerr); //freedp's block don't suppose to go over another pointer
+			return;
+		}
 		if (p >= p->s.ptr && (freedp > p || freedp < p->s.ptr))
 			break; /* freed block at start or end of arena */
 	}
 	if (freedp < p->s.ptr && p->s.ptr < freedp + freedp->s.size)
-			exit(1);
+	{	fprintf(stderr,"%s",freerr);
+		return;
+	}
 	if (freedp + freedp->s.size == p->s.ptr) 
 	{  //join S(p) into freedp
 		freedp->s.size += p->s.ptr->s.size;
@@ -156,17 +179,19 @@ p <  f <  s,  f <= s <= p,  s <= p <  f  break
 f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 */
 
-
 //original
 
-//external
-void *memset(void *str, int c, size_t n);
+void bfree(const void *ptr, const size_t nbytes)
+{  
+	Header *freedp;
 
-void *dep_calloc(long unsigned const n, size_t size)
-{
-	size *=n;
-	void *back = KnR_malloc(size);
-	if (back != NULL)
-		memset(back, 0x00, size);
-	return back;
+	if (nbytes <= 2 * sizeof(Header))
+	{	fprintf(stderr,"Sorry hunn, I can't bother with this little memory"); 
+		return;
+	}
+	const unsigned nunits = nbytes/sizeof(Header)-1;
+	freedp = (Header *) ptr;
+	freedp->s.size = nunits;
+	free(ptr+1);
 }
+
