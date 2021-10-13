@@ -4,6 +4,7 @@ but for the sake of excercise let's go with that
 */
 
 #include <stddef.h>
+#include <limits.h>
 
 // Ritchie, D.M. and Kernighan, B.W. (1988) p165-166
 //fixed and edited
@@ -21,6 +22,9 @@ union header
 
 typedef union header Header;
 
+//external
+void exit(int status);
+
 static Header stat_base; /* empty list to get started */
 static Header *dyn_basep = NULL; /* start of free list */
 
@@ -30,6 +34,12 @@ void *KnR_malloc(const size_t nbytes)
 {  /* general-purpose storage allocator */
 	Header *p, *prevp; //p to the header of the block to be allocated
 	
+	if (nbytes > UINT_MAX - 2 * sizeof(Header))
+		exit(2);
+	/*note: if caller asked for 0 bytes it they're fault, 
+	maybe there're legitimate reasons to want a bodiless header
+	and it could be easily freed*/
+
 	const unsigned nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
 	if (dyn_basep == NULL) 
 	{  /* no free list yet */
@@ -67,9 +77,19 @@ itself which is all that interesting to this module, but is boring to the outsid
 world 
 */
 
+/*
+nu*sizeof(Header)<=UINT_MAX
+nu <= UM/sH
+(nbytes+sH-1)/sH+1<= UM/sH
+(nbytes+sH-1)/sH<= UM/sH - 1
+nbytes+sH-1 <= UM - sH - 1
+nbytes <= UM -2*sH
+*/
+
 
 #define NALLOC 1024 /* minimum #units to request */
 
+//external
 void free(const void *datap);
 char *sbrk(int);
 
@@ -91,7 +111,6 @@ static Header *morecore(unsigned nu)
 	return dyn_basep;
 }
 
-void exit(int status);
 
 void free(const void *datap)
 {  /* put block datap in free list */
@@ -101,7 +120,7 @@ void free(const void *datap)
 	/*finds p such that order of it freedp and S(p) is desirea. look below */ 
 	for (p = dyn_basep; !(freedp > p && freedp < p->s.ptr); p = p->s.ptr)
 	{	if (freedp < p && p < freedp + freedp->s.size)
-			exit(1);
+			exit(1); //freedp's block don't suppose to go over another pointer
 		if (p >= p->s.ptr && (freedp > p || freedp < p->s.ptr))
 			break; /* freed block at start or end of arena */
 	}
@@ -139,6 +158,8 @@ f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 
 
 //original
+
+//external
 void *memset(void *str, int c, size_t n);
 
 void *dep_calloc(long unsigned const n, size_t size)
@@ -148,37 +169,4 @@ void *dep_calloc(long unsigned const n, size_t size)
 	if (back != NULL)
 		memset(back, 0x00, size);
 	return back;
-}
-
-void *indi_calloc(const long unsigned n, const size_t size)
-{  /* general-purpose storage allocator */
-	Header *p, *prevp; //p to the header of the block to be allocated
-	
-	const size_t nbytes = n * size;
-	const unsigned  nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
-	if (dyn_basep == NULL) 
-	{  /* no free list yet */
-		stat_base.s.ptr = dyn_basep = &stat_base;
-		stat_base.s.size = 0;
-	}
-	prevp = dyn_basep;
-	for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) 
-	{	if (p->s.size >= nunits) 
-		{  /* big enough */
-			if (p->s.size == nunits) /* exactly */
-				prevp->s.ptr = p->s.ptr;
-			else 
-			{  /* allocate tail end */
-				p->s.size -= nunits;
-				p += p->s.size;
-				p->s.size = nunits;
-			}
-			dyn_basep = prevp;
-			memset(p+1, 0x00, nbytes);
-			return (void *)(p+1);
-		}
-		if (p == dyn_basep) /* wrapped around free list */
-			if ((p = morecore(nunits)) == NULL)
-				return NULL; /* none left */
-	}
 }
