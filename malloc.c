@@ -11,12 +11,14 @@ but for the sake of excercise let's go with that
 
 typedef long double Align; /* for alignment to long double boundary */
 
-union header 
-{  /* block header */
-	struct 
+typedef	struct 
 	{	union header *ptr; /* next block if on free list */
 		size_t size; /* size of this block */
-	} s;
+	} sml_header;
+
+union header 
+{  /* block header */
+	sml_header s;
 	Align x; /* force alignment of blocks */
 };
 
@@ -42,7 +44,8 @@ void *KnR_malloc(const size_t nbytes)
 	maybe there're legitimate reasons to want a bodiless header
 	and it could be easily freed*/
 
-	const unsigned nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
+	const unsigned nunits \
+	  = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
 	if (dyn_basep == NULL) 
 	{  /* no free list yet */
 		stat_base.s.ptr = dyn_basep = &stat_base;
@@ -96,7 +99,8 @@ void *memset(void *str, int c, size_t n);
 void *dep_calloc(long unsigned const n, size_t size)
 {
 	size *=n;
-	void *back = KnR_malloc(size);
+	void *back \
+	  = KnR_malloc(size);
 	if (back != NULL)
 		memset(back, 0x00, size);
 	return back;
@@ -116,7 +120,8 @@ static Header *morecore(unsigned nu)
 	
 	if (nu < NALLOC)
 		nu = NALLOC;
-	const char * const charp = sbrk(nu * sizeof(Header));
+	const char * const charp \
+	  = sbrk(nu * sizeof(Header));
 	if (charp == (char *) -1) /* no space at all */
 		return NULL;
 	freshp = (Header *) charp;
@@ -132,7 +137,8 @@ static Header *morecore(unsigned nu)
 void free(const void *datap)
 {  /* put block datap in free list */
 	Header *freedp, *p;
-	const char *freerr="We got some problem. This block of memory says it's bigger than it's supposed to be.\
+	const char *freerr\
+	  ="We got some problem. This block of memory says it's bigger than it's supposed to be.\
 			 I don't feel it's safe to free that. sorry";
 	
 	freedp = (Header *)datap - 1; /* point to block header */
@@ -189,9 +195,25 @@ void bfree(const void *ptr, const size_t nbytes)
 	{	fprintf(stderr,"Sorry hunn, I can't bother with this little memory"); 
 		return;
 	}
-	const unsigned nunits = nbytes/sizeof(Header)-1;
+	const unsigned nunits \
+	  = nbytes/sizeof(Header)-1;
 	freedp = (Header *) ptr;
 	freedp->s.size = nunits;
 	free(ptr+1);
 }
 
+void waitfree(const void *freedp, const size_t nbytes)
+{	sml_header *p;
+	static sml_header wait_base\
+	  = {.ptr=&wait_base, .size=0};
+
+	sml_header *free_head = {freedp,nbytes};
+	for (p=&wait_base;"ever";p = p->ptr)
+		if ((p <= freedp  && freedp <= p->ptr)\
+		  || (freedp <= p->ptr && p->ptr <= p)\
+		  || (p->ptr <= p      && p <= freedp))
+			break;
+
+
+
+}
