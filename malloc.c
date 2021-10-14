@@ -11,14 +11,12 @@ but for the sake of excercise let's go with that
 
 typedef long double Align; /* for alignment to long double boundary */
 
-typedef	struct 
-	{	union header *ptr; /* next block if on free list */
-		size_t size; /* size of this block */
-	} sml_header;
-
 union header 
 {  /* block header */
-	sml_header s;
+	struct 
+	{	union header *ptr; /* next block if on free list */
+		size_t size; /* size of this block */
+	} s;
 	Align x; /* force alignment of blocks */
 };
 
@@ -202,18 +200,37 @@ void bfree(const void *ptr, const size_t nbytes)
 	free(ptr+1);
 }
 
-void waitfree(const void *freedp, const size_t nbytes)
-{	sml_header *p;
+typedef	struct sm
+	{	void *ptr; /* pointer for the kept block */
+		size_t size; /* size of this block */
+		struct sm *next; /*pointer for next small header */
+	} sml_header;
+
+
+void waitfree(void *freedp, const size_t nbytes)
+{	sml_header free_head, p;
 	static sml_header wait_base\
-	  = {.ptr=&wait_base, .size=0};
+	  = {.ptr=0, .size=0, .next=&wait_base};
 
-	sml_header *free_head = {freedp,nbytes};
-	for (p=&wait_base;"ever";p = p->ptr)
-		if ((p <= freedp  && freedp <= p->ptr)\
-		  || (freedp <= p->ptr && p->ptr <= p)\
-		  || (p->ptr <= p      && p <= freedp))
+	free_head = (sml_header) {.ptr=freedp, .size=nbytes, .next=0};
+	for (p=wait_base;"ever";p = *(p.next))
+		if ((p.ptr      <= freedp && freedp <= p.next->ptr)\
+		  ||(freedp <= p.next->ptr && p.next->ptr <= p.ptr )\
+		  ||(p.next->ptr <= p.ptr  && p.ptr  <= freedp))
 			break;
-
-
+	if (freedp + nbytes >= p.next->ptr) 
+	{  //join S(p) into freedp
+		free_head.size = p.next->ptr - freedp + p.size;
+		free_head.next = p.next->next;
+	} else
+		//link freedp to S(p)
+		free_head.next = p.next;
+	if (p.ptr + p.size >= freedp) 
+	{  // join freedp into p
+		p.size = freedp - p.ptr + free_head.size;
+		p.next = free_head.next;
+	} else
+		//link p to freedp instead of S(p)
+		p.next = freedp;
 
 }
