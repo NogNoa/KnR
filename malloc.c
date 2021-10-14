@@ -185,13 +185,14 @@ f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 
 //original
 
+void waitfree(const void *freedp, const size_t nbytes);
+
 void bfree(const void *ptr, const size_t nbytes)
 {  
 	Header *freedp;
 
-	if (nbytes <= 2 * sizeof(Header))
-	{	fprintf(stderr,"Sorry hunn, I can't bother with this little memory"); 
-		return;
+	if (nbytes < 2 * sizeof(Header))
+	{	waitfree(ptr, nbytes);
 	}
 	const unsigned nunits \
 	  = nbytes/sizeof(Header)-1;
@@ -201,13 +202,14 @@ void bfree(const void *ptr, const size_t nbytes)
 }
 
 typedef	struct sm
-	{	void *ptr; /* pointer for the kept block */
+	{	const void *ptr; /* pointer for the kept block */
 		size_t size; /* size of this block */
 		struct sm *next; /*pointer for next small header */
 	} sml_header;
 
+void unwaitfree(sml_header free_head, sml_header wait_base);
 
-void waitfree(void *freedp, const size_t nbytes)
+void waitfree(const void *freedp, const size_t nbytes)
 {	sml_header free_head, p;
 	static sml_header wait_base\
 	  = {.ptr=0, .size=0, .next=&wait_base};
@@ -231,6 +233,18 @@ void waitfree(void *freedp, const size_t nbytes)
 		p.next = free_head.next;
 	} else
 		//link p to freedp instead of S(p)
-		p.next = freedp;
+		p.next = &free_head;
+	if (free_head.size >= 2 * sizeof(Header))
+		unwaitfree(free_head, wait_base);
+	if (p.size >= 2 * sizeof(Header))
+		unwaitfree(p, wait_base);
+}
 
+void unwaitfree(sml_header free_head, sml_header wait_base)
+{
+	sml_header prev;
+	for (prev=wait_base;prev.next != &free_head;prev = *prev.next)
+		{;}
+	prev.next = free_head.next;
+	bfree(free_head.ptr, free_head.size);
 }
