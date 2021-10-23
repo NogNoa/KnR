@@ -4,6 +4,7 @@ but for the sake of excercise let's go with that
 */
 
 #include <stddef.h>
+#include <limits.h>
 
 // Ritchie, D.M. and Kernighan, B.W. (1988) p165-166
 //fixed and edited
@@ -21,6 +22,10 @@ union header
 
 typedef union header Header;
 
+#include <stdio.h>
+
+void exit(int status);
+
 static Header stat_base; /* empty list to get started */
 static Header *dyn_basep = NULL; /* start of free list */
 
@@ -30,7 +35,15 @@ void *KnR_malloc(const size_t nbytes)
 {  /* general-purpose storage allocator */
 	Header *p, *prevp; //p to the header of the block to be allocated
 	
-	const unsigned nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
+	if (nbytes > UINT_MAX - 2 * sizeof(Header))
+		fprintf(stderr,"You asked for to much - %ld what are ye gonna do with all that memory?\
+			You'l get my registers overflowed",nbytes);
+	/*note: if caller asked for 0 bytes it they're fault, 
+	maybe there're legitimate reasons to want a bodiless header
+	and it could be easily freed*/
+
+	const unsigned nunits \
+	  = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
 	if (dyn_basep == NULL) 
 	{  /* no free list yet */
 		stat_base.s.ptr = dyn_basep = &stat_base;
@@ -67,9 +80,35 @@ itself which is all that interesting to this module, but is boring to the outsid
 world 
 */
 
+/*
+nu*sizeof(Header)<=UINT_MAX
+nu <= UM/sH
+(nbytes+sH-1)/sH+1<= UM/sH
+(nbytes+sH-1)/sH<= UM/sH - 1
+nbytes+sH-1 <= UM - sH - 1
+nbytes <= UM -2*sH
+*/
+
+//original
+
+//external
+void *memset(void *str, int c, size_t n);
+
+void *dep_calloc(long unsigned const n, size_t size)
+{
+	size *=n;
+	void *back \
+	  = KnR_malloc(size);
+	if (back != NULL)
+		memset(back, 0x00, size);
+	return back;
+}
+
+// Ritchie, D.M. and Kernighan, B.W. (1988) p165-166
 
 #define NALLOC 1024 /* minimum #units to request */
 
+//external
 void free(const void *datap);
 char *sbrk(int);
 
@@ -79,7 +118,8 @@ static Header *morecore(unsigned nu)
 	
 	if (nu < NALLOC)
 		nu = NALLOC;
-	const char * const charp = sbrk(nu * sizeof(Header));
+	const char * const charp \
+	  = sbrk(nu * sizeof(Header));
 	if (charp == (char *) -1) /* no space at all */
 		return NULL;
 	freshp = (Header *) charp;
@@ -91,22 +131,28 @@ static Header *morecore(unsigned nu)
 	return dyn_basep;
 }
 
-void exit(int status);
 
 void free(const void *datap)
 {  /* put block datap in free list */
 	Header *freedp, *p;
+	const char *freerr\
+	  ="We got some problem. This block of memory says it's bigger than it's supposed to be.\
+			 I don't feel it's safe to free that. sorry";
 	
 	freedp = (Header *)datap - 1; /* point to block header */
 	/*finds p such that order of it freedp and S(p) is desirea. look below */ 
 	for (p = dyn_basep; !(freedp > p && freedp < p->s.ptr); p = p->s.ptr)
 	{	if (freedp < p && p < freedp + freedp->s.size)
-			exit(1);
+		{	fprintf(stderr,"%s",freerr); //freedp's block don't suppose to go over another pointer
+			return;
+		}
 		if (p >= p->s.ptr && (freedp > p || freedp < p->s.ptr))
 			break; /* freed block at start or end of arena */
 	}
 	if (freedp < p->s.ptr && p->s.ptr < freedp + freedp->s.size)
-			exit(1);
+	{	fprintf(stderr,"%s",freerr);
+		return;
+	}
 	if (freedp + freedp->s.size == p->s.ptr) 
 	{  //join S(p) into freedp
 		freedp->s.size += p->s.ptr->s.size;
@@ -137,48 +183,68 @@ p <  f <  s,  f <= s <= p,  s <= p <  f  break
 f <= p <  s,  s <= f <= p,  p <= s <= f  continue
 */
 
-
 //original
-void *memset(void *str, int c, size_t n);
 
-void *dep_calloc(long unsigned const n, size_t size)
-{
-	size *=n;
-	void *back = KnR_malloc(size);
-	if (back != NULL)
-		memset(back, 0x00, size);
-	return back;
+void waitfree(const void *freedp, const size_t nbytes);
+
+void bfree(const void *ptr, const size_t nbytes)
+{  
+	Header *freedp;
+
+	if (nbytes < 2 * sizeof(Header))
+	{	waitfree(ptr, nbytes);
+	}
+	const unsigned nunits \
+	  = nbytes/sizeof(Header)-1;
+	freedp = (Header *) ptr;
+	freedp->s.size = nunits;
+	free(ptr+1);
 }
 
-void *indi_calloc(const long unsigned n, const size_t size)
-{  /* general-purpose storage allocator */
-	Header *p, *prevp; //p to the header of the block to be allocated
-	
-	const size_t nbytes = n * size;
-	const unsigned  nunits = (nbytes+sizeof(Header)-1)/sizeof(Header) + 1;
-	if (dyn_basep == NULL) 
-	{  /* no free list yet */
-		stat_base.s.ptr = dyn_basep = &stat_base;
-		stat_base.s.size = 0;
-	}
-	prevp = dyn_basep;
-	for (p = prevp->s.ptr; ; prevp = p, p = p->s.ptr) 
-	{	if (p->s.size >= nunits) 
-		{  /* big enough */
-			if (p->s.size == nunits) /* exactly */
-				prevp->s.ptr = p->s.ptr;
-			else 
-			{  /* allocate tail end */
-				p->s.size -= nunits;
-				p += p->s.size;
-				p->s.size = nunits;
-			}
-			dyn_basep = prevp;
-			memset(p+1, 0x00, nbytes);
-			return (void *)(p+1);
-		}
-		if (p == dyn_basep) /* wrapped around free list */
-			if ((p = morecore(nunits)) == NULL)
-				return NULL; /* none left */
-	}
+typedef	struct sm
+	{	const void *ptr; /* pointer for the kept block */
+		size_t size; /* size of this block */
+		struct sm *next; /*pointer for next small header */
+	} sml_header;
+
+void unwaitfree(sml_header free_head, sml_header wait_base);
+
+void waitfree(const void *freedp, const size_t nbytes)
+{	sml_header free_head, p;
+	static sml_header wait_base\
+	  = {.ptr=0, .size=0, .next=&wait_base};
+
+	free_head = (sml_header) {.ptr=freedp, .size=nbytes, .next=0};
+	for (p=wait_base;"ever";p = *(p.next))
+		if ((p.ptr      <= freedp && freedp <= p.next->ptr)\
+		  ||(freedp <= p.next->ptr && p.next->ptr <= p.ptr )\
+		  ||(p.next->ptr <= p.ptr  && p.ptr  <= freedp))
+			break;
+	if (freedp + nbytes >= p.next->ptr) 
+	{  //join S(p) into freedp
+		free_head.size = p.next->ptr - freedp + p.size;
+		free_head.next = p.next->next;
+	} else
+		//link freedp to S(p)
+		free_head.next = p.next;
+	if (p.ptr + p.size >= freedp) 
+	{  // join freedp into p
+		p.size = freedp - p.ptr + free_head.size;
+		p.next = free_head.next;
+	} else
+		//link p to freedp instead of S(p)
+		p.next = &free_head;
+	if (free_head.size >= 2 * sizeof(Header))
+		unwaitfree(free_head, wait_base);
+	if (p.size >= 2 * sizeof(Header))
+		unwaitfree(p, wait_base);
+}
+
+void unwaitfree(sml_header free_head, sml_header wait_base)
+{
+	sml_header prev;
+	for (prev=wait_base;prev.next != &free_head;prev = *prev.next)
+		{;}
+	prev.next = free_head.next;
+	bfree(free_head.ptr, free_head.size);
 }

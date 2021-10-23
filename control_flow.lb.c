@@ -181,7 +181,7 @@ than    {(low < high)
 than 	 (x == v[mid]) iff (low == high)
 */
 
-void real_recrs_reverse(int i, char s[])
+static void real_recrs_reverse(const int i, char s[])
 { /* reverse: reverse string s in place using recursion */
 	static int len, middle;
 	int temp, alt;
@@ -200,7 +200,7 @@ void real_recrs_reverse(int i, char s[])
 	}
 }
 
-inline void recrs_reverse(char s[])
+void recrs_reverse(char s[])
 {
 	real_recrs_reverse(0,s);
 }

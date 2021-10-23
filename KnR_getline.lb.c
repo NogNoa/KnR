@@ -72,7 +72,7 @@ int linearise(void)
 	lini = malloc(MAXLINE);	//extern array of pointers to each line
 	mxlen=0;
 
-	size_t maxline = MAXLINE;
+	const  size_t maxline = MAXLINE;
 
 	for (nline=0; (len = getline(&line, &maxline, stdin)); ++nline)
 	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
