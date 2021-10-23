@@ -13,7 +13,7 @@ struct nlist { /* table entry: */
 static struct nlist *hashtab[HASHSIZE]; /* pointer table */
 
 
-unsigned hash(char *s)
+static unsigned hash(char *s)
 {  /* hash: form hash value for string s */
 	unsigned hashval;
 	
