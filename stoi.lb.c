@@ -193,7 +193,7 @@ char lower(char s)
 	return ((s>'A') && (s<'Z')) ? (s+'a'-'A') : s;
 }
 
-double tentothe(double power, int sign)
+static double tentothe(double power, int sign)
 { 	// return 10 ^ (sign * power)
 	double back=1;
 

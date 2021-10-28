@@ -1,5 +1,5 @@
 #include <ctype.h>
-#include "../KnR_getline.h"
+#include "KnR_getline.h"
 
 /*
 Text is nline lines, each killed by /0.

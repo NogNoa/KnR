@@ -38,6 +38,13 @@ cat: $(ODIR)/cat.o $(ODIR)/unix.lb.o
 	$(COMPILE)
 $(ODIR)/cat.o: unix.lb.h
 
+transpose: $(ODIR)/transpose.o $(ODIR)/KnR_getline.lb.o
+	$(COMPILE)
+$(ODIR)/transpose.o : transpose.c KnR_getline.h
+	$(OBJPILE)
+$(ODIR)/KnR_getline.lb.o : KnR_getline.lb.c KnR_getline.h
+	$(OBJPILE)
+
 $(ODIR)/%.o: %.c
 	 $(OBJPILE)
 
