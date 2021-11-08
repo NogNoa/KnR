@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {
 	FILE *codex;
 	
-	while (--argc > 1 && (codex = file_switch(codex, ++argv)) != NULL)
+	while (--argc > 0 && (codex = file_switch(codex, ++argv)) != NULL)
 		file_print(codex);
 	return EXIT_SUCCESS;
 }
@@ -38,7 +38,7 @@ int file_print(FILE *codex)
 		 		lastpage =(getline(&line, &maxline, codex) == EOF);
 			printf("%s",line);
 		}
-		printf("%40d\n",page_num++);
+		printf("%40d\f",page_num++);
 	}
 	return page_num;
 }
