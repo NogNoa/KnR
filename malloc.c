@@ -38,7 +38,7 @@ void *KnR_malloc(const size_t nbytes)
 	if (nbytes > UINT_MAX - 2 * sizeof(Header))
 		fprintf(stderr,"You asked for to much - %ld what are ye gonna do with all that memory?\
 			You'l get my registers overflowed",nbytes);
-	/*note: if caller asked for 0 bytes it they're fault, 
+	/*note: if caller asked for 0 bytes it's their fault, 
 	maybe there're legitimate reasons to want a bodiless header
 	and it could be easily freed*/
 
