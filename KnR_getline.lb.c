@@ -76,7 +76,7 @@ int linearise(void)
     *maxline = MAXLINE;
 
 	for (nline=0; (len = getline(&line, maxline, stdin)) > 0; ++nline)
-	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
+	{	if (nline >= MAXLINE || (p=malloc(len+1)) == NULL)
 			return -1;
 		strncpy(p,line, len);
 		lini[nline] = p;
