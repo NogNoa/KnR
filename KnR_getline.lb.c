@@ -68,22 +68,23 @@ int linearise(void)
 	char *line,*p; //line: buffer for each line
 	int nline,len = 0; //nline: number of lines
 
-	linlen = malloc(MAXLINE); //extern array for the length of each line
-	lini = malloc(MAXLINE);	//extern array of pointers to each line
+	linlen = calloc(MAXLINE, sizeof(int)); //extern array for the length of each line
+	lini = calloc(MAXLINE, sizeof(char*));	//extern array of pointers to each line
 	mxlen=0;
 
-	const  size_t maxline = MAXLINE;
+	size_t* maxline;
+    *maxline = MAXLINE;
 
-	for (nline=0; (len = getline(&line, &maxline, stdin)); ++nline)
+	for (nline=0; (len = getline(&line, maxline, stdin)) > 0; ++nline)
 	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
 			return -1;
-		strcpy(p,line);
+		strncpy(p,line, len);
 		lini[nline] = p;
 		if (len>mxlen)
 			mxlen=len;
 		linlen[nline]=len;
 	}
-	linlen = (int *) realloc(linlen, nline * sizeof(int*));
+	linlen = (int *) realloc(linlen, nline * sizeof(int));
 	lini = (char **) realloc(lini, nline * sizeof(char*));
 	return nline;
 }
