@@ -63,21 +63,24 @@ int ptr_KnR_getline(char *s, int n)
 	return lim-n;
 }
 
-int linearise(void)
+page linearise(void)
 {
-	char *line,*p; //line: buffer for each line
+	char* line,* p; //line: buffer for each line
 	int nline,len = 0; //nline: number of lines
 
-	linlen = calloc(MAXLINE, sizeof(int)); //extern array for the length of each line
-	lini = calloc(MAXLINE, sizeof(char*));	//extern array of pointers to each line
-	mxlen=0;
+	int* linlen = calloc(MAXLINE, sizeof(int)); //extern array for the length of each line
+	char** lini = calloc(MAXLINE, sizeof(char*));	//extern array of pointers to each line
+	int mxlen=0;
 
-	size_t* maxline;
+	
+	size_t * restrict maxline = malloc(sizeof(size_t*));
     *maxline = MAXLINE;
 
 	for (nline=0; (len = getline(&line, maxline, stdin)) > 0; ++nline)
 	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
-			return -1;
+		{	nline = 0;
+			break;
+		}
 		strncpy(p,line, len);
 		lini[nline] = p;
 		if (len>mxlen)
@@ -86,5 +89,5 @@ int linearise(void)
 	}
 	linlen = (int *) realloc(linlen, nline * sizeof(int));
 	lini = (char **) realloc(lini, nline * sizeof(char*));
-	return nline;
+	return (page) {nline, mxlen, linlen, lini};
 }
