@@ -3,8 +3,6 @@
 
 /*
 Text is nline lines, each killed by /0.
-so we somehow also has to follow which lines are dead. this is beyond me.
-15.6.21 still not prepered
 */
 
 
@@ -31,7 +29,7 @@ void expose(page pg)
 
 int main()
 {
-	stdin = fopen("transpose.c","r");
+	//stdin = fopen("transpose.c","r");
 
 	page pg = linearise();
 	expose(pg);

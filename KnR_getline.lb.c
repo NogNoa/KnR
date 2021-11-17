@@ -74,19 +74,19 @@ page linearise(void)
 	int mxlen=0;
 
 	
-	size_t * restrict maxline = malloc(sizeof(size_t*));
+	size_t * restrict maxline = malloc(sizeof MAXLINE);
     *maxline = MAXLINE;
 
-	for (nline=0; (len = getline(&line, maxline, stdin)) > 0; ++nline)
-	{	if (nline >= MAXLINE || (p = malloc(len+1)) == NULL)
-		{	nline = 0;
+	for (nline= 0; (len= getline(&line, maxline, stdin)) > 0; ++nline)
+	{	if (nline >= MAXLINE || (p= malloc(len+1)) == NULL)
+		{	nline= 0;
 			break;
 		}
-		strncpy(p,line, len);
-		lini[nline] = p;
-		if (len>mxlen)
-			mxlen=len;
-		linlen[nline]=len;
+		strncpy(p, line, len);
+		lini[nline]= p;
+		if (len > mxlen)
+			mxlen= len;
+		linlen[nline]= len;
 	}
 	linlen = (int *) realloc(linlen, nline * sizeof(int));
 	lini = (char **) realloc(lini, nline * sizeof(char*));
