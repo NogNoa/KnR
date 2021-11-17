@@ -1,17 +1,19 @@
 // Ritchie, D.M. and Kernighan, B.W. (1988) p97
 // Ritchie, D.M. and Kernighan, B.W. (1988) p106
 
-#include "KnR_getline.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <assert.h>
 #define MAXLINES 5120 /* max #lines to be sorted */
 #define MAXLEN 1024 /* max length of any input line */
 
 typedef char* field;
-typedef char *line[MAXLEN/2] ;
-typedef char *(*page)[MAXLEN/2];
+typedef char** line ;
+typedef char*** page;
 
-static char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
+static page lineptr; /* pointers to text lines divided to fields*/
 static int nfield=1;
 
 struct state{
@@ -71,10 +73,13 @@ int main(int argc, char *argv[])
 int readlines(page lineptr, int maxlines, char dlimit)
 {	/* readlines: read input lines */
 	int len, nline;
-	char line[MAXLEN];
+	char* line;
+
+	size_t * restrict maxline = malloc(sizeof MAXLEN);
+    *maxline = MAXLEN;
 	
-	for (nline = 0; (len = ptr_KnR_getline(line, MAXLEN)) > 0;nline++)
-	{	char *p=malloc(MAXLEN);
+	for (nline = 0; (len = getline(&line, maxline, stdin)) > 0;nline++)
+	{	char *p=malloc(len+1);
 		if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
@@ -105,7 +110,7 @@ void fieldseperate(line fieldptr, char dlimit)
 		}
 }
 
-void writelines(char *lineptr[][512], int nlines, char dlimit)
+void writelines(page lineptr, int nlines, char dlimit)
 { /* writelines: write output lines */
 	
 	for (int l = 0; l+1 < nlines; l++)
