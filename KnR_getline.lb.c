@@ -77,8 +77,8 @@ page linearise(void)
 	size_t * restrict maxline = malloc(sizeof(size_t*));
     *maxline = MAXLINE;
 
-	for (nline=0; (len = getline(&line, maxline,stdin)) > 0; ++nline)
-	{	if (nline >= MAXLINE || (p=malloc(len)) == NULL)
+	for (nline=0; (len = getline(&line, maxline, stdin)) > 0; ++nline)
+	{	if (nline >= MAXLINE || (p = malloc(len+1)) == NULL)
 		{	nline = 0;
 			break;
 		}

@@ -82,7 +82,7 @@ int readlines(page lineptr, int maxlines, char dlimit)
 				line[len-1] = '\0';
 			else if (line[len] == '\n')
 				line[len] =  '\0'; /* delete newline */
-			strcpy(p, line);
+			strncpy(p, line, len);
 			*lineptr[nline] = p;
 			fieldseperate(lineptr[nline],dlimit);
 		}
