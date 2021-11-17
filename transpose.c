@@ -8,16 +8,16 @@ so we somehow also has to follow which lines are dead. this is beyond me.
 */
 
 
-void expose(char * lini[],int  nline, int mxlen)
+void expose(page pg)
 {
 	char c;
-	_Bool dead[nline];
+	_Bool dead[pg.nline];
 
-	for (int i=0;i++<nline;) {dead[i]=0;}
+	for (int i=0;i++ < pg.nline;) {dead[i]=0;}
 
-	for (int i=0; i < mxlen; ++i)
-	{	for (int lin=0;lin<nline ;++lin)
-		{	c=lini[lin][i];
+	for (int i=0; i < pg.mxlen; ++i)
+	{	for (int lin=0;lin < pg.nline ;++lin)
+		{	c=pg.lini[lin][i];
 			if (c=='\0')
 				dead[lin]=1;
 			if (dead[lin] || isspace(c))
@@ -31,11 +31,10 @@ void expose(char * lini[],int  nline, int mxlen)
 
 int main()
 {
-	int many_line;
 	stdin = fopen("transpose.c","r");
 
-	many_line = linearise();
-	expose(lini, many_line, mxlen);
+	page pg = linearise();
+	expose(pg);
 
 	return 0;
 }
