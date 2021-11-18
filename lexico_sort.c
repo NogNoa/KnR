@@ -11,7 +11,7 @@
 
 typedef char* field;
 struct line{
-	char* val[MAXLEN/2];
+	field* val;
 	struct line* next;
 };
 typedef struct line line;
@@ -28,12 +28,12 @@ _Bool dircord; /* 1 if directory order sort */
 };
 
 int readlines(page lineptr, int nlines, char dlimit);
-void writelines(page lineptr, int nlines, char dlimit);
+void writelines(page lineptr, char dlimit);
 void KnR_qsort(page lineptr, int left, int right, struct state []);
 int numcmp(char *s1, char *s2, struct state *);
 int astrcmp (char *s1, char *s2);
 int lexcmp(char *cs,char *ct, struct state stt[]);
-void fieldseperate(line fieldptr, char dlimit);
+void fieldseperate(field* fieldptr, char dlimit);
 int fieldcmp (char *fp1[MAXLEN/2], char *fp2[MAXLEN/2], struct state stti[]);
 
 int main(int argc, char *argv[])
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 	}
 	if ((nlines = readlines(lineptr, MAXLINES, dlimit)) >= 0) 
 	{	KnR_qsort(lineptr, 0, nlines-1, stti);
-		writelines(lineptr, nlines, dlimit);
+		writelines(lineptr, dlimit);
 		return 0;
 	} 
 	else 
@@ -74,32 +74,38 @@ int main(int argc, char *argv[])
 	}
 }
 
-int readlines(page lineptr, int maxlines, char dlimit)
+int readlines(page pg, int maxlines, char dlimit)
 {	/* readlines: read input lines */
 	int len, nline;
-	char* line;
+	char* crnt_line;
+	line* lineptr;
 
 	size_t * restrict maxline = malloc(sizeof MAXLEN);
     *maxline = MAXLEN;
 	
-	for (nline = 0; (len = getline(&line, maxline, stdin)) > 0;nline++)
+	for (nline = 0, lineptr=pg;
+	 (len = getline(&crnt_line, maxline, stdin)) > 0;
+	 nline++, lineptr = lineptr->next)
 	{	char *p=malloc(len+1);
 		if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
-		{	if (line[len-1] == '\r')
-				line[len-1] = '\0';
-			else if (line[len] == '\n')
-				line[len] =  '\0'; /* delete newline */
-			strncpy(p, line, len);
-			*lineptr[nline] = p;
-			fieldseperate(lineptr[nline],dlimit);
+		{	if (crnt_line[len-1] == '\r')
+				crnt_line[len-1] = '\0';
+			else if (crnt_line[len] == '\n')
+				crnt_line[len] =  '\0'; /* delete newline */
+			strncpy(p, crnt_line, len);
+			*(lineptr->val) = p;
+			fieldseperate(lineptr->val,dlimit);
+			lineptr->next = malloc(sizeof lineptr);
 		}
 	}
+	free(lineptr->next);
+	lineptr->next = NULL;
 	return nline;
 }
 
-void fieldseperate(line fieldptr, char dlimit)
+void fieldseperate(field* fieldptr, char dlimit)
 {	/* Takes fieldptr,a line of fields , the whole text of the line is in 
 	the first field. The function seperate the text to the fields by 
 	terminating each of them at each instance of the delimiter, 
@@ -114,12 +120,12 @@ void fieldseperate(line fieldptr, char dlimit)
 		}
 }
 
-void writelines(page lineptr, int nlines, char dlimit)
+void writelines(page pg, char dlimit)
 { /* writelines: write output lines */
 	
-	for (int l = 0; l+1 < nlines; l++)
-	{	for (int f=0;lineptr[l][f] != NULL ;)
-			printf("%s%c",lineptr[l][f++],dlimit);
+	for (page lineptr=pg; lineptr != NULL; lineptr=lineptr->next)
+	{	for (int f=0;(lineptr->val)[f] != NULL ;)
+			printf("%s%c",(lineptr->val)[f++],dlimit);
 		printf("\b \n"); //remove last dlimit
 	}
 }
@@ -157,7 +163,7 @@ int lexcmp(field cs,field ct, struct state *stt)
 	return ccs-cct;
 }
 
-int fieldcmp (line fp1, line fp2, struct state stti[])
+int fieldcmp (field* fp1, field* fp2, struct state stti[])
 {
 	int (*cmp)(field, field, struct state *);
 	int back = 0;
@@ -201,7 +207,7 @@ void KnR_qsort(page v, int left, int right,
 	swap((void**) v, left, (left + right)/2);
 	last = left;
 	for (i = left+1; i <= right; i++)
-		if (fieldcmp( ((page) v)[i], ((page) v)[left], stti ) < 0)
+		if (fieldcmp( ((page) v)[i].val, ((page) v)[left].val, stti ) < 0)
 			swap((void**) v, ++last, i);
 	swap((void*) v, left, last);
 	KnR_qsort(v,   left, last-1, stti);
