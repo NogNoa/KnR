@@ -74,6 +74,7 @@ int readlines(page lineptr, int maxlines, char dlimit)
 {	/* readlines: read input lines */
 	int len, nline;
 	char* line;
+	lineptr = calloc(sizeof(line),MAXLINES);
 
 	size_t * restrict maxline = malloc(sizeof MAXLEN);
     *maxline = MAXLEN;
@@ -88,10 +89,12 @@ int readlines(page lineptr, int maxlines, char dlimit)
 			else if (line[len] == '\n')
 				line[len] =  '\0'; /* delete newline */
 			strncpy(p, line, len);
+			lineptr[nline] = calloc(sizeof(field),MAXLEN);
 			*lineptr[nline] = p;
 			fieldseperate(lineptr[nline],dlimit);
 		}
 	}
+	lineptr = realloc(lineptr,sizeof(line)*nline);
 	return nline;
 }
 
@@ -101,13 +104,15 @@ void fieldseperate(line fieldptr, char dlimit)
 	terminating each of them at each instance of the delimiter, 
 	and referancing the next field to the next character */
 	int ifield=1;
+	char* pc;
 	
 	assert(*fieldptr != NULL);
-	for(char *pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
+	for(pc=*fieldptr;*pc != '\0' && ifield < MAXLEN/2;pc++)
 		if (*pc == dlimit)
 		{	*pc = '\0';
 			fieldptr[ifield++] = pc+1;
 		}
+	fieldptr = realloc(fieldptr,sizeof(field)*(pc-*fieldptr));
 }
 
 void writelines(page lineptr, int nlines, char dlimit)
