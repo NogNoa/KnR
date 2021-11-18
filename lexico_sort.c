@@ -10,14 +10,10 @@
 #define MAXLEN 1024 /* max length of any input line */
 
 typedef char* field;
-struct line{
-	char* val[MAXLEN/2];
-	struct line* next;
-};
-typedef struct line line;
-typedef line* page;
+typedef char *line[MAXLEN/2] ;
+typedef char *(*page)[MAXLEN/2];
 
-static page lineptr; /* pointers to text lines divided to fields*/
+static char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
 static int nfield=1;
 
 struct state{
