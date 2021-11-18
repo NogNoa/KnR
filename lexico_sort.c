@@ -1,17 +1,24 @@
 // Ritchie, D.M. and Kernighan, B.W. (1988) p97
 // Ritchie, D.M. and Kernighan, B.W. (1988) p106
 
-#include "KnR_getline.h"
+//#include "KnR_getline.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <assert.h>
 #define MAXLINES 5120 /* max #lines to be sorted */
 #define MAXLEN 1024 /* max length of any input line */
 
 typedef char* field;
-typedef char *line[MAXLEN/2] ;
-typedef char *(*page)[MAXLEN/2];
+struct line{
+	char* val[MAXLEN/2];
+	struct line* next;
+};
+typedef struct line line;
+typedef line* page;
 
-static char *lineptr[MAXLINES][MAXLEN/2]; /* pointers to text lines divided to fields*/
+static page lineptr; /* pointers to text lines divided to fields*/
 static int nfield=1;
 
 struct state{
