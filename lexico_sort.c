@@ -73,23 +73,23 @@ int main(int argc, char *argv[])
 int readlines(page lineptr, int maxlines, char dlimit)
 {	/* readlines: read input lines */
 	int len, nline;
-	char* line;
-	lineptr = calloc(sizeof(line),MAXLINES);
+	line cur_line;
+	lineptr = calloc(MAXLINES, sizeof(line));
 
 	size_t * restrict maxline = malloc(sizeof MAXLEN);
     *maxline = MAXLEN;
 	
-	for (nline = 0; (len = getline(&line, maxline, stdin)) > 0;nline++)
+	for (nline = 0; (len = getline(&cur_line, maxline, stdin)) > 0;nline++)
 	{	char *p=malloc(len+1);
 		if (nline >= maxlines || (p+=len+1) == NULL)
 			return -1;
 		else 
-		{	if (line[len-1] == '\r')
-				line[len-1] = '\0';
-			else if (line[len] == '\n')
-				line[len] =  '\0'; /* delete newline */
-			strncpy(p, line, len);
-			lineptr[nline] = calloc(sizeof(field),MAXLEN);
+		{	if (cur_line[len-1] == '\r')
+				cur_line[len-1] = '\0';
+			else if (cur_line[len] == '\n')
+				cur_line[len] =  '\0'; /* delete newline */
+			strncpy(p, cur_line, len);
+			lineptr[nline] = calloc(MAXLEN, sizeof(field));
 			*lineptr[nline] = p;
 			fieldseperate(lineptr[nline],dlimit);
 		}
