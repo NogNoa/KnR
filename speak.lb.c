@@ -98,9 +98,9 @@ void minprintf(char *fmt, ...)
 	va_end(ap); /* clean up when done */
 }
 
-/* fputs: put string s on file iop */
+
 int KnR_fputs(char *s, FILE *iop)
-{
+{  /* fputs: put string s on file iop */
 	int c;
 	while ((c = *s++))
 		putc(c, iop);
