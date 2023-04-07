@@ -2,7 +2,7 @@
 
 int main()
 {
-    float lower = -20, upper = 150, step = 10, fhar;
+    float lower = -20, upper = 150, step = 10, fahr;
     int cels = lower;
     
     while (cels <= upper)
