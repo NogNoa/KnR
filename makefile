@@ -48,18 +48,11 @@ $(ODIR)/KnR_getline.lb.o : KnR_getline.lb.c KnR_getline.h
 $(ODIR)/%.o: %.c
 	 $(OBJPILE)
 
-.PHONY: check
-.PHONY: check++
-
 check: 
 	$(CC) -Wall -pedantic -o out.o *.c
 
 check++: %.c
 	g++ -Wall -pedantic -c -o out.o $<
-
-.PHONY: cleanex
-.PHONY: cleanob
-.PHONY: cleanall
 
 cleanex:
 	rm *.exe *.elf *.ilk *.pdb
@@ -69,3 +62,5 @@ cleanob:
 
 cleanall:
 	cleanex  cleanob
+
+.PHONY: check check++ cleanex cleanob cleanall

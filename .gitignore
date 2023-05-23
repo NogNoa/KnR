@@ -1,13 +1,16 @@
+#folder:
+build/
 .idea/
 .vscode/
-build/
 .codelite/
 
+#ext:
 *.elf
 *.exe
 *.o
 *.i64
 *.alg
+*.bak
 *.pdb
 *.ilk
 *.obj
@@ -17,6 +20,7 @@ build/
 [abc].txt
 [abc].out
 
+#files:
 pep-8.htm
 CMakeLists.txt
 KnR-cingles.workspace
